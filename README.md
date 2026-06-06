@@ -32,13 +32,15 @@ operamap/
 ├── data/
 │   └── journey-routes.geojson  # 4 条路线（赴欧/伦敦→巴黎/回国/绥远采风）
 ├── src/
-│   ├── style.css               # 全局样式（民国风：瓷白/朱砂/墨绿）
+│   ├── style.css               # 全局样式（民国风 + 响应式 + 声调实验室）
 │   ├── app.js                  # 全局状态、事件总线、数据加载、播放全程
 │   ├── map.js                  # Leaflet 双视图地图（世界/中国）
 │   ├── routes.js               # GeoJSON 路线渲染与联动
 │   ├── panel.js                # 抽屉面板（剧情/曲目/作品/历史/人物 5Tab）
 │   ├── timeline.js             # 底部时间轴（1891–1934，双向联动）
-│   ├── special-pages.js        # 「她」字专题 + 江阴三杰 + 知识图谱
+│   ├── special-pages.js        # 「她」字专题 + 江阴三杰
+│   ├── knowledge-graph.js      # D3.js 力导向人物关系图（18 节点 + 21 边）
+│   ├── tone-lab.js             # 声调实验室（录音 + 波形 + 四声对比）
 │   ├── filters.js              # 多维度筛选（类别/时期/主题/人物）
 │   └── audio.js                # Web Audio 主题提示音
 └── assets/                     # 媒体资源（待添加）
@@ -86,13 +88,28 @@ operamap/
 - 知识图谱浮层
 - ESC 键关闭所有浮层/清除筛选
 
-### 🔜 待完善
-- 历史图片/手稿资源
-- 歌剧正式音频（需授权）
-- 声调实验室小游戏（浏览器录音 + 波形对比）
-- D3.js 力导向人物关系图
-- 响应式移动端完整适配
-- GitHub Pages 部署
+### ✅ Layer 7：增强交互
+- 🎤 **声调实验室**：浏览器录音 + Canvas 实时波形 + 四声参考音对比
+- 🕸 **D3.js 力导向人物关系图**：拖拽、缩放、点击联动（18 人物 + 21 关系边）
+- 📱 **响应式移动端适配**：手机/平板/桌面三档断点 + 触屏优化 + 底部抽屉面板
+- 🚀 **GitHub Pages 部署**：一键部署工作流（Actions）
+
+## 🚀 部署到 GitHub Pages
+
+```bash
+# 1. 在 GitHub 创建仓库（如 liubannong-geo-narrative）
+
+# 2. 推送到 GitHub
+git remote add origin git@github.com:你的用户名/仓库名.git
+git branch -M main
+git push -u origin main
+
+# 3. 启用 Pages：Settings → Pages → Source: GitHub Actions
+# 推送后自动部署，约 30 秒完成。
+
+# 或者手动部署（不需要 Actions）：
+# Settings → Pages → Source: Deploy from a branch → main → / (root) → Save
+```
 
 ## 技术栈
 

@@ -70,7 +70,7 @@ const KnowledgeGraph = (() => {
 
   function init(state) {
     overlay = document.getElementById('graph-overlay');
-    document.getElementById('btn-knowledge-graph')?.addEventListener('click', render);
+    // 按钮绑定由 special-pages.js 处理，这里只做 D3 检测
 
     if (typeof d3 === 'undefined') {
       console.warn('[KnowledgeGraph] D3.js 未加载，回退到静态图');
