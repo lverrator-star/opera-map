@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>教我如何不想她 — 刘半农生平地理叙事</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="src/style.css" />
+</head>
+<body>
+
+  <!-- ═══════ 顶部导航 ═══════ -->
+  <header id="top-bar">
+    <div class="top-left">
+      <h1 class="site-title">教我如何不想她</h1>
+      <span class="site-subtitle">刘半农生平地理叙事 · 歌剧伴生数字作品</span>
+    </div>
+    <nav class="top-nav">
+      <div class="view-tabs">
+        <button class="view-tab active" data-view="world">🌍 世界</button>
+        <button class="view-tab" data-view="china">🇨🇳 中国</button>
+      </div>
+      <button id="btn-she-zi" title="「她」字的故事">她</button>
+      <button id="btn-three-brothers" title="江阴三杰">三杰</button>
+      <button id="btn-knowledge-graph" title="人物关系网络">关系</button>
+      <button id="btn-tone-lab" title="声调实验室">声调</button>
+      <button id="btn-play-tour" title="自动播放全程">▶ 播放</button>
+      <button id="btn-about" title="关于本作品">ℹ</button>
+    </nav>
+  </header>
+
+  <!-- ═══════ 筛选栏 ═══════ -->
+  <div id="filter-bar">
+    <div class="filter-inner">
+      <!-- JS 动态填充 -->
+    </div>
+  </div>
+
+  <!-- ═══════ 主地图 ═══════ -->
+  <main id="map-container">
+    <div id="map"></div>
+    <div id="loading-overlay">
+      <div class="loading-spinner"></div>
+      <p>正在加载地图数据…</p>
+    </div>
+
+    <!-- 地图图例 -->
+    <div id="map-legend">
+      <div class="legend-item"><span class="legend-dot" style="background:#8B4513"></span> 故乡/求学</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#8B0000"></span> 执教</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#4169E1"></span> 留学</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#008B8B"></span> 旅途</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#556B2F"></span> 采风</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#4A4A4A"></span> 长眠</div>
+      <hr>
+      <div class="legend-item"><span class="legend-line" style="background:#4169E1"></span> 赴欧</div>
+      <div class="legend-item"><span class="legend-line" style="background:#DAA520"></span> 回国</div>
+      <div class="legend-item"><span class="legend-line" style="background:#556B2F"></span> 绥远</div>
+    </div>
+  </main>
+
+  <!-- ═══════ 场次纵列导航 ═══════ -->
+  <nav id="scene-nav">
+    <button class="scene-nav-item" data-scene="scene-prologue" title="序 · 嗣音有人">序</button>
+    <button class="scene-nav-item" data-scene="scene-1" title="第一场 · 留别北大">壹</button>
+    <button class="scene-nav-item" data-scene="scene-2" title="第二场 · 雾雨伦敦">贰</button>
+    <button class="scene-nav-item" data-scene="scene-3" title="第三场 · 他乡知己">叁</button>
+    <button class="scene-nav-item" data-scene="scene-4" title="第四场 · 迁渡巴黎">肆</button>
+    <button class="scene-nav-item" data-scene="scene-5" title="第五场 · 东方荣耀">伍</button>
+    <button class="scene-nav-item" data-scene="scene-6" title="第六场 · 重归北大">陆</button>
+    <button class="scene-nav-item" data-scene="scene-7" title="第七场 · 音律和鸣">柒</button>
+    <button class="scene-nav-item" data-scene="scene-8" title="第八场 · 绥远采风">捌</button>
+    <button class="scene-nav-item" data-scene="scene-9" title="第九场 · 流风无尽">玖</button>
+  </nav>
+
+  <!-- ═══════ 右侧抽屉 ═══════ -->
+  <aside id="side-panel">
+    <div class="panel-header">
+      <h2 id="panel-location-name"></h2>
+      <button id="btn-close-panel" title="关闭 (Esc)">✕</button>
+    </div>
+    <div class="panel-tabs">
+      <button class="panel-tab active" data-tab="plot">📜 剧情</button>
+      <button class="panel-tab" data-tab="music">🎵 曲目</button>
+      <button class="panel-tab" data-tab="works">📖 作品</button>
+      <button class="panel-tab" data-tab="history">📋 历史</button>
+      <button class="panel-tab" data-tab="people">👥 人物</button>
+    </div>
+    <div class="panel-content" id="panel-content"></div>
+  </aside>
+
+  <!-- ═══════ 音频播放条 ═══════ -->
+  <div id="audio-bar" class="hidden">
+    <span>🎵</span>
+    <span class="audio-title"></span>
+    <button id="btn-audio-play">▶</button>
+    <button id="btn-audio-close">✕</button>
+  </div>
+
+  <!-- ═══════ 底部时间轴 ═══════ -->
+  <footer id="timeline-bar">
+    <div class="timeline-track" id="timeline-track"></div>
+  </footer>
+
+  <!-- ═══════ 「她」字专题浮层 ═══════ -->
+  <div id="shezi-overlay" class="overlay hidden">
+    <div class="overlay-content"></div>
+  </div>
+
+  <!-- ═══════ 江阴三杰浮层 ═══════ -->
+  <div id="brothers-overlay" class="overlay hidden">
+    <div class="overlay-content"></div>
+  </div>
+
+  <!-- ═══════ 人物关系图浮层 ═══════ -->
+  <div id="graph-overlay" class="overlay hidden">
+    <div class="overlay-content"></div>
+  </div>
+
+  <!-- ═══════ 人物卡片浮层 ═══════ -->
+  <div id="person-overlay" class="overlay hidden">
+    <div class="overlay-content"></div>
+  </div>
+
+  <!-- ═══════ 声调实验室浮层 ═══════ -->
+  <div id="tone-lab-overlay" class="overlay hidden">
+    <div class="overlay-content tl-container">
+      <button class="btn-overlay-close" id="btn-tl-close">✕</button>
+      <h2>🔬 声调实验室</h2>
+      <p style="color:#6B5E4F;margin-bottom:4px;font-size:13px">
+        致敬刘半农的「语音乐律实验室」—— 中国第一个现代语音学实验室。
+      </p>
+      <p style="font-size:11px;color:var(--text-muted);margin-bottom:16px">
+        刘半农在《汉语字声实验录》中首次用仪器分析了汉语声调的物理特性，获1925年法国国家文学博士。
+      </p>
+
+      <!-- 参考音面板 -->
+      <div class="tl-reference-panel">
+        <span class="tl-section-label">参考声调：</span>
+        <button class="tl-ref-btn" data-tone="阴平" style="--tone-color:#C41E3A">阴平 55</button>
+        <button class="tl-ref-btn" data-tone="阳平" style="--tone-color:#DAA520">阳平 35</button>
+        <button class="tl-ref-btn" data-tone="上声" style="--tone-color:#2F5F4F">上声 214</button>
+        <button class="tl-ref-btn" data-tone="去声" style="--tone-color:#3B5998">去声 51</button>
+      </div>
+
+      <!-- 波形画布 -->
+      <div class="tl-canvas-wrapper">
+        <canvas id="tone-lab-canvas"></canvas>
+      </div>
+
+      <!-- 控制栏 -->
+      <div class="tl-controls">
+        <button id="btn-tl-record" class="tl-btn-record">🎤 开始录音</button>
+        <button id="btn-tl-playback" class="tl-btn-playback" disabled>▶ 回放</button>
+        <button id="btn-tl-stop" class="tl-btn-stop">⏹ 停止</button>
+      </div>
+      <p id="btn-tl-status" class="tl-status">准备就绪 — 点击麦克风按钮开始</p>
+
+      <hr>
+      <details style="font-size:12px;color:var(--text-secondary);line-height:1.8">
+        <summary style="cursor:pointer;color:var(--accent-green);font-weight:600">📖 关于五度标记法</summary>
+        <p style="margin-top:8px">五度标记法由赵元任发明，用 1–5 五个数字表示声调的高低升降：</p>
+        <ul style="padding-left:20px">
+          <li><strong>阴平 55</strong>：高而平，如「妈」「她」</li>
+          <li><strong>阳平 35</strong>：从中升到高，如「麻」「笛」</li>
+          <li><strong>上声 214</strong>：从半低降到低再升到半高，如「马」「语」</li>
+          <li><strong>去声 51</strong>：从高峰降到低，如「骂」「调」</li>
+        </ul>
+        <p style="margin-top:8px">刘半农在巴黎大学用自制「音鼓浪纹计」对这些声调进行了仪器验证，奠定了中国实验语音学的基础。</p>
+      </details>
+    </div>
+  </div>
+
+  <!-- ═══════ 关于浮层 ═══════ -->
+  <div id="about-overlay" class="overlay hidden">
+    <div class="overlay-content">
+      <button class="btn-overlay-close" onclick="document.getElementById('about-overlay').classList.add('hidden')">✕</button>
+      <h2>关于本作品</h2>
+      <p>《教我如何不想她》是一部关于中国现代语言学家、文学家、新文化运动先驱 <strong>刘半农</strong>（1891–1934）生平事迹的原创歌剧。</p>
+      <p>本网站是这部歌剧的<strong>「数字伴生作品」</strong>，以交互式地图为核心，将刘半农在不同历史时期的求学、游历、采风地点串联起来，展现其文学作品、学术思想与歌剧脚本内容的地理叙事。</p>
+      <div style="background:#FDF5F4;padding:12px 16px;border-radius:8px;margin:12px 0;border-left:3px solid var(--accent-vermillion)">
+        <strong>⚠ 史料与艺术创作并存</strong><br>
+        <small>歌剧在史实基础上进行了戏剧化处理。本站标注了二者的对照关系——「📜 剧情」为脚本内容，「📋 历史」为史料补充。</small>
+      </div>
+      <hr>
+      <p class="credit">编剧：彭峰、张吉义 &nbsp;|&nbsp; 作曲：禹永一</p>
+      <p class="credit">交互地图制作：基于 Leaflet 开源地图库</p>
+      <p class="credit">数据来源：公开史料、《刘半农传》、蔡元培题碑、郭沫若/鲁迅评述</p>
+      <p class="credit" style="margin-top:12px">© 2024–2025 · 非商业学术项目</p>
+    </div>
+  </div>
+
+  <!-- ═══════ 脚本加载 ═══════ -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="src/app.js"></script>
+  <script src="src/map.js"></script>
+  <script src="src/routes.js"></script>
+  <script src="src/panel.js"></script>
+  <script src="src/timeline.js"></script>
+  <script src="src/special-pages.js"></script>
+  <script src="src/knowledge-graph.js"></script>
+  <script src="src/tone-lab.js"></script>
+  <script src="src/filters.js"></script>
+  <script src="src/audio.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => { App.init(); });
+  </script>
+
+</body>
+</html>

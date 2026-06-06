@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Node (if any)
+node_modules/
+
+# OS
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# IDE
+.vscode/
+.idea/
+
+# Assets (large media files)
+assets/audio/*
+assets/images/*
+!assets/.gitkeep
+
+# Temporary
+*.tmp
+*.log
+.claude/
