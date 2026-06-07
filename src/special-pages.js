@@ -93,7 +93,7 @@ const SpecialPages = (() => {
         <p style="color:#6B5E4F;margin-bottom:20px">刘氏三兄弟，一母同胞，各擅胜场。歌剧第七场「音律和鸣」的核心人物。</p>
 
         <div class="brothers-grid">
-          <div class="brother-card" style="border-top:4px solid #C41E3A">
+          <div class="brother-card" style="border-top:4px solid #B22222">
             <h3>刘半农 <small>（刘寿彭）</small></h3>
             <p class="brother-years">1891–1934</p>
             <p class="brother-role">文学先声</p>
@@ -101,7 +101,7 @@ const SpecialPages = (() => {
             <p class="brother-works"><strong>代表作：</strong>《扬鞭集》《瓦釜集》《半农杂文》《教我如何不想她》</p>
           </div>
 
-          <div class="brother-card" style="border-top:4px solid #2F5F4F">
+          <div class="brother-card" style="border-top:4px solid #3D6B5D">
             <h3>刘天华 <small>（刘寿椿）</small></h3>
             <p class="brother-years">1895–1932</p>
             <p class="brother-role">国乐叹绝</p>
@@ -110,7 +110,7 @@ const SpecialPages = (() => {
             <p style="font-size:11px;color:var(--accent-vermillion);margin-top:8px">歌剧第七场：刘天华除夕演奏《良宵》，刘半农为其命名；随后传来噩耗。</p>
           </div>
 
-          <div class="brother-card" style="border-top:4px solid #3B5998">
+          <div class="brother-card" style="border-top:4px solid #3D5273">
             <h3>刘北茂 <small>（刘寿慈）</small></h3>
             <p class="brother-years">1903–1981</p>
             <p class="brother-role">继志述事</p>
@@ -197,17 +197,17 @@ const SpecialPages = (() => {
     overlay.classList.remove('hidden');
 
     const nodes = [
-      { name: '刘半农', color: '#C41E3A', x: 50, y: 40 },
-      { name: '蔡元培', color: '#8B0000', x: 40, y: 15 },
-      { name: '赵元任', color: '#3B5998', x: 65, y: 20 },
-      { name: '钱玄同', color: '#8B0000', x: 30, y: 30 },
-      { name: '鲁迅', color: '#8B0000', x: 25, y: 50 },
-      { name: '刘天华', color: '#2F5F4F', x: 60, y: 55 },
-      { name: '刘北茂', color: '#2F5F4F', x: 70, y: 60 },
-      { name: '朱惠', color: '#DAA520', x: 45, y: 65 },
-      { name: '刘小蕙', color: '#DAA520', x: 55, y: 70 },
-      { name: '白涤洲', color: '#556B2F', x: 75, y: 35 },
-      { name: '杨步伟', color: '#9370DB', x: 75, y: 15 },
+      { name: '刘半农', color: '#B22222', x: 50, y: 40 },
+      { name: '蔡元培', color: '#7A1818', x: 40, y: 15 },
+      { name: '赵元任', color: '#3D5273', x: 65, y: 20 },
+      { name: '钱玄同', color: '#7A1818', x: 30, y: 30 },
+      { name: '鲁迅', color: '#7A1818', x: 25, y: 50 },
+      { name: '刘天华', color: '#3D6B5D', x: 60, y: 55 },
+      { name: '刘北茂', color: '#3D6B5D', x: 70, y: 60 },
+      { name: '朱惠', color: '#A0845C', x: 45, y: 65 },
+      { name: '刘小蕙', color: '#A0845C', x: 55, y: 70 },
+      { name: '白涤洲', color: '#5C7A6B', x: 75, y: 35 },
+      { name: '杨步伟', color: '#5B7BA0', x: 75, y: 15 },
     ];
 
     const content = overlay.querySelector('.overlay-content');
@@ -239,12 +239,12 @@ const SpecialPages = (() => {
           </svg>
         </div>
         <div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:12px">
-          <span style="font-size:11px;color:#C41E3A">● 刘半农</span>
-          <span style="font-size:11px;color:#8B0000">● 北大/新青年</span>
-          <span style="font-size:11px;color:#3B5998">● 语言学同道</span>
-          <span style="font-size:11px;color:#2F5F4F">● 兄弟</span>
-          <span style="font-size:11px;color:#DAA520">● 家庭</span>
-          <span style="font-size:11px;color:#556B2F">● 学生/助手</span>
+          <span style="font-size:11px;color:#B22222">● 刘半农</span>
+          <span style="font-size:11px;color:#7A1818">● 北大/新青年</span>
+          <span style="font-size:11px;color:#3D5273">● 语言学同道</span>
+          <span style="font-size:11px;color:#3D6B5D">● 兄弟</span>
+          <span style="font-size:11px;color:#A0845C">● 家庭</span>
+          <span style="font-size:11px;color:#5C7A6B">● 学生/助手</span>
         </div>
       `;
     }

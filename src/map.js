@@ -48,12 +48,12 @@ const MapComponent = (() => {
     const sceneCount = (loc.scenes && loc.scenes.length > 0) ? loc.scenes.length : 0;
     return `
       <div style="font-family:'Noto Serif SC','STSong','SimSun',serif;max-width:240px;padding:4px">
-        <strong style="font-size:14px;color:#C41E3A;letter-spacing:2px">${loc.name}</strong>
-        <span style="font-size:10px;color:#9A9288;margin-left:6px;letter-spacing:1px">${loc.category}</span>
-        <p style="font-size:11px;color:#3D3832;margin:6px 0;line-height:1.7">${loc.summary}</p>
-        <small style="color:#6B645C">${loc.period}</small>
-        ${sceneCount > 0 ? `<br><small style="color:#C41E3A">${sceneCount} 场关联歌剧场次</small>` : ''}
-        <br><small style="color:#9A9288">点击查看详情</small>
+        <strong style="font-size:14px;color:#B22222;letter-spacing:2px">${loc.name}</strong>
+        <span style="font-size:10px;color:#9C948C;margin-left:6px;letter-spacing:1px">${loc.category}</span>
+        <p style="font-size:11px;color:#45403B;margin:6px 0;line-height:1.7">${loc.summary}</p>
+        <small style="color:#6E6760">${loc.period}</small>
+        ${sceneCount > 0 ? `<br><small style="color:#B22222">${sceneCount} 场关联歌剧场次</small>` : ''}
+        <br><small style="color:#9C948C">点击查看详情</small>
       </div>`;
   }
 
@@ -78,7 +78,7 @@ const MapComponent = (() => {
     // 创建动画标记（隐藏）
     animMarker = L.circleMarker([0, 0], {
       radius: 0, fillOpacity: 0, opacity: 0,
-      color: '#C41E3A', fillColor: '#C41E3A',
+      color: '#B22222', fillColor: '#B22222',
     }).addTo(map);
 
     renderMarkers(state.locations);
