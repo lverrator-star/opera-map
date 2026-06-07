@@ -90,7 +90,7 @@ const PanelComponent = (() => {
         <p style="color:var(--text-secondary);font-size:13px;flex:1">${loc.summary}</p>
         <button style="flex-shrink:0;margin-left:8px;padding:4px 10px;border:1px solid var(--border);border-radius:12px;background:#fff;font-size:11px;cursor:pointer;color:var(--text-secondary)"
                 onclick="PanelComponent.toggleCompareMode()">
-          ${compareMode ? '📜 纯脚本' : '🔍 虚实对照'}
+          ${compareMode ? '纯脚本' : '虚实对照'}
         </button>
       </div>
     `;

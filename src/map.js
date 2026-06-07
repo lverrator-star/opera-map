@@ -47,13 +47,13 @@ const MapComponent = (() => {
   function createPopupContent(loc) {
     const sceneCount = (loc.scenes && loc.scenes.length > 0) ? loc.scenes.length : 0;
     return `
-      <div style="font-family:'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif;max-width:240px;padding:4px">
-        <strong style="font-size:15px;color:#C41E3A">${loc.name}</strong>
-        <span style="font-size:11px;color:#9B8E7F;margin-left:8px">${loc.category}</span>
-        <p style="font-size:12px;color:#2C2416;margin:6px 0;line-height:1.6">${loc.summary}</p>
-        <small style="color:#6B5E4F">⏱ ${loc.period}</small>
-        ${sceneCount > 0 ? `<br><small style="color:#C41E3A">🎭 ${sceneCount} 场关联歌剧场次</small>` : ''}
-        <br><small style="color:#9B8E7F">🖱 点击查看详情</small>
+      <div style="font-family:'Noto Serif SC','STSong','SimSun',serif;max-width:240px;padding:4px">
+        <strong style="font-size:14px;color:#C41E3A;letter-spacing:2px">${loc.name}</strong>
+        <span style="font-size:10px;color:#9A9288;margin-left:6px;letter-spacing:1px">${loc.category}</span>
+        <p style="font-size:11px;color:#3D3832;margin:6px 0;line-height:1.7">${loc.summary}</p>
+        <small style="color:#6B645C">${loc.period}</small>
+        ${sceneCount > 0 ? `<br><small style="color:#C41E3A">${sceneCount} 场关联歌剧场次</small>` : ''}
+        <br><small style="color:#9A9288">点击查看详情</small>
       </div>`;
   }
 
