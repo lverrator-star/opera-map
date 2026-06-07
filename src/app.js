@@ -379,14 +379,43 @@ const App = (() => {
       showToast(`已筛选与「${personName}」相关的节点`);
     });
 
+    // 人物浮层关闭（点击遮罩）
+    const personOverlay = document.getElementById('person-overlay');
+    if (personOverlay) {
+      personOverlay.addEventListener('click', e => {
+        if (e.target === personOverlay) personOverlay.classList.add('hidden');
+      });
+    }
+
     // ESC 关闭面板和浮层
     document.addEventListener('keydown', e => {
       if (e.key === 'Escape') {
         document.getElementById('side-panel')?.classList.remove('open');
         document.querySelectorAll('.overlay').forEach(o => o.classList.add('hidden'));
         document.getElementById('search-results')?.classList.add('hidden');
+        document.getElementById('portrait-card')?.classList.add('hidden');
         clearFilters();
       }
+    });
+
+    // 肖像卡片关闭按钮
+    document.getElementById('btn-portrait-close')?.addEventListener('click', () => {
+      document.getElementById('portrait-card')?.classList.add('hidden');
+    });
+
+    // 点击肖像卡片 → 打开详细人物浮层
+    document.getElementById('portrait-card')?.addEventListener('click', (e) => {
+      if (e.target.id === 'btn-portrait-close') return;
+      const nameEl = document.getElementById('portrait-name');
+      if (!nameEl) return;
+      const name = nameEl.textContent;
+      // 显示旧的人物详情浮层（含高亮按钮）
+      showPersonOverlay(name);
+    });
+
+    // 点击地图空白区域关闭肖像卡片
+    document.getElementById('map')?.addEventListener('click', () => {
+      document.getElementById('portrait-card')?.classList.add('hidden');
     });
 
     // 地点搜索
@@ -430,7 +459,26 @@ const App = (() => {
     }
   }
 
-  // ── Toast 提示 ──
+  // ── 人物详情浮层 ──
+  function showPersonOverlay(personName) {
+    const overlay = document.getElementById('person-overlay');
+    const content = overlay?.querySelector('.overlay-content');
+    if (!overlay || !content) return;
+
+    const loc = state.locations.find(l => (l.people || []).includes(personName));
+    const locName = loc ? loc.name : '';
+
+    content.innerHTML = `
+      <button class="btn-overlay-close" onclick="document.getElementById('person-overlay').classList.add('hidden')">×</button>
+      <h2>${personName}</h2>
+      ${locName ? `<p style="color:var(--ink-light);font-size:12px;letter-spacing:1px">关联地点：${locName}</p>` : ''}
+      <button style="margin-top:12px;padding:6px 16px;border:1px solid var(--vermillion);background:transparent;color:var(--vermillion);cursor:pointer;font-family:var(--font-serif);font-size:12px;letter-spacing:2px"
+              onclick="App.setFilter('person','${personName}');document.getElementById('person-overlay').classList.add('hidden');document.getElementById('portrait-card').classList.add('hidden')">
+        在地图上高亮与「${personName}」相关的地点
+      </button>
+    `;
+    overlay.classList.remove('hidden');
+  }
   function showToast(msg) {
     let toast = document.getElementById('toast');
     if (!toast) {
@@ -452,6 +500,6 @@ const App = (() => {
     selectLocation, selectScene, setView, setYear,
     setFilter, clearFilters,
     togglePlayTour, startTour, stopTour,
-    showToast,
+    showToast, showPersonOverlay,
   };
 })();

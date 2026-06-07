@@ -132,45 +132,60 @@ const SpecialPages = (() => {
   // 人物关系卡片（弹窗简化版）
   // ═══════════════════════════════════════
   const PERSON_DB = {
-    '蔡元培': { role: '北大校长', relation: '破格聘用刘半农为北大教授，题碑文"嗣音有人，流风无尽"', scenes: ['scene-1', 'scene-5', 'scene-9'] },
-    '赵元任': { role: '语言学家、作曲家', relation: '刘半农毕生知音，为《教我如何不想她》谱曲，共同推进国语统一', scenes: ['scene-3', 'scene-5'] },
-    '刘天华': { role: '国乐大师', relation: '二弟，除夕合奏《良宵》，1932年早逝', scenes: ['scene-6', 'scene-7'] },
-    '刘北茂': { role: '作曲家', relation: '三弟，继承国乐改良事业', scenes: ['scene-7'] },
-    '朱惠': { role: '刘半农夫人', relation: '风雨携手一生，伦敦赶织毛衣贴补家用，巴黎用毛线法助修音鼓', scenes: ['scene-1', 'scene-2', 'scene-3', 'scene-4', 'scene-5', 'scene-8', 'scene-9'] },
-    '刘小蕙': { role: '刘半农长女', relation: '剧中叙事视角，童年随父赴欧，全剧以她的回忆串联', scenes: ['scene-prologue', 'scene-2', 'scene-4', 'scene-5', 'scene-9'] },
-    '钱玄同': { role: '新文化运动战友', relation: '合撰《复王敬轩书》，痛批旧文学', scenes: ['scene-1'] },
-    '鲁迅': { role: '文学家', relation: '新青年同人，后写《忆刘半农君》', scenes: [] },
-    '白涤洲': { role: '助手、学生', relation: '协助语音乐律实验室工作，陪同绥远采风', scenes: ['scene-6', 'scene-8'] },
-    '杨步伟': { role: '赵元任夫人', relation: '江南同乡，巴黎时期两对夫妇交情深厚', scenes: ['scene-3', 'scene-5'] },
-    '齐白石': { role: '画家', relation: '1933年为刘半农画《审音鉴古图》', scenes: [] },
-    '徐悲鸿': { role: '画家', relation: '同为光社成员', scenes: [] },
+    '刘半农': { role: '文学家·语言学家', birth: '1891', death: '1934', relation: '新文化运动先驱，首创「她」字，建立中国第一个语音乐律实验室', scenes: ['scene-prologue','scene-1','scene-2','scene-3','scene-4','scene-5','scene-6','scene-7','scene-8','scene-9'] },
+    '蔡元培': { role: '北大校长', birth: '1868', death: '1940', relation: '破格聘用刘半农为北大教授，题碑文「嗣音有人，流风无尽」', scenes: ['scene-1', 'scene-5', 'scene-9'] },
+    '赵元任': { role: '语言学家、作曲家', birth: '1892', death: '1982', relation: '刘半农毕生知音，为《教我如何不想她》谱曲，共同推进国语统一', scenes: ['scene-3', 'scene-5'] },
+    '刘天华': { role: '国乐大师', birth: '1895', death: '1932', relation: '二弟，除夕合奏《良宵》，1932年早逝', scenes: ['scene-6', 'scene-7'] },
+    '刘北茂': { role: '作曲家', birth: '1903', death: '1981', relation: '三弟，继承国乐改良事业', scenes: ['scene-7'] },
+    '朱惠': { role: '刘半农夫人', birth: '?', death: '?', relation: '风雨携手一生，伦敦赶织毛衣贴补家用，巴黎用毛线法助修音鼓', scenes: ['scene-1', 'scene-2', 'scene-3', 'scene-4', 'scene-5', 'scene-8', 'scene-9'] },
+    '刘小蕙': { role: '刘半农长女', birth: '1916', death: '?', relation: '剧中叙事视角，童年随父赴欧，全剧以她的回忆串联', scenes: ['scene-prologue', 'scene-2', 'scene-4', 'scene-5', 'scene-9'] },
+    '钱玄同': { role: '新文化运动战友', birth: '1887', death: '1939', relation: '合撰《复王敬轩书》，痛批旧文学', scenes: ['scene-1'] },
+    '鲁迅': { role: '文学家', birth: '1881', death: '1936', relation: '新青年同人，后写《忆刘半农君》', scenes: [] },
+    '白涤洲': { role: '助手、学生', birth: '1900', death: '1934', relation: '协助语音乐律实验室工作，陪同绥远采风', scenes: ['scene-6', 'scene-8'] },
+    '杨步伟': { role: '赵元任夫人', birth: '1889', death: '1981', relation: '江南同乡，巴黎时期两对夫妇交情深厚', scenes: ['scene-3', 'scene-5'] },
+    '齐白石': { role: '画家', birth: '1864', death: '1957', relation: '1933年为刘半农画《审音鉴古图》', scenes: [] },
+    '徐悲鸿': { role: '画家', birth: '1895', death: '1953', relation: '同为光社成员', scenes: [] },
+    '陈独秀': { role: '新青年主编', birth: '1879', death: '1942', relation: '北大文科学长，新文化运动领袖', scenes: [] },
+    '胡适': { role: '北大教授', birth: '1891', death: '1962', relation: '白话文运动倡导者，与刘半农同为北大同事', scenes: [] },
   };
 
   function openPersonCard(personName) {
     const info = PERSON_DB[personName];
-    let html = `<h3>${personName}</h3>`;
-    if (info) {
-      html += `<p><strong>身份：</strong>${info.role}</p>`;
-      html += `<p style="margin-top:8px">${info.relation}</p>`;
-      if (info.scenes.length > 0) {
-        html += `<p style="margin-top:8px"><strong>歌剧场次：</strong>${info.scenes.join(', ')}</p>`;
-      }
-    } else {
-      html += `<p>暂无详细资料</p>`;
+    if (!info) return;
+
+    const card = document.getElementById('portrait-card');
+    if (!card) return;
+
+    // 填充肖像卡片内容
+    const initial = document.getElementById('portrait-initial');
+    if (initial) initial.textContent = personName.charAt(0);
+
+    const nameEl = document.getElementById('portrait-name');
+    if (nameEl) nameEl.textContent = personName;
+
+    const roleEl = document.getElementById('portrait-role');
+    if (roleEl) roleEl.textContent = info.role;
+
+    const datesEl = document.getElementById('portrait-dates');
+    if (datesEl) {
+      datesEl.textContent = (info.birth && info.death && info.birth !== '?')
+        ? `${info.birth} – ${info.death}`
+        : '';
     }
 
-    const overlay = document.getElementById('person-overlay');
-    const content = overlay?.querySelector('.overlay-content');
-    if (overlay && content) {
-      content.innerHTML = `
-        <button class="btn-overlay-close" onclick="document.getElementById('person-overlay').classList.add('hidden')">✕</button>
-        ${html}
-        <button style="margin-top:12px;padding:6px 16px;border:1px solid var(--accent-vermillion);border-radius:20px;background:#fff;color:var(--accent-vermillion);cursor:pointer" onclick="App.setFilter('person','${personName}');document.getElementById('person-overlay').classList.add('hidden')">
-          在地图上高亮与「${personName}」相关的地点
-        </button>
-      `;
-      overlay.classList.remove('hidden');
-    }
+    const relEl = document.getElementById('portrait-relation');
+    if (relEl) relEl.textContent = info.relation;
+
+    // 显示
+    card.classList.remove('hidden');
+    // 重新触发 animation
+    card.style.animation = 'none';
+    card.offsetHeight;
+    card.style.animation = 'portrait-in 0.35s cubic-bezier(0.6,0.04,0.4,0.94)';
+  }
+
+  function hidePortrait() {
+    document.getElementById('portrait-card')?.classList.add('hidden');
   }
 
   // ═══════════════════════════════════════
@@ -235,5 +250,5 @@ const SpecialPages = (() => {
     }
   }
 
-  return { init, openSheZiPage, openThreeBrothersPage, openKnowledgeGraph, openPersonCard };
+  return { init, openSheZiPage, openThreeBrothersPage, openKnowledgeGraph, openPersonCard, hidePortrait };
 })();

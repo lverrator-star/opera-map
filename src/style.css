@@ -546,7 +546,90 @@ body::before {
 }
 #audio-bar button:hover { background: var(--vermillion); border-color: var(--vermillion); }
 
-/* ── Leaflet 覆盖样式 ── */
+/* ── 人物肖像卡片 — 民国照相馆风格 ── */
+.portrait-card {
+  position: absolute; bottom: 28px; left: 24px; z-index: 2500;
+  width: 200px; background: var(--paper);
+  border: 1px solid var(--paper-edge);
+  box-shadow: 4px 4px 0 rgba(26,24,23,0.08), 0 12px 32px rgba(26,24,23,0.14);
+  padding: 16px 14px 12px; text-align: center;
+  font-family: var(--font-serif);
+  animation: portrait-in 0.35s var(--ease-ink);
+  transition: opacity 0.25s var(--ease), transform 0.25s var(--ease);
+}
+.portrait-card.hidden { display: none; }
+@keyframes portrait-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.portrait-close {
+  position: absolute; top: 4px; right: 8px;
+  border: none; background: none; cursor: pointer;
+  font-size: 14px; color: var(--ink-muted); font-family: var(--font-serif);
+  line-height: 1; padding: 2px;
+}
+.portrait-close:hover { color: var(--vermillion); }
+
+.portrait-frame {
+  width: 80px; height: 96px; margin: 0 auto 10px;
+  border: 1px solid var(--paper-edge); background: var(--paper-dark);
+  display: flex; align-items: center; justify-content: center;
+  position: relative; overflow: hidden;
+}
+/* 底片边框 */
+.portrait-frame::before {
+  content: ''; position: absolute; inset: 3px;
+  border: 1px solid rgba(26,24,23,0.1);
+}
+
+.portrait-placeholder {
+  width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;
+  background: linear-gradient(180deg, #E8E0D0 0%, #D9CFBC 50%, #C4BDB4 100%);
+}
+/* 剪影暗示 — 椭圆头型 + 梯形身体 */
+.portrait-placeholder::before {
+  content: '';
+  width: 28px; height: 34px; background: var(--ink-faint);
+  border-radius: 50% 50% 45% 45%;
+  position: relative; top: -6px;
+}
+.portrait-placeholder::after {
+  content: ''; position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%);
+  width: 50px; height: 20px; background: var(--ink-faint);
+  border-radius: 50% 50% 0 0;
+}
+
+.portrait-initial {
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-serif); font-size: 36px; font-weight: 700;
+  color: rgba(26,24,23,0.12); user-select: none; pointer-events: none;
+  padding-bottom: 8px;
+}
+
+.portrait-name {
+  font-family: var(--font-serif); font-size: 16px; font-weight: 700;
+  color: var(--ink); letter-spacing: 3px; margin-bottom: 2px;
+}
+.portrait-role {
+  font-size: 10px; color: var(--vermillion); letter-spacing: 2px; margin-bottom: 2px;
+}
+.portrait-dates {
+  font-size: 10px; color: var(--ink-muted); letter-spacing: 1px;
+}
+.portrait-relation {
+  margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--paper-edge);
+  font-size: 10px; color: var(--ink-light); line-height: 1.6; letter-spacing: 1px;
+  text-align: left;
+}
+
+/* 响应式 — 小屏时肖像卡片缩小并靠下 */
+@media (max-width: 768px) {
+  .portrait-card { width: 170px; bottom: 44px; left: 8px; padding: 12px 10px; }
+  .portrait-frame { width: 64px; height: 78px; }
+  .portrait-name { font-size: 14px; }
+  .portrait-relation { font-size: 9px; }
+}
 .leaflet-container { background: var(--paper-dark); font-family: var(--font-sans); }
 .leaflet-tile { filter: sepia(0.06) brightness(1.03) saturate(0.65); }
 .leaflet-popup-content-wrapper { border-radius: 0 !important; border: 1px solid var(--paper-edge) !important; box-shadow: 0 4px 24px rgba(26,24,23,0.12) !important; font-family: var(--font-sans); }
