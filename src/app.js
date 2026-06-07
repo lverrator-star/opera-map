@@ -87,7 +87,7 @@ const App = (() => {
         const last = [coords[coords.length - 1][1], coords[coords.length - 1][0]];
         const d1a = dist(first, from.coords), d1b = dist(last, to.coords);
         const d2a = dist(first, to.coords), d2b = dist(last, from.coords);
-        if ((d1a < 5 && d1b < 5) || (d2a < 5 && d2b < 5)) {
+        if ((d1a < 50 && d1b < 50) || (d2a < 50 && d2b < 50)) {
           return coords.map(c => [c[1], c[0]]); // GeoJSON→Leaflet [lat, lng]
         }
       }
@@ -97,7 +97,16 @@ const App = (() => {
   }
 
   function dist(a, b) {
-    return Math.sqrt((a[0] - b[0]) ** 2 + (a[1] - b[1]) ** 2);
+    // Haversine 公式：准确计算球面距离 (km)
+    const R = 6371;
+    const dLat = (b[0] - a[0]) * Math.PI / 180;
+    const dLon = (b[1] - a[1]) * Math.PI / 180;
+    const lat1 = a[0] * Math.PI / 180;
+    const lat2 = b[0] * Math.PI / 180;
+    const sinDLat = Math.sin(dLat / 2);
+    const sinDLon = Math.sin(dLon / 2);
+    const h = sinDLat * sinDLat + Math.cos(lat1) * Math.cos(lat2) * sinDLon * sinDLon;
+    return 2 * R * Math.atan2(Math.sqrt(h), Math.sqrt(1 - h));
   }
 
   // ── 核心操作 ──
@@ -105,6 +114,7 @@ const App = (() => {
     if (state.activeLocationId === locId) return;
     state.activeLocationId = locId;
     state.activeSceneId = null;
+    updateHash();
     emit('location:selected', locId);
   }
 
@@ -116,12 +126,14 @@ const App = (() => {
       state.activeLocationId = loc.id;
       emit('location:selected', loc.id);
     }
+    updateHash();
     emit('scene:selected', sceneId);
   }
 
   function setView(view) {
     if (state.view === view) return;
     state.view = view;
+    updateHash();
     emit('view:changed', view);
   }
 
@@ -246,7 +258,33 @@ const App = (() => {
     state.playTimer = setTimeout(advanceTour, 3500);
   }
 
-  // ── 初始化 ──
+  // ── URL Hash 状态管理 ──
+  function updateHash() {
+    const parts = [];
+    if (state.activeLocationId) parts.push('loc=' + state.activeLocationId);
+    if (state.activeSceneId) parts.push('scene=' + state.activeSceneId);
+    if (state.view !== 'world') parts.push('view=' + state.view);
+    const hash = parts.length ? '#' + parts.join('&') : '';
+    if (window.location.hash !== hash) {
+      history.replaceState(null, '', hash || window.location.pathname);
+    }
+  }
+
+  function restoreFromHash() {
+    const raw = window.location.hash.replace(/^#/, '');
+    if (!raw) return false;
+    const params = {};
+    raw.split('&').forEach(p => {
+      const [k, v] = p.split('=');
+      if (k && v) params[k] = decodeURIComponent(v);
+    });
+    if (params.view) setView(params.view);
+    if (params.scene) { selectScene(params.scene); return true; }
+    if (params.loc) { selectLocation(params.loc); return true; }
+    return false;
+  }
+
+  window.addEventListener('hashchange', () => restoreFromHash());
   async function init() {
     const ok = await loadData();
     if (!ok) return;
@@ -254,18 +292,24 @@ const App = (() => {
     document.getElementById('loading-overlay')?.classList.add('hidden');
 
     // 初始化各组件（依赖顺序：地图→路线→面板→时间轴→特殊页面）
-    MapComponent.init(state);
-    RoutesComponent.init(state);
-    PanelComponent.init(state);
-    TimelineComponent.init(state);
-    if (typeof SpecialPages !== 'undefined') SpecialPages.init(state);
-    if (typeof KnowledgeGraph !== 'undefined') KnowledgeGraph.init(state);
-    if (typeof ToneLab !== 'undefined') ToneLab.init(state);
-    if (typeof FilterComponent !== 'undefined') FilterComponent.init(state);
-    if (typeof AudioComponent !== 'undefined') AudioComponent.init(state);
+    // 每个组件独立 try-catch，单个失败不影响其他
+    const initModule = (name, fn) => {
+      try { fn(state); console.log(`[App] ${name} 就绪`); }
+      catch (e) { console.error(`[App] ${name} 初始化失败:`, e); }
+    };
+    initModule('Map', MapComponent.init);
+    initModule('Routes', RoutesComponent.init);
+    initModule('Panel', PanelComponent.init);
+    initModule('Timeline', TimelineComponent.init);
+    if (typeof SpecialPages !== 'undefined') initModule('SpecialPages', SpecialPages.init);
+    if (typeof KnowledgeGraph !== 'undefined') initModule('KnowledgeGraph', KnowledgeGraph.init);
+    if (typeof ToneLab !== 'undefined') initModule('ToneLab', ToneLab.init);
+    if (typeof FilterComponent !== 'undefined') initModule('Filters', FilterComponent.init);
+    if (typeof AudioComponent !== 'undefined') initModule('Audio', AudioComponent.init);
 
     bindUI();
-    setTimeout(() => selectLocation('xiangshan'), 500);
+    const restored = restoreFromHash();
+    if (!restored) setTimeout(() => selectLocation('xiangshan'), 500);
     setTimeout(showGuide, 1500);
     console.log('[App] 初始化完成');
   }
@@ -340,9 +384,50 @@ const App = (() => {
       if (e.key === 'Escape') {
         document.getElementById('side-panel')?.classList.remove('open');
         document.querySelectorAll('.overlay').forEach(o => o.classList.add('hidden'));
+        document.getElementById('search-results')?.classList.add('hidden');
         clearFilters();
       }
     });
+
+    // 地点搜索
+    const searchInput = document.getElementById('search-input');
+    const searchResults = document.getElementById('search-results');
+    if (searchInput && searchResults) {
+      searchInput.addEventListener('input', () => {
+        const q = searchInput.value.trim().toLowerCase();
+        if (!q) { searchResults.classList.add('hidden'); return; }
+        const matches = state.locations.filter(loc =>
+          loc.name.includes(q) || loc.name_en?.toLowerCase().includes(q) ||
+          loc.category.includes(q) || loc.summary.includes(q) ||
+          (loc.people || []).some(p => p.includes(q))
+        );
+        if (matches.length === 0) {
+          searchResults.innerHTML = '<div class="search-no-result">无匹配地点</div>';
+        } else {
+          searchResults.innerHTML = matches.map(loc => `
+            <div class="search-result-item" data-loc="${loc.id}">
+              <span class="sr-period">${loc.period}</span>
+              <div class="sr-name">${loc.name}</div>
+              <div class="sr-meta">${loc.category}</div>
+            </div>`).join('');
+        }
+        searchResults.classList.remove('hidden');
+      });
+      searchResults.addEventListener('click', e => {
+        const item = e.target.closest('.search-result-item');
+        if (item) {
+          selectLocation(item.dataset.loc);
+          searchResults.classList.add('hidden');
+          searchInput.value = '';
+        }
+      });
+      searchInput.addEventListener('blur', () => {
+        setTimeout(() => searchResults.classList.add('hidden'), 200);
+      });
+      searchInput.addEventListener('focus', () => {
+        if (searchInput.value.trim()) searchResults.classList.remove('hidden');
+      });
+    }
   }
 
   // ── Toast 提示 ──

@@ -128,9 +128,18 @@ const KnowledgeGraph = (() => {
       return;
     }
 
+    // 清理旧图和 observer
+    if (box._resizeObserver) box._resizeObserver.disconnect();
     box.innerHTML = '';
     const W = box.clientWidth;
     const H = box.clientHeight || 500;
+
+    // ResizeObserver: 窗口变化时重建布局
+    box._resizeObserver = new ResizeObserver(() => {
+      clearTimeout(box._resizeTimer);
+      box._resizeTimer = setTimeout(() => buildGraph(box), 250);
+    });
+    box._resizeObserver.observe(box);
 
     svg = d3.select(box).append('svg')
       .attr('width', W)

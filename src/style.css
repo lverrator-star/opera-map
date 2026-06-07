@@ -504,7 +504,32 @@ body::before {
   background: var(--vermillion); transition: width 0.4s var(--ease);
 }
 
-/* ── 音频播放条 ── */
+/* ── 地点搜索 ── */
+.search-input {
+  width: 100px; padding: 4px 8px; border: 1px solid var(--paper-edge);
+  background: var(--paper-light); font-size: 11px; font-family: var(--font-serif);
+  color: var(--ink); letter-spacing: 1px; outline: none;
+  transition: all 0.25s var(--ease);
+}
+.search-input:focus { border-color: var(--ink); width: 140px; }
+.search-input::placeholder { color: var(--ink-muted); }
+.search-results {
+  position: absolute; top: 100%; right: 60px; margin-top: 4px;
+  background: var(--paper-light); border: 1px solid var(--paper-edge);
+  min-width: 180px; max-height: 320px; overflow-y: auto; z-index: 2000;
+  box-shadow: 0 8px 32px rgba(26,24,23,0.12);
+}
+.search-results.hidden { display: none; }
+.search-result-item {
+  padding: 8px 14px; cursor: pointer; border-bottom: 1px solid var(--paper-edge);
+  transition: all 0.15s var(--ease);
+}
+.search-result-item:last-child { border-bottom: none; }
+.search-result-item:hover { background: var(--paper); }
+.search-result-item .sr-name { font-family: var(--font-serif); font-size: 12px; color: var(--ink); letter-spacing: 1px; }
+.search-result-item .sr-meta { font-size: 10px; color: var(--ink-muted); letter-spacing: 1px; }
+.search-result-item .sr-period { font-size: 10px; color: var(--ink-light); float: right; }
+.search-no-result { padding: 12px 14px; font-size: 11px; color: var(--ink-muted); text-align: center; }
 #audio-bar {
   position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%);
   background: var(--ink); color: var(--paper); padding: 7px 18px;
@@ -523,6 +548,7 @@ body::before {
 
 /* ── Leaflet 覆盖样式 ── */
 .leaflet-container { background: var(--paper-dark); font-family: var(--font-sans); }
+.leaflet-tile { filter: sepia(0.06) brightness(1.03) saturate(0.65); }
 .leaflet-popup-content-wrapper { border-radius: 0 !important; border: 1px solid var(--paper-edge) !important; box-shadow: 0 4px 24px rgba(26,24,23,0.12) !important; font-family: var(--font-sans); }
 .leaflet-popup-content { margin: 8px 12px !important; }
 .marker-wrapper { background: transparent !important; border: none !important; }
