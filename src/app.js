@@ -138,7 +138,7 @@ const App = (() => {
   }
 
   function clearFilters() {
-    state.filters = { category: [], person: null, period: null };
+    state.filters = { category: [], person: null, period: null, locationIds: null };
     emit('filter:changed', state.filters);
   }
 
@@ -163,17 +163,51 @@ const App = (() => {
   function startTour() {
     state.isPlaying = true;
     state.playQueueIdx = 0;
-    document.getElementById('btn-play-tour').textContent = '⏸ 停止播放';
-    document.getElementById('btn-play-tour').classList.add('playing');
+    const btn = document.getElementById('btn-play-tour');
+    btn.textContent = '停止';
+    btn.classList.add('playing');
+    showProgress();
     advanceTour();
   }
 
   function stopTour() {
     state.isPlaying = false;
     if (state.playTimer) clearTimeout(state.playTimer);
-    document.getElementById('btn-play-tour').textContent = '▶ 播放全程';
-    document.getElementById('btn-play-tour').classList.remove('playing');
+    const btn = document.getElementById('btn-play-tour');
+    btn.textContent = '播放';
+    btn.classList.remove('playing');
+    hideProgress();
     emit('tour:stopped');
+  }
+
+  function showProgress() {
+    let bar = document.getElementById('tour-progress');
+    if (!bar) {
+      bar = document.createElement('div');
+      bar.id = 'tour-progress';
+      bar.innerHTML = '<span class="tp-label"></span><span class="tp-bar-wrap"><span class="tp-bar"></span></span>';
+      document.body.appendChild(bar);
+    }
+    bar.classList.remove('hidden');
+  }
+
+  function hideProgress() {
+    document.getElementById('tour-progress')?.classList.add('hidden');
+  }
+
+  function updateProgress() {
+    const bar = document.getElementById('tour-progress');
+    if (!bar || !state.isPlaying) return;
+    const idx = state.playQueueIdx;
+    const total = TOUR_SEQUENCE.length;
+    const step = TOUR_SEQUENCE[Math.min(idx, total - 1)];
+    const label = bar.querySelector('.tp-label');
+    const fill = bar.querySelector('.tp-bar');
+    if (label && step) {
+      const sc = getScene(step.sceneId);
+      label.textContent = `${idx + 1}/${total}  ${sc ? sc.title + ' · ' + sc.subtitle : ''}`;
+    }
+    if (fill) fill.style.width = `${(idx / total) * 100}%`;
   }
 
   function advanceTour() {
@@ -182,6 +216,7 @@ const App = (() => {
       return;
     }
 
+    updateProgress();
     const step = TOUR_SEQUENCE[state.playQueueIdx];
     const prevStep = state.playQueueIdx > 0 ? TOUR_SEQUENCE[state.playQueueIdx - 1] : null;
 
@@ -231,7 +266,24 @@ const App = (() => {
 
     bindUI();
     setTimeout(() => selectLocation('xiangshan'), 500);
+    setTimeout(showGuide, 1500);
     console.log('[App] 初始化完成');
+  }
+
+  // ── 首次引导 ──
+  function showGuide() {
+    const guides = [
+      '点击地图上的汉字标记查看地点详情',
+      '点击左侧「序 – 玖」按场次浏览歌剧',
+      '点击底部时间轴跳转到不同年份',
+    ];
+    let i = 0;
+    showToast(guides[0]);
+    const timer = setInterval(() => {
+      i++;
+      if (i >= guides.length) { clearInterval(timer); return; }
+      showToast(guides[i]);
+    }, 3500);
   }
 
   // ── UI 事件绑定 ──

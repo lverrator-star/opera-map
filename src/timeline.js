@@ -11,18 +11,18 @@ const TimelineComponent = (() => {
 
   // 关键事件（含详细描述、关联地点）
   const keyEvents = {
-    1891: { text: '生于江阴南沙镇殷家埭', locId: 'jiangyin', icon: '🎂' },
-    1907: { text: '入读常州府中学堂', locId: 'changzhou', icon: '🏫' },
-    1912: { text: '赴沪，入开明剧社，开始翻译生涯', locId: 'shanghai', icon: '✒' },
-    1917: { text: '受蔡元培破格聘为北大预科教授', locId: 'beijing-beida', icon: '🏛' },
-    1920: { text: '赴伦敦大学大学院留学', locId: 'london', icon: '🚢' },
-    1921: { text: '转入巴黎大学，自制音鼓浪纹计', locId: 'paris', icon: '🔬' },
-    1925: { text: '获法国国家文学博士，回国', locId: 'beijing-return', icon: '🎓' },
-    1926: { text: '《扬鞭集》《瓦釜集》出版；赵元任为《教我如何不想她》谱曲', locId: 'beijing-return', icon: '📚' },
-    1931: { text: '主持故宫天坛古乐器测音', locId: 'beijing-return', icon: '🔔' },
-    1932: { text: '弟刘天华病逝，年仅37岁', locId: 'beijing-return', icon: '🕯' },
-    1933: { text: '赴河南、山东（曲阜）考察古乐', locId: 'henan-shandong', icon: '🎵' },
-    1934: { text: '绥远采风，染回归热逝世', locId: 'xiangshan', icon: '🪦' },
+    1891: { text: '生于江阴南沙镇殷家埭', locId: 'jiangyin', icon: '生' },
+    1907: { text: '入读常州府中学堂', locId: 'changzhou', icon: '读' },
+    1912: { text: '赴沪，入开明剧社，开始翻译生涯', locId: 'shanghai', icon: '译' },
+    1917: { text: '受蔡元培破格聘为北大预科教授', locId: 'beijing-beida', icon: '教' },
+    1920: { text: '赴伦敦大学大学院留学', locId: 'london', icon: '洋' },
+    1921: { text: '转入巴黎大学，自制音鼓浪纹计', locId: 'paris', icon: '研' },
+    1925: { text: '获法国国家文学博士，回国', locId: 'beijing-return', icon: '归' },
+    1926: { text: '《扬鞭集》《瓦釜集》出版；赵元任为《教我如何不想她》谱曲', locId: 'beijing-return', icon: '著' },
+    1931: { text: '主持故宫天坛古乐器测音', locId: 'beijing-return', icon: '乐' },
+    1932: { text: '弟刘天华病逝，年仅37岁', locId: 'beijing-return', icon: '哀' },
+    1933: { text: '赴河南、山东（曲阜）考察古乐', locId: 'henan-shandong', icon: '考' },
+    1934: { text: '绥远采风，染回归热逝世', locId: 'xiangshan', icon: '眠' },
   };
 
   function init(state) {
@@ -45,7 +45,7 @@ const TimelineComponent = (() => {
         <div class="timeline-tick ${ev ? 'key-event' : ''}"
              data-year="${y}"
              ${ev ? `data-loc="${ev.locId}"` : ''}
-             title="${ev ? `${ev.icon} ${y}年：${ev.text}` : `${y}年`}">
+             title="${ev ? `${y}年：${ev.text}` : `${y}年`}">
           ${showLabel ? `<span class="tick-label">${y}</span>` : ''}
         </div>`;
     }

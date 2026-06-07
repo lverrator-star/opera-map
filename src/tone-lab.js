@@ -106,22 +106,22 @@ const ToneLab = (() => {
       mediaRecorder.ondataavailable = e => { if (e.data.size > 0) recordedChunks.push(e.data); };
       mediaRecorder.onstop = () => {
         document.getElementById('btn-tl-playback').disabled = false;
-        updateStatus('录音完成 ✅ — 点击播放回听');
+        updateStatus('录音完成 —— 点击播放回听');
       };
 
       mediaRecorder.start();
       isRecording = true;
 
       const btn = document.getElementById('btn-tl-record');
-      btn.textContent = '⏹ 停止录音';
+      btn.textContent = '停止录音';
       btn.classList.add('recording');
       document.getElementById('btn-tl-playback').disabled = true;
-      document.getElementById('btn-tl-status').textContent = '🔴 录音中... 请对着麦克风说话或哼唱';
+      document.getElementById('btn-tl-status').textContent = '录音中... 请对着麦克风说话或哼唱';
       document.getElementById('btn-tl-status').className = 'tl-status recording';
 
       animateWaveform();
     } catch (err) {
-      updateStatus('⚠ 无法访问麦克风：' + err.message);
+      updateStatus('无法访问麦克风：' + err.message);
       console.error('[ToneLab] 麦克风错误:', err);
     }
   }
@@ -137,7 +137,7 @@ const ToneLab = (() => {
     isRecording = false;
 
     const btn = document.getElementById('btn-tl-record');
-    btn.textContent = '🎤 开始录音';
+    btn.textContent = '开始录音';
     btn.classList.remove('recording');
 
     cancelAnimationFrame(animationId);
@@ -356,7 +356,7 @@ const ToneLab = (() => {
       osc.start(t);
       osc.stop(t + 1.2);
 
-      updateStatus(`🔊 播放参考音：${ref.label}`);
+      updateStatus(`播放参考音：${ref.label}`);
       document.getElementById('btn-tl-status').className = 'tl-status';
 
       // 在 canvas 上绘制参考波形示意

@@ -14,23 +14,23 @@ const KnowledgeGraph = (() => {
   const graphData = {
     nodes: [
       { id: '刘半农', group: 'center', desc: '文学家·语言学家·新文化先驱', color: '#C41E3A', size: 22 },
-      { id: '蔡元培', group: 'beida', desc: '北大校长·破格聘用', color: '#8B0000', size: 18 },
-      { id: '赵元任', group: 'linguist', desc: '语言学家·作曲家·知音', color: '#3B5998', size: 17 },
-      { id: '钱玄同', group: 'beida', desc: '新文化战友·合撰双簧信', color: '#8B0000', size: 14 },
-      { id: '鲁迅', group: 'beida', desc: '文学家·新青年同人', color: '#8B0000', size: 15 },
-      { id: '刘天华', group: 'family', desc: '二弟·国乐大师·《良宵》', color: '#2F5F4F', size: 18 },
-      { id: '刘北茂', group: 'family', desc: '三弟·继承国乐事业', color: '#2F5F4F', size: 14 },
-      { id: '朱惠', group: 'family', desc: '夫人·风雨携手一生', color: '#DAA520', size: 16 },
-      { id: '刘小蕙', group: 'family', desc: '长女·叙事视角', color: '#DAA520', size: 13 },
-      { id: '白涤洲', group: 'student', desc: '助手·陪同绥远采风', color: '#556B2F', size: 13 },
-      { id: '杨步伟', group: 'linguist', desc: '赵元任夫人·江南同乡', color: '#9370DB', size: 12 },
-      { id: '齐白石', group: 'art', desc: '画家·《审音鉴古图》', color: '#CD853F', size: 12 },
-      { id: '徐悲鸿', group: 'art', desc: '画家·光社同人', color: '#CD853F', size: 12 },
-      { id: '陈独秀', group: 'beida', desc: '新青年主编·北大文科学长', color: '#8B0000', size: 14 },
-      { id: '胡适', group: 'beida', desc: '北大教授·白话文运动', color: '#8B0000', size: 14 },
-      { id: '周作人', group: 'beida', desc: '北大教授·散文家', color: '#8B0000', size: 12 },
-      { id: '郭沫若', group: 'literary', desc: '诗人·后撰文评价刘半农', color: '#708090', size: 11 },
-      { id: '萧乾', group: 'literary', desc: '记者·回忆刘半农', color: '#708090', size: 10 },
+      { id: '蔡元培', group: 'beida', desc: '北大校长·破格聘用', color: '#8B1A2B', size: 18 },
+      { id: '赵元任', group: 'linguist', desc: '语言学家·作曲家·知音', color: '#2C4C7E', size: 17 },
+      { id: '钱玄同', group: 'beida', desc: '新文化战友·合撰双簧信', color: '#8B1A2B', size: 14 },
+      { id: '鲁迅', group: 'beida', desc: '文学家·新青年同人', color: '#8B1A2B', size: 15 },
+      { id: '刘天华', group: 'family', desc: '二弟·国乐大师·《良宵》', color: '#3B6B5D', size: 18 },
+      { id: '刘北茂', group: 'family', desc: '三弟·继承国乐事业', color: '#3B6B5D', size: 14 },
+      { id: '朱惠', group: 'family', desc: '夫人·风雨携手一生', color: '#B8956A', size: 16 },
+      { id: '刘小蕙', group: 'family', desc: '长女·叙事视角', color: '#B8956A', size: 13 },
+      { id: '白涤洲', group: 'student', desc: '助手·陪同绥远采风', color: '#5C7A6B', size: 13 },
+      { id: '杨步伟', group: 'linguist', desc: '赵元任夫人·江南同乡', color: '#4A6FA5', size: 12 },
+      { id: '齐白石', group: 'art', desc: '画家·《审音鉴古图》', color: '#B8956A', size: 12 },
+      { id: '徐悲鸿', group: 'art', desc: '画家·光社同人', color: '#B8956A', size: 12 },
+      { id: '陈独秀', group: 'beida', desc: '新青年主编·北大文科学长', color: '#8B1A2B', size: 14 },
+      { id: '胡适', group: 'beida', desc: '北大教授·白话文运动', color: '#8B1A2B', size: 14 },
+      { id: '周作人', group: 'beida', desc: '北大教授·散文家', color: '#8B1A2B', size: 12 },
+      { id: '郭沫若', group: 'literary', desc: '诗人·后撰文评价刘半农', color: '#6B645C', size: 11 },
+      { id: '萧乾', group: 'literary', desc: '记者·回忆刘半农', color: '#6B645C', size: 10 },
     ],
     links: [
       { source: '刘半农', target: '蔡元培', strength: 0.9, label: '破格聘用·题碑' },
@@ -60,12 +60,12 @@ const KnowledgeGraph = (() => {
   // 颜色分组
   const groupColors = {
     center: '#C41E3A',
-    beida: '#8B0000',
-    linguist: '#3B5998',
-    family: '#2F5F4F',
-    student: '#556B2F',
-    art: '#CD853F',
-    literary: '#708090',
+    beida: '#8B1A2B',
+    linguist: '#2C4C7E',
+    family: '#3B6B5D',
+    student: '#5C7A6B',
+    art: '#B8956A',
+    literary: '#6B645C',
   };
 
   function init(state) {
@@ -95,7 +95,7 @@ const KnowledgeGraph = (() => {
       </p>
       <div id="kg-legend" style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:10px"></div>
       <div id="kg-container" style="width:100%;height:500px;background:#FFF;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden"></div>
-      <button id="kg-reset" style="margin-top:10px;padding:6px 16px;border:1px solid var(--border);border-radius:20px;background:#fff;cursor:pointer;font-size:12px;color:var(--text-secondary)">🔄 重置布局</button>
+      <button id="kg-reset" style="margin-top:10px;padding:6px 16px;border:1px solid var(--border);border-radius:20px;background:#fff;cursor:pointer;font-size:12px;color:var(--text-secondary)">重置布局</button>
     `;
 
     // 关闭

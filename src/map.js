@@ -228,13 +228,21 @@ const MapComponent = (() => {
       const loc = App.getLocation(id);
       if (!loc) return;
       let visible = true;
+
+      // 类别筛选
       if (filters.category && filters.category.length > 0) {
-        visible = filters.category.includes(loc.category);
+        visible = visible && filters.category.includes(loc.category);
       }
+      // 人物筛选
       if (filters.person) {
         const people = loc.people || [];
         visible = visible && people.includes(filters.person);
       }
+      // 主题/时期筛选 (locationIds)
+      if (filters.locationIds && filters.locationIds.length > 0) {
+        visible = visible && filters.locationIds.includes(id);
+      }
+
       if (visible && !map.hasLayer(marker)) marker.addTo(map);
       if (!visible && map.hasLayer(marker)) map.removeLayer(marker);
     });

@@ -108,7 +108,7 @@ const PanelComponent = (() => {
       html += `
         <div class="scene-card">
           <div class="scene-title">${scene.title} · ${scene.subtitle}</div>
-          <div class="scene-atmosphere">⏱ ${scene.time_setting} &nbsp;|&nbsp; 🎭 ${scene.atmosphere}</div>
+          <div class="scene-atmosphere">${scene.time_setting} &nbsp;|&nbsp; ${scene.atmosphere}</div>
           <div class="scene-synopsis">${scene.synopsis}</div>
       `;
 
@@ -116,7 +116,7 @@ const PanelComponent = (() => {
       if (compareMode && loc.historical_note) {
         html += `
           <div style="margin:8px 0;padding:10px 14px;background:#F0F8E8;border-left:3px solid var(--accent-green);border-radius:0 6px 6px 0;font-size:12px;color:var(--text-secondary);line-height:1.7">
-            <strong>📋 史料对照：</strong>${loc.historical_note}
+            <strong>史料对照：</strong>${loc.historical_note}
           </div>`;
       }
 
@@ -130,7 +130,7 @@ const PanelComponent = (() => {
       }
 
       if (scene.key_moment) {
-        html += `<p style="font-size:12px;color:var(--accent-vermillion);margin-top:8px">✦ ${scene.key_moment}</p>`;
+        html += `<p style="font-size:12px;color:var(--accent-vermillion);margin-top:8px">${scene.key_moment}</p>`;
       }
 
       if (scene.characters && scene.characters.length > 0) {
@@ -171,9 +171,9 @@ const PanelComponent = (() => {
           <div class="song-item" onclick="this.classList.toggle('expanded')">
             <div class="song-number">${song.number}</div>
             <div class="song-title">${song.title}</div>
-            <div class="song-performers">🎤 ${song.performers.join(' · ')} &nbsp;|&nbsp; ${song.type}</div>
+            <div class="song-performers">${song.performers.join(' · ')} &nbsp;|&nbsp; ${song.type}</div>
             <div class="song-lyrics">${song.key_lines.map(l => `"${l}"`).join('<br>')}
-              <br><small style="color:var(--text-muted);cursor:pointer;margin-top:4px;display:inline-block" onclick="event.stopPropagation();PanelComponent.playAudioHint('${song.title.replace(/'/g, "\\'")}')">🎵 试听提示音</small>
+              <br><small style="color:var(--text-muted);cursor:pointer;margin-top:4px;display:inline-block" onclick="event.stopPropagation();PanelComponent.playAudioHint('${song.title.replace(/'/g, "\\'")}')">试听提示</small>
             </div>
           </div>`;
       });
@@ -192,7 +192,7 @@ const PanelComponent = (() => {
         html += `
           <div class="work-card">
             <div class="work-title">${work.title}</div>
-            <div class="work-meta">📅 ${work.date||''} &nbsp;|&nbsp; 📂 ${work.type||''}</div>
+            <div class="work-meta">${work.date||''} &nbsp;|&nbsp; ${work.type||''}</div>
             <div class="work-note">${work.note}</div>
             ${work.excerpt ? `<div class="scene-quote" style="margin-top:8px">${work.excerpt}</div>` : ''}
           </div>`;
@@ -235,7 +235,7 @@ const PanelComponent = (() => {
     if ((!loc.scenes || loc.scenes.length === 0) && loc.historical_note) {
       html += `
         <div class="history-note" style="border-left:3px solid var(--accent-gold);background:#FFFDF5">
-          <p style="font-size:12px;color:var(--text-secondary)">💡 此处为刘半农生平中的重要历史节点，在歌剧脚本中未单独成场，但与前后的戏剧事件紧密关联。</p>
+          <p style="font-size:12px;color:var(--text-secondary)">此处为刘半农生平中的重要历史节点，在歌剧脚本中未单独成场，但与前后的戏剧事件紧密关联。</p>
         </div>`;
     }
 

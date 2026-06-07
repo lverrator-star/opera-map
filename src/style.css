@@ -488,6 +488,22 @@ body::before {
 .tl-status { font-size: 11px; color: var(--ink-muted); margin: 0; text-align: center; letter-spacing: 1px; }
 .tl-status.recording { color: var(--vermillion); font-weight: 600; }
 
+/* ── 播放进度条 ── */
+#tour-progress {
+  position: fixed; top: 52px; left: 0; right: 0; z-index: 1500;
+  background: var(--paper); border-bottom: 1px solid var(--paper-edge);
+  padding: 6px 24px; display: flex; align-items: center; gap: 14px;
+  font-family: var(--font-serif); font-size: 11px; color: var(--ink-light);
+  letter-spacing: 1px;
+}
+#tour-progress.hidden { display: none; }
+#tour-progress .tp-label { flex-shrink: 0; }
+#tour-progress .tp-bar-wrap { flex: 1; height: 2px; background: var(--paper-edge); position: relative; }
+#tour-progress .tp-bar {
+  position: absolute; left: 0; top: 0; height: 100%;
+  background: var(--vermillion); transition: width 0.4s var(--ease);
+}
+
 /* ── 音频播放条 ── */
 #audio-bar {
   position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%);

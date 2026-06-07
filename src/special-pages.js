@@ -96,7 +96,7 @@ const SpecialPages = (() => {
           <div class="brother-card" style="border-top:4px solid #C41E3A">
             <h3>刘半农 <small>（刘寿彭）</small></h3>
             <p class="brother-years">1891–1934</p>
-            <p class="brother-role">🎭 文学先声</p>
+            <p class="brother-role">文学先声</p>
             <p>文学家、语言学家、新文化运动先驱。首创「她」字，建立中国第一个语音乐律实验室，以《汉语字声实验录》获法国国家文学博士。</p>
             <p class="brother-works"><strong>代表作：</strong>《扬鞭集》《瓦釜集》《半农杂文》《教我如何不想她》</p>
           </div>
@@ -104,16 +104,16 @@ const SpecialPages = (() => {
           <div class="brother-card" style="border-top:4px solid #2F5F4F">
             <h3>刘天华 <small>（刘寿椿）</small></h3>
             <p class="brother-years">1895–1932</p>
-            <p class="brother-role">🎻 国乐叹绝</p>
+            <p class="brother-role">国乐叹绝</p>
             <p>中国现代民族音乐一代宗师。改良二胡、琵琶，使民间乐器登上大雅之堂。在天桥采风时染猩红热，37 岁早逝。</p>
             <p class="brother-works"><strong>代表作：</strong>《良宵》《病中吟》《空山鸟语》《光明行》《烛影摇红》</p>
-            <p style="font-size:11px;color:var(--accent-vermillion);margin-top:8px">✦ 歌剧第七场：刘天华除夕演奏《良宵》，刘半农为其命名；随后传来噩耗。</p>
+            <p style="font-size:11px;color:var(--accent-vermillion);margin-top:8px">歌剧第七场：刘天华除夕演奏《良宵》，刘半农为其命名；随后传来噩耗。</p>
           </div>
 
           <div class="brother-card" style="border-top:4px solid #3B5998">
             <h3>刘北茂 <small>（刘寿慈）</small></h3>
             <p class="brother-years">1903–1981</p>
-            <p class="brother-role">🎼 继志述事</p>
+            <p class="brother-role">继志述事</p>
             <p>作曲家、二胡演奏家。两位兄长相继离世后，继承国乐改良事业。创作大量二胡曲，被誉为「刘氏三杰」中最长寿者。</p>
             <p class="brother-works"><strong>代表作：</strong>《汉江潮》《漂泊者之歌》《小花鼓》</p>
             <p style="font-size:11px;color:var(--text-muted);margin-top:8px">歌剧第七场：刘半农托付三弟"北茂啊，国乐改良的事业，往后就靠你和你的学生们了！"</p>
@@ -166,7 +166,7 @@ const SpecialPages = (() => {
         <button class="btn-overlay-close" onclick="document.getElementById('person-overlay').classList.add('hidden')">✕</button>
         ${html}
         <button style="margin-top:12px;padding:6px 16px;border:1px solid var(--accent-vermillion);border-radius:20px;background:#fff;color:var(--accent-vermillion);cursor:pointer" onclick="App.setFilter('person','${personName}');document.getElementById('person-overlay').classList.add('hidden')">
-          🔍 在地图上高亮与「${personName}」相关的地点
+          在地图上高亮与「${personName}」相关的地点
         </button>
       `;
       overlay.classList.remove('hidden');

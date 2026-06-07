@@ -9,13 +9,13 @@ const FilterComponent = (() => {
     category: {
       label: '类别',
       options: [
-        { value: '故乡', label: '故乡', color: '#8B4513' },
-        { value: '求学', label: '求学', color: '#8B4513' },
-        { value: '执教', label: '执教', color: '#8B0000' },
-        { value: '留学', label: '留学', color: '#4169E1' },
-        { value: '旅途', label: '旅途', color: '#008B8B' },
-        { value: '采风', label: '采风', color: '#556B2F' },
-        { value: '长眠', label: '长眠', color: '#4A4A4A' },
+        { value: '故乡', label: '故乡', color: '#8B6914' },
+        { value: '求学', label: '求学', color: '#8B6914' },
+        { value: '执教', label: '执教', color: '#8B1A2B' },
+        { value: '留学', label: '留学', color: '#2C4C7E' },
+        { value: '旅途', label: '旅途', color: '#5C7A6B' },
+        { value: '采风', label: '采风', color: '#3B6B5D' },
+        { value: '长眠', label: '长眠', color: '#3D3832' },
       ]
     },
     period: {
@@ -37,11 +37,29 @@ const FilterComponent = (() => {
     }
   };
 
-  let activeFilters = { category: [], period: null, theme: null, person: null };
+  let activeFilters = { category: [], period: null, theme: null, person: null, locationIds: null };
 
   function init(state) {
     buildFilterUI();
     console.log('[Filters] 筛选组件就绪');
+  }
+
+  // 匹配主题关键词的地点 ID 集合
+  function getThemeLocationIds(themeValue) {
+    const themeConfig = FILTER_CONFIG.theme.options.find(t => t.value === themeValue);
+    if (!themeConfig || !themeConfig.keywords) return null;
+    const ids = [];
+    App.state.locations.forEach(loc => {
+      const haystack = [
+        loc.summary, loc.historical_note, loc.category, loc.name,
+        ...(loc.works || []).map(w => `${w.title} ${w.note}`),
+        ...(loc.opera_scenes || []).map(s => `${s.scene} ${s.desc}`),
+        ...(loc.people || []),
+      ].join(' ').toLowerCase();
+      const matches = themeConfig.keywords.some(kw => haystack.includes(kw.toLowerCase()));
+      if (matches) ids.push(loc.id);
+    });
+    return ids;
   }
 
   function buildFilterUI() {
@@ -72,7 +90,7 @@ const FilterComponent = (() => {
     html += '</div>';
 
     // 清除按钮
-    html += `<button class="filter-clear" id="btn-clear-filters">✕ 清除筛选</button>`;
+    html += `<button class="filter-clear" id="btn-clear-filters">清除筛选</button>`;
     html += '</div>';
 
     container.innerHTML = html;
@@ -87,14 +105,14 @@ const FilterComponent = (() => {
 
     document.getElementById('btn-clear-filters')?.addEventListener('click', () => {
       container.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
-      activeFilters = { category: [], period: null, theme: null, person: null };
+      activeFilters = { category: [], period: null, theme: null, person: null, locationIds: null };
       App.clearFilters();
     });
   }
 
   function applyFilters() {
     const chips = document.querySelectorAll('.filter-chip.active');
-    const filters = { category: [], period: null, theme: null };
+    const filters = { category: [], period: null, theme: null, locationIds: null };
 
     chips.forEach(chip => {
       const key = chip.dataset.filter;
@@ -104,22 +122,31 @@ const FilterComponent = (() => {
       else if (key === 'theme') filters.theme = filters.theme || value;
     });
 
-    // Theme filter → convert to category filter logic downstream
+    // 主题筛选 → 计算匹配的地点 ID
     if (filters.theme) {
-      const themeConfig = FILTER_CONFIG.theme.options.find(t => t.value === filters.theme);
-      if (themeConfig) {
-        // Filter locations by keyword match
+      filters.locationIds = getThemeLocationIds(filters.theme);
+    }
+
+    // 时期筛选 → 匹配地点
+    if (filters.period) {
+      const periodCfg = FILTER_CONFIG.period.options.find(p => p.value === filters.period);
+      if (periodCfg && periodCfg.range) {
+        const periodIds = [];
         App.state.locations.forEach(loc => {
-          const text = JSON.stringify(loc).toLowerCase();
-          const matches = themeConfig.keywords.some(kw => text.includes(kw.toLowerCase()));
-          // We'll handle this via the filter:changed event
+          if (loc.years && loc.years.length >= 2) {
+            const [s, e] = loc.years;
+            if (s <= periodCfg.range[1] && e >= periodCfg.range[0]) periodIds.push(loc.id);
+          }
         });
+        if (filters.locationIds) {
+          filters.locationIds = filters.locationIds.filter(id => periodIds.includes(id));
+        } else {
+          filters.locationIds = periodIds;
+        }
       }
     }
 
     activeFilters = { ...filters, person: activeFilters.person };
-
-    // Emit custom event so MapComponent can filter markers
     App.emit('filter:changed', activeFilters);
   }
 
