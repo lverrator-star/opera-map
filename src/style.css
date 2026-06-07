@@ -1,29 +1,29 @@
 /* ═══════════════════════════════════════════
-   教我如何不想她 — 民国印刷风设计系统
-   宣纸为底 · 墨色为骨 · 朱砂点睛 · 靛蓝辅之
+   教我如何不想她 — 冷灰墨韵设计系统
+   书斋为底 · 墨色为骨 · 朱砂点睛 · 靛蓝辅之
    1920s Chinese Republican Era Print Aesthetic
    ═══════════════════════════════════════════ */
 
-/* ── 宣纸色盘 ── */
+/* ── 冷灰墨韵色盘 ── */
 :root {
-  --paper: #F3EDE2;
-  --paper-light: #FAF7F2;
-  --paper-dark: #E6DDCC;
-  --paper-edge: #D9CFBC;
-  --ink: #1A1817;
-  --ink-soft: #3D3832;
-  --ink-light: #6B645C;
-  --ink-muted: #9A9288;
-  --ink-faint: #C4BDB4;
-  --vermillion: #C41E3A;
-  --vermillion-deep: #8B1A2B;
-  --vermillion-glow: #E8A0AC;
-  --indigo: #2C4C7E;
-  --indigo-light: #4A6FA5;
-  --indigo-pale: #D0DDF0;
-  --gold: #B8956A;
-  --gold-light: #D4C4A8;
-  --jade: #3B6B5D;
+  --paper: #F7F5F3;
+  --paper-light: #FCFBFA;
+  --paper-dark: #EBE7E2;
+  --paper-edge: #D9D4CD;
+  --ink: #1C1A18;
+  --ink-soft: #45403B;
+  --ink-light: #6E6760;
+  --ink-muted: #9C948C;
+  --ink-faint: #C7C0B8;
+  --vermillion: #B22222;
+  --vermillion-deep: #7A1818;
+  --vermillion-glow: #E0A0A0;
+  --indigo: #3D5273;
+  --indigo-light: #5B7BA0;
+  --indigo-pale: #D0D8E4;
+  --gold: #A0845C;
+  --gold-light: #C8B898;
+  --jade: #3D6B5D;
   --jade-pale: #C5DDD5;
   /* 旧变量别名——保持 JS 兼容 */
   --text-primary: var(--ink);
@@ -37,8 +37,8 @@
   --accent-green: var(--jade);
   --accent-gold: var(--gold);
   --accent-blue: var(--indigo);
-  --shadow: 0 2px 12px rgba(26,24,23,0.08);
-  --shadow-lg: 0 8px 36px rgba(26,24,23,0.14);
+  --shadow: 0 2px 12px rgba(28,26,24,0.06);
+  --shadow-lg: 0 8px 36px rgba(28,26,24,0.10);
   --radius: 0;
   --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   --font-serif: 'Noto Serif SC', 'Source Han Serif SC', 'STSong', 'SimSun', 'Songti SC', serif;

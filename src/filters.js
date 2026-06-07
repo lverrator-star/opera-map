@@ -9,13 +9,13 @@ const FilterComponent = (() => {
     category: {
       label: '类别',
       options: [
-        { value: '故乡', label: '故乡', color: '#8B6914' },
-        { value: '求学', label: '求学', color: '#8B6914' },
-        { value: '执教', label: '执教', color: '#8B1A2B' },
-        { value: '留学', label: '留学', color: '#2C4C7E' },
+        { value: '故乡', label: '故乡', color: '#8B7355' },
+        { value: '求学', label: '求学', color: '#8B7355' },
+        { value: '执教', label: '执教', color: '#7A1818' },
+        { value: '留学', label: '留学', color: '#3D5273' },
         { value: '旅途', label: '旅途', color: '#5C7A6B' },
-        { value: '采风', label: '采风', color: '#3B6B5D' },
-        { value: '长眠', label: '长眠', color: '#3D3832' },
+        { value: '采风', label: '采风', color: '#3D6B5D' },
+        { value: '长眠', label: '长眠', color: '#45403B' },
       ]
     },
     period: {

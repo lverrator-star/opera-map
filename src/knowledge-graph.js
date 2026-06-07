@@ -13,24 +13,24 @@ const KnowledgeGraph = (() => {
   // 完整人物关系数据（含权重和分类）
   const graphData = {
     nodes: [
-      { id: '刘半农', group: 'center', desc: '文学家·语言学家·新文化先驱', color: '#C41E3A', size: 22 },
-      { id: '蔡元培', group: 'beida', desc: '北大校长·破格聘用', color: '#8B1A2B', size: 18 },
-      { id: '赵元任', group: 'linguist', desc: '语言学家·作曲家·知音', color: '#2C4C7E', size: 17 },
-      { id: '钱玄同', group: 'beida', desc: '新文化战友·合撰双簧信', color: '#8B1A2B', size: 14 },
-      { id: '鲁迅', group: 'beida', desc: '文学家·新青年同人', color: '#8B1A2B', size: 15 },
-      { id: '刘天华', group: 'family', desc: '二弟·国乐大师·《良宵》', color: '#3B6B5D', size: 18 },
-      { id: '刘北茂', group: 'family', desc: '三弟·继承国乐事业', color: '#3B6B5D', size: 14 },
-      { id: '朱惠', group: 'family', desc: '夫人·风雨携手一生', color: '#B8956A', size: 16 },
-      { id: '刘小蕙', group: 'family', desc: '长女·叙事视角', color: '#B8956A', size: 13 },
+      { id: '刘半农', group: 'center', desc: '文学家·语言学家·新文化先驱', color: '#B22222', size: 22 },
+      { id: '蔡元培', group: 'beida', desc: '北大校长·破格聘用', color: '#7A1818', size: 18 },
+      { id: '赵元任', group: 'linguist', desc: '语言学家·作曲家·知音', color: '#3D5273', size: 17 },
+      { id: '钱玄同', group: 'beida', desc: '新文化战友·合撰双簧信', color: '#7A1818', size: 14 },
+      { id: '鲁迅', group: 'beida', desc: '文学家·新青年同人', color: '#7A1818', size: 15 },
+      { id: '刘天华', group: 'family', desc: '二弟·国乐大师·《良宵》', color: '#3D6B5D', size: 18 },
+      { id: '刘北茂', group: 'family', desc: '三弟·继承国乐事业', color: '#3D6B5D', size: 14 },
+      { id: '朱惠', group: 'family', desc: '夫人·风雨携手一生', color: '#A0845C', size: 16 },
+      { id: '刘小蕙', group: 'family', desc: '长女·叙事视角', color: '#A0845C', size: 13 },
       { id: '白涤洲', group: 'student', desc: '助手·陪同绥远采风', color: '#5C7A6B', size: 13 },
-      { id: '杨步伟', group: 'linguist', desc: '赵元任夫人·江南同乡', color: '#4A6FA5', size: 12 },
-      { id: '齐白石', group: 'art', desc: '画家·《审音鉴古图》', color: '#B8956A', size: 12 },
-      { id: '徐悲鸿', group: 'art', desc: '画家·光社同人', color: '#B8956A', size: 12 },
-      { id: '陈独秀', group: 'beida', desc: '新青年主编·北大文科学长', color: '#8B1A2B', size: 14 },
-      { id: '胡适', group: 'beida', desc: '北大教授·白话文运动', color: '#8B1A2B', size: 14 },
-      { id: '周作人', group: 'beida', desc: '北大教授·散文家', color: '#8B1A2B', size: 12 },
-      { id: '郭沫若', group: 'literary', desc: '诗人·后撰文评价刘半农', color: '#6B645C', size: 11 },
-      { id: '萧乾', group: 'literary', desc: '记者·回忆刘半农', color: '#6B645C', size: 10 },
+      { id: '杨步伟', group: 'linguist', desc: '赵元任夫人·江南同乡', color: '#5B7BA0', size: 12 },
+      { id: '齐白石', group: 'art', desc: '画家·《审音鉴古图》', color: '#A0845C', size: 12 },
+      { id: '徐悲鸿', group: 'art', desc: '画家·光社同人', color: '#A0845C', size: 12 },
+      { id: '陈独秀', group: 'beida', desc: '新青年主编·北大文科学长', color: '#7A1818', size: 14 },
+      { id: '胡适', group: 'beida', desc: '北大教授·白话文运动', color: '#7A1818', size: 14 },
+      { id: '周作人', group: 'beida', desc: '北大教授·散文家', color: '#7A1818', size: 12 },
+      { id: '郭沫若', group: 'literary', desc: '诗人·后撰文评价刘半农', color: '#6E6760', size: 11 },
+      { id: '萧乾', group: 'literary', desc: '记者·回忆刘半农', color: '#6E6760', size: 10 },
     ],
     links: [
       { source: '刘半农', target: '蔡元培', strength: 0.9, label: '破格聘用·题碑' },
@@ -59,13 +59,13 @@ const KnowledgeGraph = (() => {
 
   // 颜色分组
   const groupColors = {
-    center: '#C41E3A',
-    beida: '#8B1A2B',
-    linguist: '#2C4C7E',
-    family: '#3B6B5D',
+    center: '#B22222',
+    beida: '#7A1818',
+    linguist: '#3D5273',
+    family: '#3D6B5D',
     student: '#5C7A6B',
-    art: '#B8956A',
-    literary: '#6B645C',
+    art: '#A0845C',
+    literary: '#6E6760',
   };
 
   function init(state) {

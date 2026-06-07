@@ -21,10 +21,10 @@ const ToneLab = (() => {
 
   // 参考音（对应刘半农实验语音学研究的四声调值）
   const REFERENCE_TONES = {
-    '阴平': { freq: 220, label: '阴平（第一声）', desc: '高平调 55 → 如「她」字本调', color: '#C41E3A' },
-    '阳平': { freq: 280, label: '阳平（第二声）', desc: '高升调 35 → 上扬', color: '#DAA520' },
-    '上声': { freq: 180, label: '上声（第三声）', desc: '降升调 214 → 先降后升', color: '#2F5F4F' },
-    '去声': { freq: 330, label: '去声（第四声）', desc: '全降调 51 → 急促下降', color: '#3B5998' },
+    '阴平': { freq: 220, label: '阴平（第一声）', desc: '高平调 55 → 如「她」字本调', color: '#B22222' },
+    '阳平': { freq: 280, label: '阳平（第二声）', desc: '高升调 35 → 上扬', color: '#A0845C' },
+    '上声': { freq: 180, label: '上声（第三声）', desc: '降升调 214 → 先降后升', color: '#3D6B5D' },
+    '去声': { freq: 330, label: '去声（第四声）', desc: '全降调 51 → 急促下降', color: '#3D5273' },
   };
 
   function init(state) {

@@ -309,7 +309,11 @@ const App = (() => {
 
     bindUI();
     const restored = restoreFromHash();
-    if (!restored) setTimeout(() => selectLocation('xiangshan'), 500);
+    if (!restored) {
+      setTimeout(() => selectLocation('xiangshan'), 500);
+      // 初始展示刘半农肖像
+      setTimeout(() => emit('person:clicked', '刘半农'), 800);
+    }
     setTimeout(showGuide, 1500);
     console.log('[App] 初始化完成');
   }
