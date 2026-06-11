@@ -237,6 +237,30 @@ body::before {
 }
 #btn-close-panel:hover { color: var(--vermillion); }
 
+/* 场景音频播放按钮（面板内） */
+.btn-scene-audio {
+  width: 32px; height: 32px; border: 1px solid var(--paper-edge);
+  background: var(--paper-light); cursor: pointer;
+  font-size: 16px; color: var(--indigo);
+  border-radius: 50%; transition: all 0.25s var(--ease);
+  display: flex; align-items: center; justify-content: center;
+  margin-left: 8px; flex-shrink: 0;
+}
+.btn-scene-audio:hover {
+  background: var(--indigo); color: var(--paper-light);
+  border-color: var(--indigo);
+}
+/* 音频播放中时高亮 */
+.btn-scene-audio.playing {
+  background: var(--vermillion); color: #fff;
+  border-color: var(--vermillion);
+  animation: audio-pulse 1.5s ease-in-out infinite;
+}
+@keyframes audio-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(178,34,34,0.3); }
+  50% { box-shadow: 0 0 0 6px rgba(178,34,34,0); }
+}
+
 .panel-tabs {
   display: flex; border-bottom: 1px solid var(--paper-edge); flex-shrink: 0; overflow-x: auto;
 }
@@ -587,6 +611,30 @@ body::before {
   width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;
   background: linear-gradient(180deg, #EBE7E2 0%, #D9D4CD 50%, #C7C0B8 100%);
 }
+/* 有真实照片时去掉灰底和剪影 */
+.portrait-placeholder.has-photo {
+  background: var(--paper);
+}
+.portrait-placeholder.has-photo::before,
+.portrait-placeholder.has-photo::after {
+  display: none;
+}
+
+/* 真实照片样式：灰度 + 微暖棕调，仿民国旧照 */
+.portrait-photo {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+  filter: grayscale(0.85) sepia(0.25) brightness(0.95) contrast(1.05);
+  transition: filter 0.3s var(--ease-ink);
+}
+.portrait-photo:hover {
+  filter: grayscale(0.4) sepia(0.15) brightness(1.0) contrast(1.05);
+}
+
+/* 有照片时边框加深，模拟影楼相框 */
+.portrait-frame.has-photo {
+  border-color: var(--ink-faint);
+  box-shadow: inset 0 0 12px rgba(26,24,23,0.08);
+}
 /* 剪影暗示 — 椭圆头型 + 梯形身体 */
 .portrait-placeholder::before {
   content: '';
@@ -631,7 +679,8 @@ body::before {
   .portrait-relation { font-size: 9px; }
 }
 .leaflet-container { background: var(--paper-dark); font-family: var(--font-sans); }
-.leaflet-tile { filter: sepia(0.06) brightness(1.03) saturate(0.65); }
+/* 高德地图中文瓦片 — 微去饱和 + 极浅暖意，融入纸墨调色板 */
+.leaflet-tile { filter: brightness(0.97) saturate(0.6) sepia(0.04); }
 .leaflet-popup-content-wrapper { border-radius: 0 !important; border: 1px solid var(--paper-edge) !important; box-shadow: 0 4px 24px rgba(26,24,23,0.12) !important; font-family: var(--font-sans); }
 .leaflet-popup-content { margin: 8px 12px !important; }
 .marker-wrapper { background: transparent !important; border: none !important; }

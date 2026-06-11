@@ -89,7 +89,7 @@ const KnowledgeGraph = (() => {
     content.innerHTML = `
       <button class="btn-overlay-close" id="kg-close">✕</button>
       <h2>民国学术圈 · 人物关系网络</h2>
-      <p style="color:#6B5E4F;margin-bottom:12px;font-size:13px">
+      <p style="color:#6E6760;margin-bottom:12px;font-size:13px">
         以刘半农为中心，辐射新文化运动、现代语言学、国乐改良三大领域。
         <strong>拖拽节点</strong> · <strong>滚轮缩放</strong> · <strong>点击查看详情</strong>
       </p>
@@ -169,7 +169,7 @@ const KnowledgeGraph = (() => {
       .selectAll('line')
       .data(links)
       .join('line')
-      .attr('stroke', '#D4C9BC')
+      .attr('stroke', '#C7C0B8')
       .attr('stroke-width', d => d.strength * 3)
       .attr('stroke-opacity', 0.5)
       .attr('stroke-dasharray', d => d.strength < 0.5 ? '4,4' : null);
@@ -181,7 +181,7 @@ const KnowledgeGraph = (() => {
       .join('text')
       .text(d => d.label)
       .attr('font-size', 10)
-      .attr('fill', '#9B8E7F')
+      .attr('fill', '#9C948C')
       .attr('text-anchor', 'middle')
       .attr('dy', -4);
 
@@ -206,7 +206,7 @@ const KnowledgeGraph = (() => {
       .append('circle')
       .attr('r', d => d.size + 6)
       .attr('fill', 'none')
-      .attr('stroke', '#C41E3A')
+      .attr('stroke', '#B22222')
       .attr('stroke-width', 1.5)
       .attr('stroke-opacity', 0.3)
       .attr('class', 'kg-halo');
@@ -239,13 +239,13 @@ const KnowledgeGraph = (() => {
       });
 
       node.select('circle')
-        .attr('stroke', n => connected.has(n.id) ? '#C41E3A' : '#fff')
+        .attr('stroke', n => connected.has(n.id) ? '#B22222' : '#fff')
         .attr('stroke-width', n => connected.has(n.id) ? 3 : (n.id === d.id ? 3 : 2.5))
         .attr('opacity', n => connected.has(n.id) || n.id === d.id ? 1 : 0.3);
 
       link
         .attr('stroke-opacity', l => (l.source.id === d.id || l.target.id === d.id) ? 0.9 : 0.1)
-        .attr('stroke', l => (l.source.id === d.id || l.target.id === d.id) ? '#C41E3A' : '#D4C9BC')
+        .attr('stroke', l => (l.source.id === d.id || l.target.id === d.id) ? '#B22222' : '#C7C0B8')
         .attr('stroke-width', l => (l.source.id === d.id || l.target.id === d.id) ? 4 : 1);
 
       // 弹人物卡片
@@ -257,13 +257,13 @@ const KnowledgeGraph = (() => {
     // 双击重置
     node.on('dblclick', () => {
       node.select('circle').attr('stroke', '#fff').attr('stroke-width', 2.5).attr('opacity', 1);
-      link.attr('stroke', '#D4C9BC').attr('stroke-opacity', 0.5).attr('stroke-width', d => d.strength * 3);
+      link.attr('stroke', '#C7C0B8').attr('stroke-opacity', 0.5).attr('stroke-width', d => d.strength * 3);
     });
 
     // 空白区域点击重置
     svg.on('click', () => {
       node.select('circle').attr('stroke', '#fff').attr('stroke-width', 2.5).attr('opacity', 1);
-      link.attr('stroke', '#D4C9BC').attr('stroke-opacity', 0.5).attr('stroke-width', d => d.strength * 3);
+      link.attr('stroke', '#C7C0B8').attr('stroke-opacity', 0.5).attr('stroke-width', d => d.strength * 3);
     });
 
     // 模拟 tick

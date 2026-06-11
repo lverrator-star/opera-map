@@ -36,7 +36,7 @@ const SpecialPages = (() => {
       content.innerHTML = `
         <button class="btn-overlay-close" onclick="document.getElementById('shezi-overlay').classList.add('hidden')">✕</button>
         <h2>「她」字的诞生</h2>
-        <p style="color:#6B5E4F;margin-bottom:16px">一个字的创造，改变了一个民族的表达方式。</p>
+        <p style="color:#6E6760;margin-bottom:16px">一个字的创造，改变了一个民族的表达方式。</p>
 
         <div class="shezi-timeline">
           <div class="shezi-step">
@@ -90,7 +90,7 @@ const SpecialPages = (() => {
       content.innerHTML = `
         <button class="btn-overlay-close" onclick="document.getElementById('brothers-overlay').classList.add('hidden')">✕</button>
         <h2>江阴三杰</h2>
-        <p style="color:#6B5E4F;margin-bottom:20px">刘氏三兄弟，一母同胞，各擅胜场。歌剧第七场「音律和鸣」的核心人物。</p>
+        <p style="color:#6E6760;margin-bottom:20px">刘氏三兄弟，一母同胞，各擅胜场。歌剧第七场「音律和鸣」的核心人物。</p>
 
         <div class="brothers-grid">
           <div class="brother-card" style="border-top:4px solid #B22222">
@@ -132,21 +132,21 @@ const SpecialPages = (() => {
   // 人物关系卡片（弹窗简化版）
   // ═══════════════════════════════════════
   const PERSON_DB = {
-    '刘半农': { role: '文学家·语言学家', birth: '1891', death: '1934', relation: '新文化运动先驱，首创「她」字，建立中国第一个语音乐律实验室', scenes: ['scene-prologue','scene-1','scene-2','scene-3','scene-4','scene-5','scene-6','scene-7','scene-8','scene-9'] },
-    '蔡元培': { role: '北大校长', birth: '1868', death: '1940', relation: '破格聘用刘半农为北大教授，题碑文「嗣音有人，流风无尽」', scenes: ['scene-1', 'scene-5', 'scene-9'] },
-    '赵元任': { role: '语言学家、作曲家', birth: '1892', death: '1982', relation: '刘半农毕生知音，为《教我如何不想她》谱曲，共同推进国语统一', scenes: ['scene-3', 'scene-5'] },
-    '刘天华': { role: '国乐大师', birth: '1895', death: '1932', relation: '二弟，除夕合奏《良宵》，1932年早逝', scenes: ['scene-6', 'scene-7'] },
-    '刘北茂': { role: '作曲家', birth: '1903', death: '1981', relation: '三弟，继承国乐改良事业', scenes: ['scene-7'] },
-    '朱惠': { role: '刘半农夫人', birth: '?', death: '?', relation: '风雨携手一生，伦敦赶织毛衣贴补家用，巴黎用毛线法助修音鼓', scenes: ['scene-1', 'scene-2', 'scene-3', 'scene-4', 'scene-5', 'scene-8', 'scene-9'] },
-    '刘小蕙': { role: '刘半农长女', birth: '1916', death: '?', relation: '剧中叙事视角，童年随父赴欧，全剧以她的回忆串联', scenes: ['scene-prologue', 'scene-2', 'scene-4', 'scene-5', 'scene-9'] },
-    '钱玄同': { role: '新文化运动战友', birth: '1887', death: '1939', relation: '合撰《复王敬轩书》，痛批旧文学', scenes: ['scene-1'] },
-    '鲁迅': { role: '文学家', birth: '1881', death: '1936', relation: '新青年同人，后写《忆刘半农君》', scenes: [] },
-    '白涤洲': { role: '助手、学生', birth: '1900', death: '1934', relation: '协助语音乐律实验室工作，陪同绥远采风', scenes: ['scene-6', 'scene-8'] },
-    '杨步伟': { role: '赵元任夫人', birth: '1889', death: '1981', relation: '江南同乡，巴黎时期两对夫妇交情深厚', scenes: ['scene-3', 'scene-5'] },
-    '齐白石': { role: '画家', birth: '1864', death: '1957', relation: '1933年为刘半农画《审音鉴古图》', scenes: [] },
-    '徐悲鸿': { role: '画家', birth: '1895', death: '1953', relation: '同为光社成员', scenes: [] },
-    '陈独秀': { role: '新青年主编', birth: '1879', death: '1942', relation: '北大文科学长，新文化运动领袖', scenes: [] },
-    '胡适': { role: '北大教授', birth: '1891', death: '1962', relation: '白话文运动倡导者，与刘半农同为北大同事', scenes: [] },
+    '刘半农': { role: '文学家·语言学家', birth: '1891', death: '1934', relation: '新文化运动先驱，首创「她」字，建立中国第一个语音乐律实验室', photo: 'assets/portraits/liu_bannong.jpg', scenes: ['scene-prologue','scene-1','scene-2','scene-3','scene-4','scene-5','scene-6','scene-7','scene-8','scene-9'] },
+    '蔡元培': { role: '北大校长', birth: '1868', death: '1940', relation: '破格聘用刘半农为北大教授，题碑文「嗣音有人，流风无尽」', photo: 'assets/portraits/cai_yuanpei.jpg', scenes: ['scene-1', 'scene-5', 'scene-9'] },
+    '赵元任': { role: '语言学家、作曲家', birth: '1892', death: '1982', relation: '刘半农毕生知音，为《教我如何不想她》谱曲，共同推进国语统一', photo: 'assets/portraits/zhao_yuanren.jpg', scenes: ['scene-3', 'scene-5'] },
+    '刘天华': { role: '国乐大师', birth: '1895', death: '1932', relation: '二弟，除夕合奏《良宵》，1932年早逝', photo: 'assets/portraits/liu_tianhua.jpg', scenes: ['scene-6', 'scene-7'] },
+    '刘北茂': { role: '作曲家', birth: '1903', death: '1981', relation: '三弟，继承国乐改良事业', photo: null, scenes: ['scene-7'] },
+    '朱惠': { role: '刘半农夫人', birth: '?', death: '?', relation: '风雨携手一生，伦敦赶织毛衣贴补家用，巴黎用毛线法助修音鼓', photo: null, scenes: ['scene-1', 'scene-2', 'scene-3', 'scene-4', 'scene-5', 'scene-8', 'scene-9'] },
+    '刘小蕙': { role: '刘半农长女', birth: '1916', death: '?', relation: '剧中叙事视角，童年随父赴欧，全剧以她的回忆串联', photo: null, scenes: ['scene-prologue', 'scene-2', 'scene-4', 'scene-5', 'scene-9'] },
+    '钱玄同': { role: '新文化运动战友', birth: '1887', death: '1939', relation: '合撰《复王敬轩书》，痛批旧文学', photo: 'assets/portraits/qian_xuantong.jpg', scenes: ['scene-1'] },
+    '鲁迅': { role: '文学家', birth: '1881', death: '1936', relation: '新青年同人，后写《忆刘半农君》', photo: 'assets/portraits/lu_xun.jpg', scenes: [] },
+    '白涤洲': { role: '助手、学生', birth: '1900', death: '1934', relation: '协助语音乐律实验室工作，陪同绥远采风', photo: null, scenes: ['scene-6', 'scene-8'] },
+    '杨步伟': { role: '赵元任夫人', birth: '1889', death: '1981', relation: '江南同乡，巴黎时期两对夫妇交情深厚', photo: 'assets/portraits/yang_buwei.jpg', scenes: ['scene-3', 'scene-5'] },
+    '齐白石': { role: '画家', birth: '1864', death: '1957', relation: '1933年为刘半农画《审音鉴古图》', photo: 'assets/portraits/qi_baishi.png', scenes: [] },
+    '徐悲鸿': { role: '画家', birth: '1895', death: '1953', relation: '同为光社成员', photo: 'assets/portraits/xu_beihong.jpg', scenes: [] },
+    '陈独秀': { role: '新青年主编', birth: '1879', death: '1942', relation: '北大文科学长，新文化运动领袖', photo: 'assets/portraits/chen_duxiu.jpg', scenes: [] },
+    '胡适': { role: '北大教授', birth: '1891', death: '1962', relation: '白话文运动倡导者，与刘半农同为北大同事', photo: 'assets/portraits/hu_shi.jpg', scenes: [] },
   };
 
   function openPersonCard(personName) {
@@ -156,9 +156,44 @@ const SpecialPages = (() => {
     const card = document.getElementById('portrait-card');
     if (!card) return;
 
-    // 填充肖像卡片内容
-    const initial = document.getElementById('portrait-initial');
-    if (initial) initial.textContent = personName.charAt(0);
+    // 处理肖像图片：有真实照片则显示，无则保留 CSS 剪影
+    const placeholder = document.getElementById('portrait-img');
+    const initialEl = document.getElementById('portrait-initial');
+    const frameEl = card.querySelector('.portrait-frame');
+
+    // 始终保留 #portrait-initial 在 DOM 中（onerror 回退用）
+    // 清除之前可能添加的 <img>
+    const existingImg = placeholder.querySelector('.portrait-photo');
+    if (existingImg) existingImg.remove();
+
+    if (initialEl) {
+      initialEl.textContent = personName.charAt(0);
+    }
+
+    if (info.photo) {
+      // 创建真实照片 <img>，prepend 到 placeholder
+      const img = document.createElement('img');
+      img.src = info.photo;
+      img.alt = personName;
+      img.className = 'portrait-photo';
+      img.onerror = function () {
+        // 图片加载失败 → 隐藏 img，显示字号剪影
+        this.style.display = 'none';
+        if (initialEl) initialEl.style.display = 'flex';
+      };
+      img.onload = function () {
+        // 图片加载成功 → 隐藏字号剪影
+        if (initialEl) initialEl.style.display = 'none';
+      };
+      placeholder.insertBefore(img, placeholder.firstChild);
+      placeholder.classList.add('has-photo');
+      if (frameEl) frameEl.classList.add('has-photo');
+    } else {
+      // 无照片 — 只显示 CSS 剪影 + 字号水印
+      if (initialEl) initialEl.style.display = 'flex';
+      placeholder.classList.remove('has-photo');
+      if (frameEl) frameEl.classList.remove('has-photo');
+    }
 
     const nameEl = document.getElementById('portrait-name');
     if (nameEl) nameEl.textContent = personName;
@@ -219,23 +254,23 @@ const SpecialPages = (() => {
       content.innerHTML = `
         <button class="btn-overlay-close" onclick="document.getElementById('graph-overlay').classList.add('hidden')">✕</button>
         <h2>民国学术圈 · 人物关系网络</h2>
-        <p style="color:#6B5E4F;margin-bottom:16px;font-size:13px">以刘半农为中心，辐射新文化运动、现代语言学、国乐改良三大领域。点击人物查看详情。</p>
+        <p style="color:#6E6760;margin-bottom:16px;font-size:13px">以刘半农为中心，辐射新文化运动、现代语言学、国乐改良三大领域。点击人物查看详情。</p>
         <div class="graph-container">
           ${nodeHTML}
           <!-- 关系线用 SVG -->
           <svg class="graph-lines" viewBox="0 0 100 100" preserveAspectRatio="none">
-            <line x1="50" y1="40" x2="40" y2="15" stroke="#C41E3A" stroke-width="0.3" opacity="0.5"/>
-            <line x1="50" y1="40" x2="65" y2="20" stroke="#3B5998" stroke-width="0.3" opacity="0.6"/>
-            <line x1="50" y1="40" x2="30" y2="30" stroke="#8B0000" stroke-width="0.2" opacity="0.4"/>
-            <line x1="50" y1="40" x2="25" y2="50" stroke="#8B0000" stroke-width="0.2" opacity="0.4"/>
-            <line x1="50" y1="40" x2="60" y2="55" stroke="#2F5F4F" stroke-width="0.4" opacity="0.8"/>
-            <line x1="50" y1="40" x2="70" y2="60" stroke="#2F5F4F" stroke-width="0.3" opacity="0.6"/>
-            <line x1="50" y1="40" x2="45" y2="65" stroke="#DAA520" stroke-width="0.5" opacity="0.8"/>
-            <line x1="50" y1="40" x2="55" y2="70" stroke="#DAA520" stroke-width="0.4" opacity="0.7"/>
-            <line x1="50" y1="40" x2="75" y2="35" stroke="#556B2F" stroke-width="0.3" opacity="0.6"/>
-            <line x1="65" y1="20" x2="75" y2="15" stroke="#9370DB" stroke-width="0.2" opacity="0.5"/>
-            <line x1="40" y1="15" x2="30" y2="30" stroke="#8B0000" stroke-width="0.2" opacity="0.3"/>
-            <line x1="60" y1="55" x2="70" y2="60" stroke="#2F5F4F" stroke-width="0.3" opacity="0.6"/>
+            <line x1="50" y1="40" x2="40" y2="15" stroke="#B22222" stroke-width="0.3" opacity="0.5"/>
+            <line x1="50" y1="40" x2="65" y2="20" stroke="#3D5273" stroke-width="0.3" opacity="0.6"/>
+            <line x1="50" y1="40" x2="30" y2="30" stroke="#7A1818" stroke-width="0.2" opacity="0.4"/>
+            <line x1="50" y1="40" x2="25" y2="50" stroke="#7A1818" stroke-width="0.2" opacity="0.4"/>
+            <line x1="50" y1="40" x2="60" y2="55" stroke="#3D6B5D" stroke-width="0.4" opacity="0.8"/>
+            <line x1="50" y1="40" x2="70" y2="60" stroke="#3D6B5D" stroke-width="0.3" opacity="0.6"/>
+            <line x1="50" y1="40" x2="45" y2="65" stroke="#A0845C" stroke-width="0.5" opacity="0.8"/>
+            <line x1="50" y1="40" x2="55" y2="70" stroke="#A0845C" stroke-width="0.4" opacity="0.7"/>
+            <line x1="50" y1="40" x2="75" y2="35" stroke="#5C7A6B" stroke-width="0.3" opacity="0.6"/>
+            <line x1="65" y1="20" x2="75" y2="15" stroke="#5B7BA0" stroke-width="0.2" opacity="0.5"/>
+            <line x1="40" y1="15" x2="30" y2="30" stroke="#7A1818" stroke-width="0.2" opacity="0.3"/>
+            <line x1="60" y1="55" x2="70" y2="60" stroke="#3D6B5D" stroke-width="0.3" opacity="0.6"/>
           </svg>
         </div>
         <div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:12px">

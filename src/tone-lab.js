@@ -167,7 +167,7 @@ const ToneLab = (() => {
     canvasCtx.clearRect(0, 0, W, H);
 
     // 背景网格
-    canvasCtx.strokeStyle = '#E8E2D8';
+    canvasCtx.strokeStyle = '#EBE7E2';
     canvasCtx.lineWidth = 0.5;
     for (let y = 0; y < H; y += 40) {
       canvasCtx.beginPath();
@@ -181,7 +181,7 @@ const ToneLab = (() => {
 
     // 绘制波形
     canvasCtx.beginPath();
-    canvasCtx.strokeStyle = '#C41E3A';
+    canvasCtx.strokeStyle = '#B22222';
     canvasCtx.lineWidth = 2;
     canvasCtx.shadowBlur = 8;
     canvasCtx.shadowColor = 'rgba(196,30,58,0.3)';
@@ -206,7 +206,7 @@ const ToneLab = (() => {
     }
     const freq = Math.round(maxIdx * audioCtx.sampleRate / analyser.fftSize);
     if (maxVal > 30 && freq > 50 && freq < 2000) {
-      canvasCtx.fillStyle = '#C41E3A';
+      canvasCtx.fillStyle = '#B22222';
       canvasCtx.font = '12px "Noto Sans SC", sans-serif';
       canvasCtx.fillText(`主频 ≈ ${freq} Hz`, 10, H - 10);
     }
@@ -221,7 +221,7 @@ const ToneLab = (() => {
     canvasCtx.clearRect(0, 0, W, H);
 
     // 网格
-    canvasCtx.strokeStyle = '#E8E2D8';
+    canvasCtx.strokeStyle = '#EBE7E2';
     canvasCtx.lineWidth = 0.5;
     for (let y = 0; y < H; y += 40) {
       canvasCtx.beginPath();
@@ -232,13 +232,13 @@ const ToneLab = (() => {
 
     // 安静的基线
     canvasCtx.beginPath();
-    canvasCtx.strokeStyle = '#D4C9BC';
+    canvasCtx.strokeStyle = '#C7C0B8';
     canvasCtx.lineWidth = 1;
     canvasCtx.moveTo(0, H / 2);
     canvasCtx.lineTo(W, H / 2);
     canvasCtx.stroke();
 
-    canvasCtx.fillStyle = '#9B8E7F';
+    canvasCtx.fillStyle = '#9C948C';
     canvasCtx.font = '14px "Noto Serif SC", serif';
     canvasCtx.textAlign = 'center';
     canvasCtx.fillText('等待录音...', W / 2, H / 2 - 20);
@@ -274,7 +274,7 @@ const ToneLab = (() => {
       }
 
       canvasCtx.clearRect(0, 0, W, H);
-      canvasCtx.strokeStyle = '#E8E2D8';
+      canvasCtx.strokeStyle = '#EBE7E2';
       canvasCtx.lineWidth = 0.5;
       for (let y = 0; y < H; y += 40) {
         canvasCtx.beginPath();
@@ -288,7 +288,7 @@ const ToneLab = (() => {
 
       // 模拟播放波形
       canvasCtx.beginPath();
-      canvasCtx.strokeStyle = '#3B5998';
+      canvasCtx.strokeStyle = '#3D5273';
       canvasCtx.lineWidth = 2;
       for (let x = 0; x < cx; x += 2) {
         const y = H / 2 + Math.sin(x * 0.05 + elapsed * 10) * 30 * Math.sin(elapsed * 3) + Math.sin(x * 0.02) * 20;
@@ -298,12 +298,12 @@ const ToneLab = (() => {
       canvasCtx.stroke();
 
       // 播放头
-      canvasCtx.fillStyle = '#3B5998';
+      canvasCtx.fillStyle = '#3D5273';
       canvasCtx.beginPath();
       canvasCtx.arc(cx, H / 2, 5, 0, Math.PI * 2);
       canvasCtx.fill();
 
-      canvasCtx.fillStyle = '#9B8E7F';
+      canvasCtx.fillStyle = '#9C948C';
       canvasCtx.font = '11px "Noto Sans SC", sans-serif';
       canvasCtx.fillText(`回放中 ${elapsed.toFixed(1)}s / ${audio.duration.toFixed(1)}s`, 10, H - 10);
 
@@ -373,7 +373,7 @@ const ToneLab = (() => {
     canvasCtx.clearRect(0, 0, W, H);
 
     // 网格
-    canvasCtx.strokeStyle = '#E8E2D8';
+    canvasCtx.strokeStyle = '#EBE7E2';
     canvasCtx.lineWidth = 0.5;
     for (let y = 0; y < H; y += 40) {
       canvasCtx.beginPath();
@@ -383,7 +383,7 @@ const ToneLab = (() => {
     }
 
     // 标签
-    canvasCtx.fillStyle = '#9B8E7F';
+    canvasCtx.fillStyle = '#9C948C';
     canvasCtx.font = '11px "Noto Sans SC", sans-serif';
     canvasCtx.fillText('五度标记法（参考）', 10, 16);
     canvasCtx.fillText('5 —— 高', 10, H * 0.15);
@@ -393,12 +393,12 @@ const ToneLab = (() => {
     for (let deg = 1; deg <= 5; deg++) {
       const y = H * (0.85 - (deg - 1) * 0.175);
       canvasCtx.beginPath();
-      canvasCtx.strokeStyle = '#E8E2D8';
+      canvasCtx.strokeStyle = '#EBE7E2';
       canvasCtx.lineWidth = 0.5;
       canvasCtx.moveTo(30, y);
       canvasCtx.lineTo(W, y);
       canvasCtx.stroke();
-      canvasCtx.fillStyle = '#9B8E7F';
+      canvasCtx.fillStyle = '#9C948C';
       canvasCtx.fillText(deg.toString(), 22, y + 4);
     }
 
@@ -446,7 +446,7 @@ const ToneLab = (() => {
     canvasCtx.font = 'bold 14px "Noto Serif SC", serif';
     canvasCtx.fillText(ref.label, cx + cw + 10, H / 2);
 
-    canvasCtx.fillStyle = '#6B5E4F';
+    canvasCtx.fillStyle = '#6E6760';
     canvasCtx.font = '11px "Noto Sans SC", sans-serif';
     canvasCtx.fillText(ref.desc, cx + cw + 10, H / 2 + 20);
   }

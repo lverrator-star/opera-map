@@ -1,0 +1,12 @@
+[
+  {"id":"scene-prologue","file":"assets/audio/scenes/scene-prologue.mp3","duration":284.5,"start":"00:24","end":"05:08","title":"序","subtitle":"嗣音有人，流风无尽"},
+  {"id":"scene-1","file":"assets/audio/scenes/scene-1.mp3","duration":588.9,"start":"05:13","end":"15:02","title":"第一场","subtitle":"留别北大"},
+  {"id":"scene-2","file":"assets/audio/scenes/scene-2.mp3","duration":1191.0,"start":"15:25","end":"35:16","title":"第二场","subtitle":"雾雨伦敦"},
+  {"id":"scene-3","file":"assets/audio/scenes/scene-3.mp3","duration":565.0,"start":"35:18","end":"44:43","title":"第三场","subtitle":"他乡知己"},
+  {"id":"scene-4","file":"assets/audio/scenes/scene-4.mp3","duration":412.0,"start":"44:45","end":"51:37","title":"第四场","subtitle":"迁渡巴黎"},
+  {"id":"scene-5","file":"assets/audio/scenes/scene-5.mp3","duration":554.0,"start":"51:46","end":"61:00","title":"第五场","subtitle":"东方荣耀"},
+  {"id":"scene-6","file":"assets/audio/scenes/scene-6.mp3","duration":638.0,"start":"61:02","end":"71:40","title":"第六场","subtitle":"重归北大"},
+  {"id":"scene-7","file":"assets/audio/scenes/scene-7.mp3","duration":728.0,"start":"71:45","end":"83:53","title":"第七场","subtitle":"音律和鸣"},
+  {"id":"scene-8","file":"assets/audio/scenes/scene-8.mp3","duration":492.0,"start":"83:55","end":"92:07","title":"第八场","subtitle":"绥远采风"},
+  {"id":"scene-9","file":"assets/audio/scenes/scene-9.mp3","duration":493.4,"start":"92:07","end":"100:20","title":"第九场","subtitle":"流风无尽"}
+]

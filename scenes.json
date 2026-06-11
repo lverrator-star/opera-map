@@ -31,7 +31,7 @@
     "location_ids": ["beijing-beida"],
     "time_setting": "1920年初",
     "atmosphere": "激昂、论战、离别",
-    "color_theme": "#8B0000",
+    "color_theme": "#7A1818",
     "songs": [
       {
         "number": "曲2",
@@ -239,7 +239,7 @@
     "location_ids": ["paris", "sea-route"],
     "time_setting": "1925年，巴黎大学答辩及回国途中",
     "atmosphere": "紧张、荣耀、归心似箭",
-    "color_theme": "#DAA520",
+    "color_theme": "#A0845C",
     "songs": [
       {
         "number": "曲16",
@@ -287,7 +287,7 @@
     "location_ids": ["beijing-return"],
     "time_setting": "1925年秋，北大语音乐律研究所",
     "atmosphere": "生动、诙谐、充满生机",
-    "color_theme": "#8B0000",
+    "color_theme": "#7A1818",
     "songs": [
       {
         "number": "曲19",
@@ -323,7 +323,7 @@
     "location_ids": ["beijing-return"],
     "time_setting": "除夕·大阮府胡同含辉堂；及1932年刘天华去世",
     "atmosphere": "温暖团圆转为沉痛哀伤",
-    "color_theme": "#8B0000",
+    "color_theme": "#7A1818",
     "songs": [
       {
         "number": "曲21",
@@ -379,7 +379,7 @@
     "location_ids": ["suiyuan"],
     "time_setting": "1934年6月，北京西直门→绥远内蒙",
     "atmosphere": "悲壮、苍凉、民间生命力",
-    "color_theme": "#556B2F",
+    "color_theme": "#5C7A6B",
     "songs": [
       {
         "number": "民歌",

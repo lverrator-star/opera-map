@@ -1,10 +1,11 @@
-# Python
+# 巨型文件 — 不上传 GitHub
+教我如何不想她视频.mp4
+assets/audio/
+runtime/
+
+# Python 缓存
 __pycache__/
 *.py[cod]
-*.pyo
-
-# Node (if any)
-node_modules/
 
 # OS
 .DS_Store
@@ -15,12 +16,10 @@ Desktop.ini
 .vscode/
 .idea/
 
-# Assets (large media files)
-assets/audio/*
-assets/images/*
-!assets/.gitkeep
-
-# Temporary
+# 临时文件
 *.tmp
 *.log
 .claude/
+
+# 打包产物
+*.zip

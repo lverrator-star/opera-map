@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="李司略" />
+  <meta name="description" content="《教我如何不想她》歌剧数字伴生作品 · 刘半农生平地理叙事 · 北京大学歌剧研究院李司略制" />
   <title>教我如何不想她 — 刘半农生平地理叙事</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,7 +18,7 @@
   <header id="top-bar">
     <div class="top-left">
       <h1 class="site-title">教我如何不想她</h1>
-      <span class="site-subtitle">刘半农生平地理叙事 · 歌剧伴生数字作品</span>
+      <span class="site-subtitle">刘半农生平地理叙事</span>
     </div>
     <nav class="top-nav">
       <div class="view-tabs">
@@ -51,16 +53,16 @@
 
     <!-- 地图图例 -->
     <div id="map-legend">
-      <div class="legend-item"><span class="legend-dot" style="background:#8B6914"></span> 故乡与求学</div>
-      <div class="legend-item"><span class="legend-dot" style="background:#8B1A2B"></span> 执教</div>
-      <div class="legend-item"><span class="legend-dot" style="background:#2C4C7E"></span> 留学</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#8B7355"></span> 故乡与求学</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#7A1818"></span> 执教</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#3D5273"></span> 留学</div>
       <div class="legend-item"><span class="legend-dot" style="background:#5C7A6B"></span> 旅途</div>
-      <div class="legend-item"><span class="legend-dot" style="background:#3B6B5D"></span> 采风</div>
-      <div class="legend-item"><span class="legend-dot" style="background:#3D3832"></span> 长眠</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#3D6B5D"></span> 采风</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#45403B"></span> 长眠</div>
       <hr>
-      <div class="legend-item"><span class="legend-line" style="background:#2C4C7E"></span> 赴欧</div>
-      <div class="legend-item"><span class="legend-line" style="background:#B8956A"></span> 回国</div>
-      <div class="legend-item"><span class="legend-line" style="background:#3B6B5D"></span> 绥远</div>
+      <div class="legend-item"><span class="legend-line" style="background:#3D5273"></span> 赴欧</div>
+      <div class="legend-item"><span class="legend-line" style="background:#A0845C"></span> 回国</div>
+      <div class="legend-item"><span class="legend-line" style="background:#3D6B5D"></span> 绥远</div>
     </div>
 
     <!-- 人物肖像卡片 -->
@@ -158,10 +160,10 @@
       <!-- 参考音面板 -->
       <div class="tl-reference-panel">
         <span class="tl-section-label">参考声调</span>
-        <button class="tl-ref-btn" data-tone="阴平" style="--tone-color:#C41E3A">阴平 55</button>
-        <button class="tl-ref-btn" data-tone="阳平" style="--tone-color:#B8956A">阳平 35</button>
-        <button class="tl-ref-btn" data-tone="上声" style="--tone-color:#3B6B5D">上声 214</button>
-        <button class="tl-ref-btn" data-tone="去声" style="--tone-color:#2C4C7E">去声 51</button>
+        <button class="tl-ref-btn" data-tone="阴平" style="--tone-color:#B22222">阴平 55</button>
+        <button class="tl-ref-btn" data-tone="阳平" style="--tone-color:#A0845C">阳平 35</button>
+        <button class="tl-ref-btn" data-tone="上声" style="--tone-color:#3D6B5D">上声 214</button>
+        <button class="tl-ref-btn" data-tone="去声" style="--tone-color:#3D5273">去声 51</button>
       </div>
 
       <!-- 波形画布 -->
@@ -204,9 +206,22 @@
         <small>歌剧在史实基础上进行了戏剧化处理。本站标注了二者的对照关系——「剧情」为脚本内容，「史料」为历史补充。</small>
       </div>
       <hr>
+      <p style="font-size:10px;color:var(--ink-muted);margin-bottom:2px;letter-spacing:1px">歌剧原创</p>
       <p class="credit">编剧：彭峰、张吉义 &nbsp;|&nbsp; 作曲：禹永一</p>
-      <p class="credit">交互地图制作：基于 Leaflet 开源地图库</p>
-      <p class="credit">数据来源：公开史料、《刘半农传》、蔡元培题碑、郭沫若/鲁迅评述</p>
+      <hr>
+      <p style="font-size:10px;color:var(--ink-muted);margin-bottom:2px;letter-spacing:1px">数字伴生作品制作者</p>
+      <p class="credit" style="font-family:var(--font-serif);font-size:13px;color:var(--ink);letter-spacing:2px;margin-bottom:6px">
+        李司略
+      </p>
+      <p class="credit" style="font-size:10px;color:var(--ink-light);line-height:1.8;letter-spacing:1px">
+        北京大学歌剧研究院 25 级硕士<br>
+        香港大学经济管理学院 24 级硕士<br>
+        中山大学岭南学院国际商务系 20 级本科
+      </p>
+      <p class="credit" style="margin-top:10px;font-size:10px;color:var(--ink-muted)">
+        交互地图制作：基于 Leaflet 开源地图库<br>
+        数据来源：公开史料、《刘半农传》、蔡元培题碑、郭沫若/鲁迅评述
+      </p>
       <p class="credit" style="margin-top:12px">© 2024–2025 · 非商业学术项目</p>
     </div>
   </div>

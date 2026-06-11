@@ -13,14 +13,16 @@ const MapComponent = (() => {
   let animMarker = null;  // 路线动画标记
 
   // ── 视图配置 ──
+  // 高德地图中文瓦片：中国视图完美中文标注，世界视图主要城市也有中文名
   const views = {
     world: {
       center: [32, 55],
       zoom: 3,
       minZoom: 2,
       maxZoom: 14,
-      tileUrl: 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
-      tileAttrib: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/">CARTO</a>',
+      tileUrl: 'https://webrd0{s}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}',
+      tileAttrib: '&copy; <a href="https://www.amap.com/">高德地图</a>',
+      tileSubdomains: ['1','2','3','4'],
       visibleCategories: null,  // null = 全部可见
     },
     china: {
@@ -28,8 +30,9 @@ const MapComponent = (() => {
       zoom: 5,
       minZoom: 4,
       maxZoom: 17,
-      tileUrl: 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
-      tileAttrib: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/">CARTO</a>',
+      tileUrl: 'https://webrd0{s}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}',
+      tileAttrib: '&copy; <a href="https://www.amap.com/">高德地图</a>',
+      tileSubdomains: ['1','2','3','4'],
       // 中国视图下只显示这些类别
       visibleCategories: ['故乡', '求学', '执教', '采风', '长眠'],
     }
@@ -73,6 +76,7 @@ const MapComponent = (() => {
     tileLayer = L.tileLayer(cfg.tileUrl, {
       attribution: cfg.tileAttrib,
       maxZoom: cfg.maxZoom,
+      subdomains: cfg.tileSubdomains || 'abc',
     }).addTo(map);
 
     // 创建动画标记（隐藏）
@@ -187,6 +191,7 @@ const MapComponent = (() => {
     tileLayer = L.tileLayer(cfg.tileUrl, {
       attribution: cfg.tileAttrib,
       maxZoom: cfg.maxZoom,
+      subdomains: cfg.tileSubdomains || 'abc',
     }).addTo(map);
 
     map.setMinZoom(cfg.minZoom);

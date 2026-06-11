@@ -316,6 +316,18 @@ const App = (() => {
     }
     setTimeout(showGuide, 1500);
     console.log('[App] 初始化完成');
+
+    // ── 防伪水印 ──
+    console.log(
+      '%c 教我如何不想她 · 刘半农生平地理叙事 %c数字伴生作品\n' +
+      '%c制作者：李司略\n' +
+      '北京大学歌剧研究院 25 级硕士 | 香港大学经济管理学院 24 级硕士 | 中山大学岭南学院 20 级本科\n\n' +
+      '%c未经授权禁止转载、复制或用于商业用途。',
+      'font-family:"Noto Serif SC",serif;font-size:16px;color:#B22222;',
+      'font-size:12px;color:#9C948C;',
+      'font-size:12px;color:#1C1A18;',
+      'font-size:9px;color:#9C948C;letter-spacing:1px;'
+    );
   }
 
   // ── 首次引导 ──

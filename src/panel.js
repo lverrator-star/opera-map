@@ -67,7 +67,29 @@ const PanelComponent = (() => {
       b.classList.toggle('active', b.dataset.tab === 'plot');
     });
     renderTab('plot', currentLocation);
+    updateAudioButton(sceneId);
     open();
+  }
+
+  // ── 场景音频按钮 ──
+  function updateAudioButton(sceneId) {
+    const header = document.querySelector('.panel-header');
+    if (!header) return;
+    // 移除旧按钮
+    const oldBtn = header.querySelector('.btn-scene-audio');
+    if (oldBtn) oldBtn.remove();
+
+    const btn = document.createElement('button');
+    btn.className = 'btn-scene-audio';
+    btn.title = '聆听本场歌剧音频';
+    btn.innerHTML = '&#9835;'; // ♪ music note
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (typeof AudioComponent !== 'undefined') {
+        AudioComponent.toggleScenePlay();
+      }
+    });
+    header.appendChild(btn);
   }
 
   function renderTab(tab, loc) {
