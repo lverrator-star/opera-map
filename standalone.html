@@ -1,0 +1,3898 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="李司略" />
+  <meta name="description" content="《教我如何不想她》歌剧数字伴生作品 · 刘半农生平地理叙事 · 北京大学歌剧研究院李司略制" />
+  <title>教我如何不想她 — 刘半农生平地理叙事</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+/* ═══════════════════════════════════════════
+   教我如何不想她 — 冷灰墨韵设计系统
+   书斋为底 · 墨色为骨 · 朱砂点睛 · 靛蓝辅之
+   1920s Chinese Republican Era Print Aesthetic
+   ═══════════════════════════════════════════ */
+
+/* ── 冷灰墨韵色盘 ── */
+:root {
+  --paper: #F7F5F3;
+  --paper-light: #FCFBFA;
+  --paper-dark: #EBE7E2;
+  --paper-edge: #D9D4CD;
+  --ink: #1C1A18;
+  --ink-soft: #45403B;
+  --ink-light: #6E6760;
+  --ink-muted: #9C948C;
+  --ink-faint: #C7C0B8;
+  --vermillion: #B22222;
+  --vermillion-deep: #7A1818;
+  --vermillion-glow: #E0A0A0;
+  --indigo: #3D5273;
+  --indigo-light: #5B7BA0;
+  --indigo-pale: #D0D8E4;
+  --gold: #A0845C;
+  --gold-light: #C8B898;
+  --jade: #3D6B5D;
+  --jade-pale: #C5DDD5;
+  /* 旧变量别名——保持 JS 兼容 */
+  --text-primary: var(--ink);
+  --text-secondary: var(--ink-soft);
+  --text-muted: var(--ink-muted);
+  --bg-primary: var(--paper);
+  --bg-panel: var(--paper-light);
+  --bg-dark: var(--ink);
+  --border: var(--paper-edge);
+  --accent-vermillion: var(--vermillion);
+  --accent-green: var(--jade);
+  --accent-gold: var(--gold);
+  --accent-blue: var(--indigo);
+  --shadow: 0 2px 12px rgba(28,26,24,0.06);
+  --shadow-lg: 0 8px 36px rgba(28,26,24,0.10);
+  --radius: 0;
+  --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  --font-serif: 'Noto Serif SC', 'Source Han Serif SC', 'STSong', 'SimSun', 'Songti SC', serif;
+  --font-sans: 'Noto Sans SC', 'Source Han Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-ink: cubic-bezier(0.6, 0.04, 0.4, 0.94);
+}
+
+/* ── 宣纸基底 ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; overflow: hidden; }
+body {
+  font-family: var(--font-sans);
+  color: var(--ink);
+  background: var(--paper);
+  display: flex; flex-direction: column;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* 宣纸纤维纹理 (纯 CSS) */
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 9999; pointer-events: none;
+  opacity: 0.04;
+  background-image:
+    repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(26,24,23,0.03) 2px, rgba(26,24,23,0.03) 4px),
+    repeating-linear-gradient(90deg, transparent, transparent 3px, rgba(26,24,23,0.02) 3px, rgba(26,24,23,0.02) 4px),
+    radial-gradient(ellipse at 20% 80%, rgba(139,26,43,0.03) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(44,76,126,0.02) 0%, transparent 50%);
+}
+
+/* ── 顶栏：如书眉 ── */
+#top-bar {
+  height: 52px; display: flex; align-items: center; justify-content: space-between;
+  padding: 0 24px; flex-shrink: 0; z-index: 1000;
+  background: linear-gradient(180deg, var(--paper) 60%, transparent);
+  border-bottom: 1px solid var(--paper-edge);
+}
+.top-left { display: flex; align-items: baseline; gap: 14px; }
+.site-title {
+  font-family: var(--font-serif); font-size: 19px; font-weight: 700;
+  color: var(--ink); letter-spacing: 3px;
+}
+.site-title::before { content: '『'; color: var(--vermillion); margin-right: 2px; font-size: 16px; }
+.site-title::after  { content: '』'; color: var(--vermillion); margin-left: 2px; font-size: 16px; }
+.site-subtitle {
+  font-size: 11px; color: var(--ink-light); letter-spacing: 2px;
+  font-family: var(--font-serif);
+}
+
+/* 顶栏按钮 — 印章风格 */
+.top-nav { display: flex; align-items: center; gap: 6px; }
+.view-tabs { display: flex; gap: 2px; }
+.view-tab {
+  padding: 4px 12px; border: 1px solid var(--paper-edge); background: transparent;
+  cursor: pointer; font-size: 12px; color: var(--ink-light);
+  font-family: var(--font-serif); letter-spacing: 1px;
+  transition: all 0.25s var(--ease);
+}
+.view-tab:first-child { border-radius: 3px 0 0 3px; }
+.view-tab:last-child  { border-radius: 0 3px 3px 0; }
+.view-tab.active {
+  background: var(--ink); color: var(--paper); border-color: var(--ink);
+}
+.view-tab:hover:not(.active) { border-color: var(--ink-light); color: var(--ink); }
+
+/* 特殊按钮 — 模仿钤印/眉批 */
+#btn-play-tour, #btn-about, #btn-she-zi, #btn-three-brothers,
+#btn-knowledge-graph, #btn-tone-lab {
+  padding: 4px 10px; border: 1px solid transparent; border-radius: 2px;
+  background: transparent; cursor: pointer; font-size: 12px;
+  color: var(--ink-light); font-family: var(--font-serif);
+  letter-spacing: 1px; transition: all 0.25s var(--ease);
+}
+#btn-she-zi { color: var(--vermillion); }
+#btn-three-brothers { color: var(--jade); }
+#btn-knowledge-graph { color: var(--indigo); }
+#btn-tone-lab { color: var(--gold); }
+#btn-play-tour { color: var(--ink); border-color: var(--paper-edge); min-width: 56px; }
+#btn-about { color: var(--ink-muted); font-size: 14px; padding: 2px 8px; }
+#btn-she-zi:hover, #btn-three-brothers:hover, #btn-knowledge-graph:hover,
+#btn-tone-lab:hover, #btn-about:hover { opacity: 0.7; }
+#btn-play-tour:hover { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+#btn-play-tour.playing { background: var(--vermillion); color: #fff; border-color: var(--vermillion); }
+
+/* ── 筛选栏 — 眉批标签 ── */
+#filter-bar {
+  background: transparent; border-bottom: 1px solid var(--paper-edge);
+  padding: 0 20px; flex-shrink: 0; z-index: 999; overflow-x: auto;
+}
+.filter-inner { display: flex; align-items: center; gap: 14px; padding: 7px 0; min-width: max-content; }
+.filter-group { display: flex; align-items: center; gap: 5px; }
+.filter-label {
+  font-size: 10px; color: var(--ink-muted); font-weight: 600;
+  letter-spacing: 2px; text-transform: uppercase; font-family: var(--font-serif);
+}
+.filter-chip {
+  padding: 2px 10px; border: 1px solid var(--paper-edge); border-radius: 2px;
+  background: transparent; cursor: pointer; font-size: 11px;
+  color: var(--ink-light); font-family: var(--font-serif);
+  transition: all 0.2s var(--ease); white-space: nowrap;
+}
+.filter-chip:hover { border-color: var(--ink); color: var(--ink); }
+.filter-chip.active {
+  background: var(--ink); color: var(--paper); border-color: var(--ink);
+}
+.filter-clear {
+  padding: 2px 10px; border: none; background: transparent;
+  cursor: pointer; font-size: 10px; color: var(--ink-muted);
+  letter-spacing: 1px;
+}
+.filter-clear:hover { color: var(--vermillion); }
+
+/* ── 主地图区 ── */
+#map-container { flex: 1; position: relative; overflow: hidden; }
+#map { width: 100%; height: 100%; z-index: 1; }
+
+/* 加载 — 水墨晕染 spinner */
+#loading-overlay {
+  position: absolute; inset: 0; z-index: 999;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  background: var(--paper); transition: opacity 0.6s var(--ease-ink);
+}
+#loading-overlay.hidden { opacity: 0; pointer-events: none; }
+#loading-overlay p { color: var(--ink-light); font-family: var(--font-serif); font-size: 13px; margin-top: 16px; letter-spacing: 2px; }
+.loading-spinner {
+  width: 32px; height: 32px; border: 2px solid var(--paper-edge);
+  border-top-color: var(--vermillion); border-radius: 50%;
+  animation: ink-spin 1.2s var(--ease-ink) infinite;
+}
+@keyframes ink-spin { to { transform: rotate(360deg); } }
+
+/* 地图图例 — 边注样式 */
+#map-legend {
+  position: absolute; bottom: 20px; left: 20px; z-index: 500;
+  background: var(--paper); padding: 12px 16px;
+  border: 1px solid var(--paper-edge); font-size: 11px;
+  color: var(--ink-light); font-family: var(--font-serif);
+  letter-spacing: 1px;
+}
+#map-legend hr { margin: 6px 0; border: none; border-top: 1px solid var(--paper-edge); }
+.legend-item { display: flex; align-items: center; gap: 8px; margin: 3px 0; }
+.legend-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  box-shadow: 0 0 4px currentColor;
+}
+.legend-line { width: 18px; height: 2px; }
+
+/* ── 场次导航 — 竖排章节目录 ── */
+#scene-nav {
+  position: absolute; left: 16px; top: 50%; transform: translateY(-50%);
+  z-index: 500; display: flex; flex-direction: column; gap: 3px;
+}
+.scene-nav-item {
+  width: 28px; height: 28px; border: 1px solid transparent;
+  background: transparent; cursor: pointer;
+  font-family: var(--font-serif); font-size: 13px;
+  color: var(--ink-light); transition: all 0.25s var(--ease);
+  display: flex; align-items: center; justify-content: center;
+  position: relative;
+}
+.scene-nav-item:hover { color: var(--ink); }
+.scene-nav-item::after {
+  content: ''; position: absolute; right: -2px; top: 50%; transform: translateY(-50%);
+  width: 3px; height: 0; background: var(--vermillion);
+  transition: height 0.25s var(--ease);
+}
+.scene-nav-item.active { color: var(--vermillion); font-weight: 700; }
+.scene-nav-item.active::after { height: 16px; }
+
+/* ── 抽屉面板 — 卷轴展开 ── */
+#side-panel {
+  position: absolute; top: 52px; right: 0; bottom: 40px;
+  width: 440px; max-width: 94vw; background: var(--paper-light);
+  border-left: 1px solid var(--paper-edge);
+  box-shadow: -8px 0 40px rgba(26,24,23,0.10);
+  z-index: 800; transform: translateX(105%);
+  transition: transform 0.4s var(--ease-ink);
+  display: flex; flex-direction: column; overflow: hidden;
+}
+#side-panel.open { transform: translateX(0); }
+
+.panel-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 24px; border-bottom: 1px solid var(--paper-edge); flex-shrink: 0;
+}
+.panel-header h2 {
+  font-family: var(--font-serif); font-size: 17px; color: var(--ink);
+  letter-spacing: 2px; font-weight: 600;
+}
+#btn-close-panel {
+  width: 28px; height: 28px; border: none; background: none;
+  cursor: pointer; font-size: 16px; color: var(--ink-muted);
+  font-family: var(--font-serif); transition: color 0.2s;
+}
+#btn-close-panel:hover { color: var(--vermillion); }
+
+/* 场景音频播放按钮（面板内） */
+.btn-scene-audio {
+  width: 32px; height: 32px; border: 1px solid var(--paper-edge);
+  background: var(--paper-light); cursor: pointer;
+  font-size: 16px; color: var(--indigo);
+  border-radius: 50%; transition: all 0.25s var(--ease);
+  display: flex; align-items: center; justify-content: center;
+  margin-left: 8px; flex-shrink: 0;
+}
+.btn-scene-audio:hover {
+  background: var(--indigo); color: var(--paper-light);
+  border-color: var(--indigo);
+}
+/* 音频播放中时高亮 */
+.btn-scene-audio.playing {
+  background: var(--vermillion); color: #fff;
+  border-color: var(--vermillion);
+  animation: audio-pulse 1.5s ease-in-out infinite;
+}
+@keyframes audio-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(178,34,34,0.3); }
+  50% { box-shadow: 0 0 0 6px rgba(178,34,34,0); }
+}
+
+.panel-tabs {
+  display: flex; border-bottom: 1px solid var(--paper-edge); flex-shrink: 0; overflow-x: auto;
+}
+.panel-tab {
+  flex: 1; min-width: fit-content; padding: 11px 10px; border: none;
+  background: transparent; cursor: pointer; font-size: 12px;
+  font-family: var(--font-serif); color: var(--ink-muted);
+  letter-spacing: 2px; transition: all 0.25s var(--ease);
+  border-bottom: 2px solid transparent;
+}
+.panel-tab.active { color: var(--vermillion); border-bottom-color: var(--vermillion); }
+.panel-tab:hover:not(.active) { color: var(--ink); }
+
+.panel-content { flex: 1; overflow-y: auto; padding: 24px; }
+.panel-content h3 {
+  font-family: var(--font-serif); font-size: 14px; color: var(--ink);
+  letter-spacing: 1px; margin: 20px 0 10px; font-weight: 600;
+}
+.panel-content h3:first-child { margin-top: 0; }
+
+/* 场次卡片 — 竖排版式 */
+.scene-card {
+  background: var(--paper); border: 1px solid var(--paper-edge);
+  padding: 16px 18px; margin-bottom: 14px;
+}
+.scene-card .scene-title { font-family: var(--font-serif); font-size: 14px; font-weight: 600; color: var(--ink); letter-spacing: 2px; }
+.scene-card .scene-subtitle { font-size: 12px; color: var(--ink-light); margin-bottom: 8px; letter-spacing: 1px; }
+.scene-card .scene-atmosphere { font-size: 11px; color: var(--ink-light); font-style: italic; margin-bottom: 8px; }
+.scene-card .scene-synopsis { font-size: 13px; color: var(--ink-soft); line-height: 1.85; margin-bottom: 10px; }
+.scene-card .scene-quote {
+  font-family: var(--font-serif); font-size: 13px; color: var(--vermillion);
+  line-height: 2; padding: 12px 16px; background: transparent;
+  border-left: 2px solid var(--vermillion); margin: 10px 0;
+}
+.scene-card .scene-characters { font-size: 11px; color: var(--ink-muted); margin-top: 8px; }
+
+/* 曲目 — 竖排列表 */
+.song-item {
+  padding: 10px 16px; border-bottom: 1px solid var(--paper-edge);
+  cursor: pointer; transition: all 0.2s var(--ease);
+}
+.song-item:hover { background: var(--paper); }
+.song-item .song-number { font-size: 10px; color: var(--vermillion); font-weight: 600; letter-spacing: 1px; }
+.song-item .song-title { font-size: 13px; color: var(--ink); margin: 2px 0; font-family: var(--font-serif); }
+.song-item .song-performers { font-size: 10px; color: var(--ink-muted); letter-spacing: 1px; }
+.song-item .song-lyrics {
+  display: none; margin-top: 8px; font-family: var(--font-serif);
+  font-size: 12px; line-height: 2.1; color: var(--ink-soft);
+  padding: 12px 16px; background: var(--paper); border-left: 1px solid var(--paper-edge);
+}
+.song-item.expanded .song-lyrics { display: block; }
+
+/* 作品卡 */
+.work-card {
+  background: var(--paper); border: 1px solid var(--paper-edge);
+  padding: 14px 16px; margin-bottom: 10px;
+}
+.work-card .work-title { font-size: 13px; font-weight: 600; color: var(--ink); font-family: var(--font-serif); }
+.work-card .work-meta { font-size: 10px; color: var(--ink-muted); margin: 4px 0; letter-spacing: 1px; }
+.work-card .work-note { font-size: 12px; color: var(--ink-soft); line-height: 1.7; }
+
+/* 人物 chip */
+.person-chip {
+  display: inline-block; padding: 2px 10px; margin: 3px;
+  background: transparent; border: 1px solid var(--paper-edge); color: var(--ink-light);
+  font-size: 11px; cursor: pointer; font-family: var(--font-serif);
+  letter-spacing: 1px; transition: all 0.2s var(--ease);
+}
+.person-chip:hover { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+
+/* 历史笔记 */
+.history-note {
+  font-size: 12px; color: var(--ink-soft); line-height: 1.9;
+  background: var(--paper); border: 1px solid var(--paper-edge);
+  padding: 16px 18px; margin-bottom: 12px;
+}
+
+/* ── 底部时间轴 — 墨线 ── */
+#timeline-bar {
+  height: 40px; background: var(--paper); position: relative;
+  flex-shrink: 0; z-index: 1000; display: flex; align-items: center;
+  border-top: 1px solid var(--paper-edge);
+}
+.timeline-track {
+  width: 100%; height: 100%; display: flex; align-items: center;
+  padding: 0 36px; position: relative; overflow-x: auto;
+}
+.timeline-tick {
+  flex: 1; min-width: 34px; text-align: center; position: relative; cursor: pointer;
+}
+.timeline-tick::before {
+  content: ''; position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%); width: 5px; height: 5px;
+  background: var(--ink-faint);
+}
+.timeline-tick.key-event::before {
+  width: 8px; height: 8px; background: var(--gold);
+  box-shadow: 0 0 4px var(--gold-light);
+}
+.timeline-tick.active::before {
+  width: 9px; height: 9px; background: var(--vermillion);
+  box-shadow: 0 0 8px var(--vermillion-glow);
+}
+.timeline-tick .tick-label {
+  position: absolute; top: 2px; left: 50%; transform: translateX(-50%);
+  font-size: 8px; color: var(--ink-muted); white-space: nowrap;
+  font-family: var(--font-serif); letter-spacing: 1px;
+}
+.timeline-tick:hover .tick-label { color: var(--ink); }
+
+/* ── Toast ── */
+#toast {
+  position: fixed; bottom: 56px; left: 50%; transform: translateX(-50%) translateY(16px);
+  background: var(--ink); color: var(--paper); padding: 8px 20px;
+  font-size: 12px; z-index: 3000; font-family: var(--font-serif);
+  letter-spacing: 2px; opacity: 0; transition: all 0.3s var(--ease); pointer-events: none;
+}
+#toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* ── 浮层 — 手卷展开 ── */
+.overlay {
+  position: fixed; inset: 0; z-index: 2000;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(26,24,23,0.55); backdrop-filter: blur(2px);
+  overflow-y: auto; padding: 24px;
+}
+.overlay.hidden { display: none; }
+.overlay-content {
+  background: var(--paper-light); padding: 36px 32px; max-width: 680px; width: 95%;
+  position: relative; line-height: 1.8; font-size: 13px; color: var(--ink-soft);
+  max-height: 88vh; overflow-y: auto;
+  border: 1px solid var(--paper-edge);
+  box-shadow: 0 16px 64px rgba(26,24,23,0.2);
+}
+.overlay-content h2 {
+  font-family: var(--font-serif); font-size: 20px;
+  color: var(--ink); margin-bottom: 18px; letter-spacing: 3px;
+}
+.overlay-content hr { margin: 20px 0; border: none; border-top: 1px solid var(--paper-edge); }
+.overlay-content .credit { font-size: 11px; color: var(--ink-muted); letter-spacing: 1px; }
+.btn-overlay-close {
+  position: absolute; top: 16px; right: 20px;
+  border: none; background: none; font-size: 18px;
+  color: var(--ink-muted); cursor: pointer; font-family: var(--font-serif);
+  transition: color 0.2s;
+}
+.btn-overlay-close:hover { color: var(--vermillion); }
+
+/* ── 「她」字专题 ── */
+.shezi-timeline { position: relative; padding-left: 28px; margin: 16px 0; }
+.shezi-timeline::before {
+  content: ''; position: absolute; left: 9px; top: 0; bottom: 0;
+  width: 1px; background: var(--gold);
+}
+.shezi-step { position: relative; margin-bottom: 24px; padding-bottom: 4px; }
+.shezi-step::before {
+  content: ''; position: absolute; left: -23px; top: 6px;
+  width: 8px; height: 8px; background: var(--vermillion); border: 1px solid var(--paper-light);
+}
+.shezi-year { font-size: 11px; font-weight: 700; color: var(--gold); margin-bottom: 4px; letter-spacing: 2px; font-family: var(--font-serif); }
+.shezi-step h3 { font-family: var(--font-serif); font-size: 14px; color: var(--ink); margin-bottom: 6px; letter-spacing: 1px; }
+.shezi-step p { font-size: 12px; color: var(--ink-soft); line-height: 1.9; margin-bottom: 8px; }
+.big-she-zi {
+  display: inline-block; font-family: var(--font-serif);
+  font-size: 80px; color: var(--vermillion);
+  cursor: pointer; transition: all 0.4s var(--ease);
+  animation: shezi-float 4s ease-in-out infinite;
+}
+.big-she-zi:hover { transform: scale(1.15); color: var(--vermillion-deep); }
+@keyframes shezi-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+/* ── 江阴三杰 ── */
+.brothers-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px; margin: 16px 0;
+}
+.brother-card {
+  background: var(--paper); border: 1px solid var(--paper-edge);
+  padding: 20px;
+}
+.brother-card h3 { font-family: var(--font-serif); font-size: 15px; color: var(--ink); letter-spacing: 1px; }
+.brother-card h3 small { font-size: 11px; color: var(--ink-muted); }
+.brother-years { font-size: 11px; color: var(--ink-muted); margin: 4px 0; letter-spacing: 1px; }
+.brother-role { font-size: 13px; font-weight: 600; color: var(--vermillion); margin: 6px 0; }
+.brother-card p { font-size: 11px; color: var(--ink-soft); line-height: 1.8; margin: 6px 0; }
+.brother-works { font-size: 10px !important; color: var(--ink-muted) !important; }
+
+/* ── 知识图谱 (静态回退) ── */
+.graph-container {
+  position: relative; width: 100%; padding-top: 75%;
+  background: var(--paper); border: 1px solid var(--paper-edge); overflow: hidden;
+}
+.graph-lines { position: absolute; inset: 0; width: 100%; height: 100%; }
+.graph-node {
+  position: absolute; transform: translate(-50%, -50%);
+  padding: 4px 10px; background: var(--paper); border: 1px solid var(--ink-faint);
+  font-size: 11px; color: var(--ink); cursor: pointer;
+  font-family: var(--font-serif); transition: all 0.25s var(--ease); z-index: 2;
+  white-space: nowrap; letter-spacing: 1px;
+}
+.graph-node:hover {
+  background: var(--ink); color: var(--paper); border-color: var(--ink);
+  transform: translate(-50%, -50%) scale(1.1); z-index: 3;
+}
+
+/* ── D3 知识图谱 ── */
+#kg-container { background: var(--paper) !important; border: 1px solid var(--paper-edge) !important; }
+#kg-container svg { display: block; }
+
+/* ── 声调实验室 ── */
+.tl-container { max-width: 720px; }
+.tl-reference-panel {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 8px;
+  margin-bottom: 16px; padding: 10px 14px;
+  background: var(--paper); border: 1px solid var(--paper-edge);
+}
+.tl-section-label { font-size: 11px; color: var(--ink-muted); font-weight: 600; margin-right: 4px; letter-spacing: 1px; }
+.tl-ref-btn {
+  padding: 4px 14px; border: 1px solid var(--paper-edge);
+  background: transparent; cursor: pointer;
+  font-size: 11px; color: var(--ink); font-family: var(--font-serif);
+  transition: all 0.2s var(--ease); letter-spacing: 1px;
+}
+.tl-ref-btn:hover { border-color: var(--tone-color, var(--vermillion)); color: var(--tone-color, var(--vermillion)); }
+.tl-canvas-wrapper {
+  background: var(--paper); border: 1px solid var(--paper-edge); overflow: hidden; margin-bottom: 12px;
+}
+.tl-canvas-wrapper canvas { width: 100%; height: 200px; display: block; }
+.tl-controls { display: flex; gap: 10px; align-items: center; margin-bottom: 8px; flex-wrap: wrap; }
+.tl-btn-record {
+  padding: 7px 18px; border: none;
+  background: var(--vermillion); color: #fff; cursor: pointer;
+  font-size: 12px; font-family: var(--font-serif); letter-spacing: 2px;
+  transition: all 0.2s var(--ease);
+}
+.tl-btn-record:hover { background: var(--vermillion-deep); }
+.tl-btn-record.recording { animation: tl-pulse 1s infinite; background: #A00020; }
+@keyframes tl-pulse { 0%,100% { box-shadow: 0 0 0 0 rgba(178,34,34,0.3); } 50% { box-shadow: 0 0 0 12px rgba(178,34,34,0); } }
+.tl-btn-playback, .tl-btn-stop {
+  padding: 7px 18px; border: 1px solid var(--paper-edge); background: transparent;
+  cursor: pointer; font-size: 12px; color: var(--ink-light);
+  font-family: var(--font-serif); letter-spacing: 2px; transition: all 0.2s var(--ease);
+}
+.tl-btn-playback:disabled { opacity: 0.35; cursor: default; }
+.tl-btn-playback:not(:disabled):hover, .tl-btn-stop:hover { border-color: var(--ink); color: var(--ink); }
+.tl-status { font-size: 11px; color: var(--ink-muted); margin: 0; text-align: center; letter-spacing: 1px; }
+.tl-status.recording { color: var(--vermillion); font-weight: 600; }
+
+/* ── 播放进度条 ── */
+#tour-progress {
+  position: fixed; top: 52px; left: 0; right: 0; z-index: 1500;
+  background: var(--paper); border-bottom: 1px solid var(--paper-edge);
+  padding: 6px 24px; display: flex; align-items: center; gap: 14px;
+  font-family: var(--font-serif); font-size: 11px; color: var(--ink-light);
+  letter-spacing: 1px;
+}
+#tour-progress.hidden { display: none; }
+#tour-progress .tp-label { flex-shrink: 0; }
+#tour-progress .tp-bar-wrap { flex: 1; height: 2px; background: var(--paper-edge); position: relative; }
+#tour-progress .tp-bar {
+  position: absolute; left: 0; top: 0; height: 100%;
+  background: var(--vermillion); transition: width 0.4s var(--ease);
+}
+
+/* ── 地点搜索 ── */
+.search-input {
+  width: 100px; padding: 4px 8px; border: 1px solid var(--paper-edge);
+  background: var(--paper-light); font-size: 11px; font-family: var(--font-serif);
+  color: var(--ink); letter-spacing: 1px; outline: none;
+  transition: all 0.25s var(--ease);
+}
+.search-input:focus { border-color: var(--ink); width: 140px; }
+.search-input::placeholder { color: var(--ink-muted); }
+.search-results {
+  position: absolute; top: 100%; right: 60px; margin-top: 4px;
+  background: var(--paper-light); border: 1px solid var(--paper-edge);
+  min-width: 180px; max-height: 320px; overflow-y: auto; z-index: 2000;
+  box-shadow: 0 8px 32px rgba(26,24,23,0.12);
+}
+.search-results.hidden { display: none; }
+.search-result-item {
+  padding: 8px 14px; cursor: pointer; border-bottom: 1px solid var(--paper-edge);
+  transition: all 0.15s var(--ease);
+}
+.search-result-item:last-child { border-bottom: none; }
+.search-result-item:hover { background: var(--paper); }
+.search-result-item .sr-name { font-family: var(--font-serif); font-size: 12px; color: var(--ink); letter-spacing: 1px; }
+.search-result-item .sr-meta { font-size: 10px; color: var(--ink-muted); letter-spacing: 1px; }
+.search-result-item .sr-period { font-size: 10px; color: var(--ink-light); float: right; }
+.search-no-result { padding: 12px 14px; font-size: 11px; color: var(--ink-muted); text-align: center; }
+#audio-bar {
+  position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%);
+  background: var(--ink); color: var(--paper); padding: 7px 18px;
+  z-index: 1500; display: flex; align-items: center; gap: 10px;
+  font-size: 11px; font-family: var(--font-serif); letter-spacing: 1px;
+  transition: opacity 0.3s; opacity: 0.92;
+}
+#audio-bar.hidden { display: none; }
+#audio-bar .audio-title { max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#audio-bar button {
+  background: none; border: 1px solid rgba(255,255,255,0.3); color: var(--paper);
+  width: 26px; height: 26px; cursor: pointer; font-size: 11px;
+  transition: all 0.2s;
+}
+#audio-bar button:hover { background: var(--vermillion); border-color: var(--vermillion); }
+
+/* ── 人物肖像卡片 — 民国照相馆风格 ── */
+.portrait-card {
+  position: absolute; bottom: 28px; left: 24px; z-index: 2500;
+  width: 200px; background: var(--paper);
+  border: 1px solid var(--paper-edge);
+  box-shadow: 4px 4px 0 rgba(26,24,23,0.08), 0 12px 32px rgba(26,24,23,0.14);
+  padding: 16px 14px 12px; text-align: center;
+  font-family: var(--font-serif);
+  animation: portrait-in 0.35s var(--ease-ink);
+  transition: opacity 0.25s var(--ease), transform 0.25s var(--ease);
+}
+.portrait-card.hidden { display: none; }
+@keyframes portrait-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.portrait-close {
+  position: absolute; top: 4px; right: 8px;
+  border: none; background: none; cursor: pointer;
+  font-size: 14px; color: var(--ink-muted); font-family: var(--font-serif);
+  line-height: 1; padding: 2px;
+}
+.portrait-close:hover { color: var(--vermillion); }
+
+.portrait-frame {
+  width: 80px; height: 96px; margin: 0 auto 10px;
+  border: 1px solid var(--paper-edge); background: var(--paper-dark);
+  display: flex; align-items: center; justify-content: center;
+  position: relative; overflow: hidden;
+}
+/* 底片边框 */
+.portrait-frame::before {
+  content: ''; position: absolute; inset: 3px;
+  border: 1px solid rgba(26,24,23,0.1);
+}
+
+.portrait-placeholder {
+  width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;
+  background: linear-gradient(180deg, #EBE7E2 0%, #D9D4CD 50%, #C7C0B8 100%);
+}
+/* 有真实照片时去掉灰底和剪影 */
+.portrait-placeholder.has-photo {
+  background: var(--paper);
+}
+.portrait-placeholder.has-photo::before,
+.portrait-placeholder.has-photo::after {
+  display: none;
+}
+
+/* 真实照片样式：灰度 + 微暖棕调，仿民国旧照 */
+.portrait-photo {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+  filter: grayscale(0.85) sepia(0.25) brightness(0.95) contrast(1.05);
+  transition: filter 0.3s var(--ease-ink);
+}
+.portrait-photo:hover {
+  filter: grayscale(0.4) sepia(0.15) brightness(1.0) contrast(1.05);
+}
+
+/* 有照片时边框加深，模拟影楼相框 */
+.portrait-frame.has-photo {
+  border-color: var(--ink-faint);
+  box-shadow: inset 0 0 12px rgba(26,24,23,0.08);
+}
+/* 剪影暗示 — 椭圆头型 + 梯形身体 */
+.portrait-placeholder::before {
+  content: '';
+  width: 28px; height: 34px; background: var(--ink-faint);
+  border-radius: 50% 50% 45% 45%;
+  position: relative; top: -6px;
+}
+.portrait-placeholder::after {
+  content: ''; position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%);
+  width: 50px; height: 20px; background: var(--ink-faint);
+  border-radius: 50% 50% 0 0;
+}
+
+.portrait-initial {
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-serif); font-size: 36px; font-weight: 700;
+  color: rgba(26,24,23,0.12); user-select: none; pointer-events: none;
+  padding-bottom: 8px;
+}
+
+.portrait-name {
+  font-family: var(--font-serif); font-size: 16px; font-weight: 700;
+  color: var(--ink); letter-spacing: 3px; margin-bottom: 2px;
+}
+.portrait-role {
+  font-size: 10px; color: var(--vermillion); letter-spacing: 2px; margin-bottom: 2px;
+}
+.portrait-dates {
+  font-size: 10px; color: var(--ink-muted); letter-spacing: 1px;
+}
+.portrait-relation {
+  margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--paper-edge);
+  font-size: 10px; color: var(--ink-light); line-height: 1.6; letter-spacing: 1px;
+  text-align: left;
+}
+
+/* 响应式 — 小屏时肖像卡片缩小并靠下 */
+@media (max-width: 768px) {
+  .portrait-card { width: 170px; bottom: 44px; left: 8px; padding: 12px 10px; }
+  .portrait-frame { width: 64px; height: 78px; }
+  .portrait-name { font-size: 14px; }
+  .portrait-relation { font-size: 9px; }
+}
+.leaflet-container { background: var(--paper-dark); font-family: var(--font-sans); }
+/* 高德地图中文瓦片 — 微去饱和 + 极浅暖意，融入纸墨调色板 */
+.leaflet-tile { filter: brightness(0.97) saturate(0.6) sepia(0.04); }
+.leaflet-popup-content-wrapper { border-radius: 0 !important; border: 1px solid var(--paper-edge) !important; box-shadow: 0 4px 24px rgba(26,24,23,0.12) !important; font-family: var(--font-sans); }
+.leaflet-popup-content { margin: 8px 12px !important; }
+.marker-wrapper { background: transparent !important; border: none !important; }
+.custom-marker {
+  width: 28px; height: 28px; border: 2px solid rgba(255,255,255,0.9);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.3); cursor: pointer;
+  transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; line-height: 1; text-align: center; color: #fff; font-weight: bold;
+  font-family: var(--font-serif);
+}
+.custom-marker:hover { transform: scale(1.3); box-shadow: 0 4px 18px rgba(0,0,0,0.4); z-index: 999 !important; }
+.custom-marker.pulse { animation: marker-pulse 2.5s infinite; }
+@keyframes marker-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(178,34,34,0.4); }
+  50% { box-shadow: 0 0 0 14px rgba(178,34,34,0); }
+}
+
+/* ── 响应式 ── */
+
+@media (max-width: 1024px) {
+  .site-subtitle { font-size: 10px; }
+  #side-panel { width: 380px; }
+}
+
+@media (max-width: 768px) {
+  .site-subtitle { display: none; }
+  #top-bar { height: 46px; padding: 0 12px; }
+  .site-title { font-size: 15px; letter-spacing: 2px; }
+  .top-nav { gap: 2px; }
+  .view-tab, #btn-play-tour, #btn-about, #btn-she-zi,
+  #btn-three-brothers, #btn-knowledge-graph, #btn-tone-lab {
+    padding: 2px 7px; font-size: 10px; letter-spacing: 0;
+  }
+
+  #side-panel {
+    width: 100%; max-width: 100%; top: auto; bottom: 40px;
+    height: 55vh; border-left: none; border-top: 1px solid var(--paper-edge);
+    box-shadow: 0 -8px 32px rgba(26,24,23,0.10);
+    transform: translateY(100%);
+  }
+  #side-panel.open { transform: translateY(0); }
+  .panel-header { padding: 12px 16px; }
+  .panel-header h2 { font-size: 15px; }
+  .panel-content { padding: 16px; }
+  .panel-tab { font-size: 10px; padding: 7px 5px; letter-spacing: 1px; }
+
+  #scene-nav {
+    left: 50%; top: auto; bottom: 8px;
+    transform: translateX(-50%); flex-direction: row; gap: 2px; z-index: 600;
+  }
+  .scene-nav-item { width: 22px; height: 22px; font-size: 10px; }
+  .scene-nav-item::after { display: none; }
+
+  #map-legend { bottom: 36px; left: 8px; font-size: 10px; padding: 8px 10px; }
+  #filter-bar { padding: 0 8px; }
+  .filter-inner { gap: 6px; padding: 5px 0; }
+  .filter-chip { font-size: 10px; padding: 2px 7px; }
+
+  #timeline-bar { height: 36px; }
+  .timeline-track { padding: 0 12px; }
+  .timeline-tick { min-width: 24px; }
+  .timeline-tick .tick-label { font-size: 7px; }
+
+  #audio-bar { padding: 5px 12px; font-size: 10px; bottom: 36px; }
+  #audio-bar .audio-title { max-width: 100px; }
+
+  .overlay-content { padding: 20px; max-height: 82vh; }
+  .overlay-content h2 { font-size: 16px; }
+  .brothers-grid { grid-template-columns: 1fr; }
+  .tl-container { max-width: 100%; }
+  .tl-ref-btn { padding: 3px 8px; font-size: 10px; }
+  .tl-btn-record, .tl-btn-playback, .tl-btn-stop { padding: 5px 12px; font-size: 10px; }
+  .tl-canvas-wrapper canvas { height: 140px; }
+}
+
+@media (max-width: 480px) {
+  #top-bar { height: 42px; padding: 0 8px; }
+  .site-title { font-size: 13px; letter-spacing: 1px; }
+  .site-title::before, .site-title::after { font-size: 12px; }
+  .top-nav { gap: 1px; }
+  .view-tab, #btn-play-tour, #btn-about, #btn-she-zi,
+  #btn-three-brothers, #btn-knowledge-graph, #btn-tone-lab {
+    padding: 1px 5px; font-size: 9px;
+  }
+
+  #side-panel { height: 65vh; }
+  .panel-header h2 { font-size: 14px; }
+  .panel-tab { font-size: 9px; padding: 6px 3px; letter-spacing: 0; }
+  .scene-card { padding: 12px 14px; margin-bottom: 10px; }
+  .scene-card .scene-title { font-size: 13px; }
+
+  #scene-nav { gap: 1px; bottom: 4px; }
+  .scene-nav-item { width: 18px; height: 18px; font-size: 8px; }
+
+  #map-legend { bottom: 32px; left: 4px; font-size: 9px; padding: 6px 8px; }
+  #timeline-bar { height: 32px; }
+  #toast { bottom: 66px; font-size: 10px; }
+  #kg-container { height: 320px !important; }
+}
+
+/* 触屏优化 */
+@media (hover: none) and (pointer: coarse) {
+  .scene-nav-item, .view-tab, .filter-chip, .panel-tab,
+  #btn-play-tour, #btn-about, #btn-she-zi, #btn-three-brothers,
+  #btn-knowledge-graph, #btn-tone-lab {
+    min-height: 30px; min-width: 30px;
+  }
+  .timeline-tick { min-width: 36px; padding: 3px 0; }
+  .person-chip { padding: 5px 12px; margin: 4px; }
+}
+
+</style>
+</head>
+<body>
+
+  <!-- ═══════ 顶部导航 ═══════ -->
+  <header id="top-bar">
+    <div class="top-left">
+      <h1 class="site-title">教我如何不想她</h1>
+      <span class="site-subtitle">刘半农生平地理叙事</span>
+    </div>
+    <nav class="top-nav">
+      <div class="view-tabs">
+        <button class="view-tab active" data-view="world">寰宇</button>
+        <button class="view-tab" data-view="china">神州</button>
+      </div>
+      <button id="btn-she-zi" title="「她」字的故事">她</button>
+      <button id="btn-three-brothers" title="江阴三杰">三杰</button>
+      <button id="btn-knowledge-graph" title="人物关系网络">关系</button>
+      <button id="btn-tone-lab" title="声调实验室">声调</button>
+      <input type="text" id="search-input" class="search-input" placeholder="搜索…" autocomplete="off" />
+      <div id="search-results" class="search-results hidden"></div>
+      <button id="btn-play-tour" title="自动播放全程">播放</button>
+      <button id="btn-about" title="关于本作品">?</button>
+    </nav>
+  </header>
+
+  <!-- ═══════ 筛选栏 ═══════ -->
+  <div id="filter-bar">
+    <div class="filter-inner">
+      <!-- JS 动态填充 -->
+    </div>
+  </div>
+
+  <!-- ═══════ 主地图 ═══════ -->
+  <main id="map-container">
+    <div id="map"></div>
+    <div id="loading-overlay">
+      <div class="loading-spinner"></div>
+      <p>正在加载…</p>
+    </div>
+
+    <!-- 地图图例 -->
+    <div id="map-legend">
+      <div class="legend-item"><span class="legend-dot" style="background:#8B7355"></span> 故乡与求学</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#7A1818"></span> 执教</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#3D5273"></span> 留学</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#5C7A6B"></span> 旅途</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#3D6B5D"></span> 采风</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#45403B"></span> 长眠</div>
+      <hr>
+      <div class="legend-item"><span class="legend-line" style="background:#3D5273"></span> 赴欧</div>
+      <div class="legend-item"><span class="legend-line" style="background:#A0845C"></span> 回国</div>
+      <div class="legend-item"><span class="legend-line" style="background:#3D6B5D"></span> 绥远</div>
+    </div>
+
+    <!-- 人物肖像卡片 -->
+    <div id="portrait-card" class="portrait-card hidden">
+      <button class="portrait-close" id="btn-portrait-close">×</button>
+      <div class="portrait-frame">
+        <div class="portrait-placeholder" id="portrait-img">
+          <span class="portrait-initial" id="portrait-initial"></span>
+        </div>
+      </div>
+      <div class="portrait-info">
+        <div class="portrait-name" id="portrait-name"></div>
+        <div class="portrait-role" id="portrait-role"></div>
+        <div class="portrait-dates" id="portrait-dates"></div>
+      </div>
+      <div class="portrait-relation" id="portrait-relation"></div>
+    </div>
+  </main>
+
+  <!-- ═══════ 场次纵列导航 ═══════ -->
+  <nav id="scene-nav">
+    <button class="scene-nav-item" data-scene="scene-prologue" title="序 · 嗣音有人">序</button>
+    <button class="scene-nav-item" data-scene="scene-1" title="第一场 · 留别北大">壹</button>
+    <button class="scene-nav-item" data-scene="scene-2" title="第二场 · 雾雨伦敦">贰</button>
+    <button class="scene-nav-item" data-scene="scene-3" title="第三场 · 他乡知己">叁</button>
+    <button class="scene-nav-item" data-scene="scene-4" title="第四场 · 迁渡巴黎">肆</button>
+    <button class="scene-nav-item" data-scene="scene-5" title="第五场 · 东方荣耀">伍</button>
+    <button class="scene-nav-item" data-scene="scene-6" title="第六场 · 重归北大">陆</button>
+    <button class="scene-nav-item" data-scene="scene-7" title="第七场 · 音律和鸣">柒</button>
+    <button class="scene-nav-item" data-scene="scene-8" title="第八场 · 绥远采风">捌</button>
+    <button class="scene-nav-item" data-scene="scene-9" title="第九场 · 流风无尽">玖</button>
+  </nav>
+
+  <!-- ═══════ 右侧抽屉 ═══════ -->
+  <aside id="side-panel">
+    <div class="panel-header">
+      <h2 id="panel-location-name"></h2>
+      <button id="btn-close-panel" title="关闭 (Esc)">✕</button>
+    </div>
+    <div class="panel-tabs">
+      <button class="panel-tab active" data-tab="plot">剧情</button>
+      <button class="panel-tab" data-tab="music">曲目</button>
+      <button class="panel-tab" data-tab="works">作品</button>
+      <button class="panel-tab" data-tab="history">史料</button>
+      <button class="panel-tab" data-tab="people">人物</button>
+    </div>
+    <div class="panel-content" id="panel-content"></div>
+  </aside>
+
+  <!-- ═══════ 音频播放条 ═══════ -->
+  <div id="audio-bar" class="hidden">
+    <span>♪</span>
+    <span class="audio-title"></span>
+    <button id="btn-audio-play">▶</button>
+    <button id="btn-audio-close">×</button>
+  </div>
+
+  <!-- ═══════ 底部时间轴 ═══════ -->
+  <footer id="timeline-bar">
+    <div class="timeline-track" id="timeline-track"></div>
+  </footer>
+
+  <!-- ═══════ 「她」字专题浮层 ═══════ -->
+  <div id="shezi-overlay" class="overlay hidden">
+    <div class="overlay-content"></div>
+  </div>
+
+  <!-- ═══════ 江阴三杰浮层 ═══════ -->
+  <div id="brothers-overlay" class="overlay hidden">
+    <div class="overlay-content"></div>
+  </div>
+
+  <!-- ═══════ 人物关系图浮层 ═══════ -->
+  <div id="graph-overlay" class="overlay hidden">
+    <div class="overlay-content"></div>
+  </div>
+
+  <!-- ═══════ 人物卡片浮层 ═══════ -->
+  <div id="person-overlay" class="overlay hidden">
+    <div class="overlay-content"></div>
+  </div>
+
+  <!-- ═══════ 声调实验室浮层 ═══════ -->
+  <div id="tone-lab-overlay" class="overlay hidden">
+    <div class="overlay-content tl-container">
+      <button class="btn-overlay-close" id="btn-tl-close">×</button>
+      <h2>声调实验室</h2>
+      <p style="color:var(--ink-soft);margin-bottom:4px;font-size:13px;">
+        致敬刘半农的「语音乐律实验室」—— 中国第一个现代语音学实验室。
+      </p>
+      <p style="font-size:11px;color:var(--ink-muted);margin-bottom:16px;letter-spacing:1px">
+        刘半农在《汉语字声实验录》中首次用仪器分析了汉语声调的物理特性，获一九二五年法国国家文学博士。
+      </p>
+
+      <!-- 参考音面板 -->
+      <div class="tl-reference-panel">
+        <span class="tl-section-label">参考声调</span>
+        <button class="tl-ref-btn" data-tone="阴平" style="--tone-color:#B22222">阴平 55</button>
+        <button class="tl-ref-btn" data-tone="阳平" style="--tone-color:#A0845C">阳平 35</button>
+        <button class="tl-ref-btn" data-tone="上声" style="--tone-color:#3D6B5D">上声 214</button>
+        <button class="tl-ref-btn" data-tone="去声" style="--tone-color:#3D5273">去声 51</button>
+      </div>
+
+      <!-- 波形画布 -->
+      <div class="tl-canvas-wrapper">
+        <canvas id="tone-lab-canvas"></canvas>
+      </div>
+
+      <!-- 控制栏 -->
+      <div class="tl-controls">
+        <button id="btn-tl-record" class="tl-btn-record">开始录音</button>
+        <button id="btn-tl-playback" class="tl-btn-playback" disabled>回放</button>
+        <button id="btn-tl-stop" class="tl-btn-stop">停止</button>
+      </div>
+      <p id="btn-tl-status" class="tl-status">准备就绪 — 点击麦克风按钮开始</p>
+
+      <hr>
+      <details style="font-size:12px;color:var(--ink-soft);line-height:1.8">
+        <summary style="cursor:pointer;color:var(--jade);font-weight:600;letter-spacing:1px">五度标记法</summary>
+        <p style="margin-top:8px">五度标记法由赵元任发明，用 1–5 五个数字表示声调的高低升降：</p>
+        <ul style="padding-left:20px">
+          <li><strong>阴平 55</strong>：高而平，如「妈」「她」</li>
+          <li><strong>阳平 35</strong>：从中升到高，如「麻」「笛」</li>
+          <li><strong>上声 214</strong>：从半低降到低再升到半高，如「马」「语」</li>
+          <li><strong>去声 51</strong>：从高峰降到低，如「骂」「调」</li>
+        </ul>
+        <p style="margin-top:8px">刘半农在巴黎大学用自制「音鼓浪纹计」对这些声调进行了仪器验证，奠定了中国实验语音学的基础。</p>
+      </details>
+    </div>
+  </div>
+
+  <!-- ═══════ 关于浮层 ═══════ -->
+  <div id="about-overlay" class="overlay hidden">
+    <div class="overlay-content">
+      <button class="btn-overlay-close" onclick="document.getElementById('about-overlay').classList.add('hidden')">✕</button>
+      <h2>关于本作品</h2>
+      <p>《教我如何不想她》是一部关于中国现代语言学家、文学家、新文化运动先驱 <strong>刘半农</strong>（1891–1934）生平事迹的原创歌剧。</p>
+      <p>本网站是这部歌剧的<strong>「数字伴生作品」</strong>，以交互式地图为核心，将刘半农在不同历史时期的求学、游历、采风地点串联起来，展现其文学作品、学术思想与歌剧脚本内容的地理叙事。</p>
+      <div style="background:var(--paper);padding:12px 16px;margin:12px 0;border-left:2px solid var(--vermillion);">
+        <strong>史料与艺术创作并存</strong><br>
+        <small>歌剧在史实基础上进行了戏剧化处理。本站标注了二者的对照关系——「剧情」为脚本内容，「史料」为历史补充。</small>
+      </div>
+      <hr>
+      <p style="font-size:10px;color:var(--ink-muted);margin-bottom:2px;letter-spacing:1px">歌剧原创</p>
+      <p class="credit">编剧：彭峰、张吉义 &nbsp;|&nbsp; 作曲：禹永一</p>
+      <hr>
+      <p style="font-size:10px;color:var(--ink-muted);margin-bottom:2px;letter-spacing:1px">数字伴生作品制作者</p>
+      <p class="credit" style="font-family:var(--font-serif);font-size:13px;color:var(--ink);letter-spacing:2px;margin-bottom:6px">
+        李司略
+      </p>
+      <p class="credit" style="font-size:10px;color:var(--ink-light);line-height:1.8;letter-spacing:1px">
+        北京大学歌剧研究院 25 级硕士<br>
+        香港大学经济管理学院 24 级硕士<br>
+        中山大学岭南学院国际商务系 20 级本科
+      </p>
+      <p class="credit" style="margin-top:10px;font-size:10px;color:var(--ink-muted)">
+        交互地图制作：基于 Leaflet 开源地图库<br>
+        数据来源：公开史料、《刘半农传》、蔡元培题碑、郭沫若/鲁迅评述
+      </p>
+      <p class="credit" style="margin-top:12px">© 2024–2025 · 非商业学术项目</p>
+    </div>
+  </div>
+
+  <!-- ═══════ 脚本加载 ═══════ -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script>
+
+/* ═══════ EMBEDDED DATA (no fetch needed) ═══════ */
+window.__EMBEDDED_LOCATIONS__ = [{"id": "jiangyin", "name": "江阴", "name_en": "Jiangyin", "coords": [31.9208, 120.2852], "period": "1891–1907", "years": [1891, 1907], "category": "故乡", "color": "#8B7355", "summary": "刘半农诞生地。江苏江阴南沙镇马桥村殷家埭，父亲刘宝珊创办翰墨林小学。刘氏三兄弟（刘半农、刘天华、刘北茂）皆生于此，被称为「江阴三杰」。", "scenes": [], "opera_scenes": [], "works": [{"title": "早年习作与《江阴杂志》", "type": "杂志编辑", "date": "1911", "note": "与吴研因等编辑《江阴杂志》，这是他文学创作的起点。"}], "people": ["刘天华", "刘北茂", "刘宝珊"], "media": {"images": [], "audio": []}, "quote_from_script": null, "historical_note": "故居位于江阴市西横街，现已辟为刘氏三兄弟纪念馆，分六间展室陈列手稿实物。"}, {"id": "changzhou", "name": "常州", "name_en": "Changzhou", "coords": [31.7802, 119.9746], "period": "1907–1911", "years": [1907, 1911], "category": "求学", "color": "#8B7355", "summary": "就读常州府中学堂，每次考试名列第一，与后来的国学大师钱穆同期就读。钱穆晚年回忆：「不三月，寿彭连中三元，同学争以一识刘寿彭为荣。」", "scenes": [], "opera_scenes": [], "works": [], "people": ["钱穆"], "media": {"images": [], "audio": []}, "quote_from_script": null, "historical_note": "常州府中学堂是当时八县联办的重点中学，刘半农以江阴考生第一名考入。"}, {"id": "shanghai", "name": "上海", "name_en": "Shanghai", "coords": [31.2304, 121.4737], "period": "1912–1917", "years": [1912, 1917], "category": "求学", "color": "#8B7355", "summary": "与弟刘天华赴沪谋生。先在开明剧社任编辑，后在中华书局任编译员，翻译安徒生、小仲马、托尔斯泰、屠格涅夫、高尔基等人作品逾四十篇，开始文学创作生涯。", "scenes": [], "opera_scenes": [], "works": [{"title": "翻译小说四十余篇", "type": "翻译", "date": "1913–1917", "note": "翻译安徒生、托尔斯泰、屠格涅夫等名家作品，发表于《时事新报》《小说界》等刊。"}], "people": ["刘天华"], "media": {"images": [], "audio": []}, "quote_from_script": null, "historical_note": "此时他的弟弟刘天华也在上海学习音乐，兄弟二人相互扶持。"}, {"id": "beijing-beida", "name": "北京·北京大学", "name_en": "Beijing – Peking University", "coords": [39.9923, 116.3058], "period": "1917–1920", "years": [1917, 1920], "category": "执教", "color": "#7A1818", "summary": "受蔡元培破格聘用，任北大预科国文教授。参与《新青年》编辑工作，积极倡导文学革命、反对文言文、提倡白话文。1919年五四运动中声援被捕学生。是新文化运动核心推动者之一。", "scenes": ["scene-prologue", "scene-1"], "opera_scenes": [{"scene": "序", "desc": "纱幕上蔡元培题写「嗣音有人，流风无尽」，青年刘小蕙抚今追昔"}, {"scene": "第一场 留别北大", "desc": "与卫道士甲乙丙丁论战新文化运动，蔡元培送行"}], "works": [{"title": "《我之文学改良观》", "type": "论文", "date": "1917", "note": "发表于《新青年》，对文学革命从形式到内容提出深刻见解。"}, {"title": "《复王敬轩书》", "type": "论战文", "date": "1918-03", "note": "与钱玄同合撰，痛批反对文学革命的封建旧文学立场。"}], "people": ["蔡元培", "陈独秀", "胡适", "钱玄同", "鲁迅", "周作人", "李大钊"], "media": {"images": [], "audio": []}, "quote_from_script": {"scene": "第一场 留别北大", "song": "曲5《历史的潮流》", "lines": ["历史的潮流滚滚向前，摧枯拉朽不可阻挡。", "中国在觉醒，民众在觉醒，看东方欲晓，日出东方。"]}, "historical_note": "北大红楼是新文化运动的核心阵地。刘半农并无正式大学文凭，全靠才华被破格聘用，在北大这个学院派环境中深感压力，因而立志赴欧深造。"}, {"id": "london", "name": "伦敦", "name_en": "London", "coords": [51.5074, -0.1278], "period": "1920.3–1921.7", "years": [1920, 1921], "category": "留学", "color": "#3D5273", "summary": "1920年2月7日赴欧，3月17日抵伦敦。在伦敦大学大学院学习实验语音学。生活清苦，官费时断，妻朱惠赶织毛衣贴补家用，刘半农在煤气灯下通宵写作研究。1920年9月写下《教我如何不想她》，首将「她」字引入诗歌。", "scenes": ["scene-2", "scene-3"], "opera_scenes": [{"scene": "第二场 雾雨伦敦", "desc": "朱惠唱《伦敦的雨》，刘半农望夜思乡，写下《教我如何不想她》诗稿"}, {"scene": "第三场 他乡知己", "desc": "与赵元任隔空相遇，讨论国语统一与汉语实验语音学研究方向"}], "works": [{"title": "《教我如何不想她》（诗稿初稿）", "type": "新诗", "date": "1920-09", "excerpt": "天上飘着些微云，地上吹着些微风。啊！微风吹动了我的头发，教我如何不想她？", "note": "首次将「她」字入诗，推广了「她」作为第三人称女性代词的用法。1926年赵元任为此诗谱曲，成为20世纪最著名的中国艺术歌曲之一。"}, {"title": "在伦敦大学实验语音室的研究记录", "type": "学术研究", "date": "1920–1921", "note": "掌握实验语音学方法，为后来在巴黎攻读博士奠定基础。"}], "people": ["朱惠", "刘小蕙", "英国妈妈", "英国大夫", "赵元任（通信）"], "media": {"images": [], "audio": []}, "quote_from_script": {"scene": "第二场 雾雨伦敦", "song": "曲6《伦敦的雨》", "lines": ["伦敦的雨，漫天飞舞，似烟似霾又似雾。", "它湿湿漉漉，漫上窗户。把我锁进这无际的迷雾。", "学不成，岂能休！国之托，岂敢负！"]}, "historical_note": "刘半农曾因贫病倒下，幼年的刘小蕙夜叩「英国妈妈」家门请医。此段真实史事被完整写入歌剧第二场。"}, {"id": "paris", "name": "巴黎", "name_en": "Paris", "coords": [48.8566, 2.3522], "period": "1921.7–1925.8", "years": [1921, 1925], "category": "留学", "color": "#3D5273", "summary": "转入法国巴黎大学（索邦），并在法兰西学院旁听，攻实验语音学。自制音鼓与浪纹计，用科学仪器记录汉语四声（阴、阳、上、去）的声学特征。1925年以《汉语字声实验录》获法国国家文学博士学位，同时荣获伏尔内语言学专奖，成为第一个获此国际大奖的中国语言学家。", "scenes": ["scene-4", "scene-5"], "opera_scenes": [{"scene": "第四场 迁渡巴黎", "desc": "刘半农调试语音实验设备，朱惠用毛线捆扎鼓膜之法解决音鼓故障，一家三口唱《彩虹总在风雨后》"}, {"scene": "第五场 东方荣耀", "desc": "巴黎大学答辩，当场演示音鼓与浪纹计，惊动全场，教授委员会当场宣布授予博士学位与伏尔内奖"}], "works": [{"title": "《汉语字声实验录》", "type": "学术专著", "date": "1925", "note": "以自制音鼓、浪纹计记录汉语四声声学数据，科学证明声调本质是音高（声带振动频率），为中国实验语音学奠基之作。"}, {"title": "法国国家文学博士学位 + 伏尔内语言学奖", "type": "学术荣誉", "date": "1925", "note": "第一个获得外国国家名义授予最高学衔的中国人；第一个获得国际语言学大奖的中国人。"}, {"title": "巴黎大学图书馆敦煌资料笔录", "type": "学术资料", "date": "1923–1924", "note": "利用巴黎大学图书馆馆藏，系统整理中国敦煌学资料。"}], "people": ["朱惠", "刘小蕙", "赵元任", "杨步伟", "蔡元培"], "media": {"images": [], "audio": []}, "quote_from_script": {"scene": "第五场 东方荣耀", "song": "曲17《答辩》", "lines": ["我认为声调的本质是音高！音高的声学特征是人的声带振动频率！", "这是音鼓，这是浪纹计。——很遗憾，全世界都买不到，是我自己制作的！"]}, "historical_note": "刘半农自制的语音实验仪器（音鼓、浪纹计）在答辩现场令法国教授叹为观止。他当场对着音鼓发出「妈、麻、马、骂」四声，浪纹计呈现出起伏优美的曲线。"}, {"id": "sea-route", "name": "回国航线·地中海—苏伊士—马六甲", "name_en": "Return voyage – Mediterranean to Shanghai", "coords": [20.0, 65.0], "period": "1925.8", "years": [1925, 1925], "category": "旅途", "color": "#5C7A6B", "summary": "1925年8月，携家人踏上归途。横渡地中海，过苏伊士运河，绕马六甲海峡，向东回国。在这段海上旅程中，写成《教我如何不想她》的定稿。此诗1926年经赵元任谱曲后风靡全国。", "scenes": ["scene-5"], "opera_scenes": [{"scene": "第五场 东方荣耀（尾声）", "desc": "刘半农夫妇与赵元任夫妇同乘邮轮，四人凭栏远眺，合唱《劈开地中海的波涛》"}], "works": [{"title": "《教我如何不想她》（定稿）", "type": "新诗", "date": "1925-08", "note": "海上旅程中写定，寄托对祖国与母语的深切思念，「她」字指故乡、祖国与母语，并非单指某个女性。"}], "people": ["朱惠", "刘小蕙", "赵元任", "杨步伟"], "media": {"images": [], "audio": []}, "quote_from_script": {"scene": "第五场 东方荣耀", "song": "曲18《劈开地中海的波涛》", "lines": ["劈开地中海的波涛，穿过苏伊士运河的水道。", "啊，祖国，我久别的祖国，请接受儿女久违的问好！", "我们将用你的母语，唱一首最美最动听的歌谣。"]}, "historical_note": "郭沫若曾感叹刘半农此诗「把我们中国人的感情写尽了」。鲁迅写《忆刘半农君》时也对此诗推崇备至。"}, {"id": "beijing-return", "name": "北京·语音乐律实验室", "name_en": "Beijing – Phonetic Laboratory, PKU", "coords": [39.9975, 116.3103], "period": "1925–1934", "years": [1925, 1934], "category": "执教", "color": "#7A1818", "summary": "回国后任北大中文系教授，建立中国第一个语音乐律实验室。同时兼任辅仁大学教务长、北平大学女子文理学院院长等职。1927年加入光社，成为中国知识分子摄影团体领军人物。1930至1931年间主持故宫天坛古乐器测音研究。", "scenes": ["scene-6", "scene-7"], "opera_scenes": [{"scene": "第六场 重归北大", "desc": "白涤洲引领学生参观语音乐律实验室，女生们在草坪上学唱《教我如何不想她》，拿刘博士不穿西装喝大碗茶开玩笑"}, {"scene": "第七场 音律和鸣", "desc": "大阮府胡同含辉堂除夕团圆，刘天华演奏新作《良宵》，刘半农为其命名，三兄弟合唱《音乐和文字都是语言》；之后传来刘天华1932年猝然离世的噩耗"}], "works": [{"title": "诗集《扬鞭集》", "type": "诗集", "date": "1926", "note": "收录新诗代表作，包括《教我如何不想她》《相隔一层纸》等。"}, {"title": "诗集《瓦釜集》", "type": "诗集", "date": "1926", "note": "收录用江阴方言写成的民谣体新诗，体现「把文学还给民众」的理念。"}, {"title": "《天坛所藏编钟编磬音律之鉴定》", "type": "学术论文", "date": "1931", "note": "主持测音故宫天坛古乐器，仅编钟编磬两项即达500余件，为中国音乐考古学奠基。"}, {"title": "《半农杂文》", "type": "杂文集", "date": "1934", "note": "语言犀利，思想通透，鲁迅评之为「有真意，去粉饰，少做作」。"}], "people": ["赵元任", "钱玄同", "鲁迅", "白涤洲", "刘天华", "刘北茂", "齐白石", "徐悲鸿"], "media": {"images": [], "audio": []}, "quote_from_script": {"scene": "第七场 音律和鸣", "song": "曲22《音乐和文字都是语言》", "lines": ["音乐和文字都是语言，一个有形一个无形忽隐忽现。", "中华民族五千年的灿烂文化，教化熏染，深入骨髓，化作血肉；", "炎黄子孙三千年艺术宝藏，血脉赓续，多流同源。"]}, "historical_note": "语音乐律实验室设在北大红楼，配备浪纹计、滚筒、声调推断尺等声学仪器，是中国第一个用科学方法研究汉语语音的实验室。"}, {"id": "henan-shandong", "name": "河南·山东（曲阜）", "name_en": "Henan & Shandong – Qufu", "coords": [35.5965, 116.9864], "period": "1933.6–7", "years": [1933, 1933], "category": "采风", "color": "#3D6B5D", "summary": "利用暑假赴河南、河北、山东等地进行古乐器音律考察。两赴曲阜，研究孔府祭祀音乐，在山东省图书馆逐一敲试馆藏编钟石磬三十余件，以「审玄机」声调推断尺记录音高数据。", "scenes": [], "opera_scenes": [], "works": [{"title": "古乐器音律考察笔记", "type": "田野调查", "date": "1933", "note": "结合考古发现研究中国古代乐律，是《四声新谱》编写的重要素材来源。"}], "people": ["白涤洲", "王献唐（山东图书馆馆长）"], "media": {"images": [], "audio": []}, "quote_from_script": null, "historical_note": "此次考察在歌剧脚本中未单独成场，但为第八场绥远采风做了直接铺垫，体现刘半农「不到民间，难得真经」的田野精神。"}, {"id": "suiyuan", "name": "绥远采风路线", "name_en": "Suiyuan Field Survey Route", "coords": [40.8427, 111.7495], "period": "1934.6.19–7.10", "years": [1934, 1934], "category": "采风", "color": "#3D6B5D", "summary": "1934年6月19日，刘半农携助手白涤洲等人，从北京西直门火车站出发，沿平绥铁路西行。经张家口、大同，6月20日抵包头，沿黄河追录船工号子三天。6月24日到达归绥（今呼和浩特），调查清水河、凉城等八处方言声调。后至百灵庙。7月初染上「回归热」，7月10日抱病返京，7月14日在北平协和医院去世，年44岁。", "scenes": ["scene-8"], "opera_scenes": [{"scene": "第八场 绥远采风", "desc": "北京西直门站送行，朱惠担忧刘半农病体，刘半农执意启程；破庙中与绥远老乡同唱山曲，记录方言民歌"}], "works": [{"title": "《四声新谱》（未竟稿）", "type": "学术著作", "date": "1934（遗稿）", "note": "此次采风的核心目标，编撰未竟即身故，留有遗稿。"}, {"title": "《方音字典》（未竟稿）", "type": "工具书", "date": "1934（遗稿）", "note": "记录各地方音，与《中国方言地图》合为三大遗愿，均未能完成。"}, {"title": "绥远方言与民歌采录", "type": "田野录音", "date": "1934.6", "note": "包括黄河船工号子、山曲儿（「一出大门爬沙坡，泪蛋蛋流成珊瑚河」），共收录7筒歌谣。"}], "people": ["白涤洲", "沈仲章", "周殿福", "萧乾（记者，归绥偶遇）"], "media": {"images": [], "audio": []}, "quote_from_script": {"scene": "第八场 绥远采风", "song": "曲26《国语统一》", "lines": ["国语统一，何去何从。不到民间，难得真经。"]}, "historical_note": "刘半农在百灵庙夜宿乡村草房，自备行军床支于房中，戏称「停柩中堂」，不料一语成谶。萧乾《平绥琐记》记录了两人在归绥的偶遇。"}, {"id": "xiangshan", "name": "北京·香山玉皇顶", "name_en": "Xiangshan, Beijing", "coords": [40.0015, 116.1897], "period": "1934.7.14（长眠）", "years": [1934, 1934], "category": "长眠", "color": "#45403B", "summary": "1934年7月14日，刘半农在北平协和医院因回归热去世，年仅44岁。次年5月29日，与胞弟刘天华同葬于北京西郊香山玉皇顶南岗。蔡元培亲题碑文：「嗣音有人，流风无尽」。", "scenes": ["scene-prologue", "scene-9"], "opera_scenes": [{"scene": "序", "desc": "开幕：纱幕上「嗣音有人，流风无尽」八字映出；青年刘小蕙在香山抚今追昔，唱《教我如何不想她》"}, {"scene": "第九场 流风无尽", "desc": "刘小蕙画外音述父亲离世；合唱《听雨》《我的梦在远方》；童年刘小蕙追寻父亲身影；大幕落下"}], "works": [], "people": ["蔡元培", "赵元任", "杨步伟", "刘小蕙", "朱惠", "白涤洲", "刘北茂"], "media": {"images": [], "audio": []}, "quote_from_script": {"scene": "第九场 流风无尽", "song": "曲27《听雨》", "lines": ["我来北地已半年，今日初听一宵雨。", "若移此雨在江南，故园新笋添几许。"]}, "historical_note": "蔡元培的八字碑文「嗣音有人，流风无尽」既是对刘半农一生的盖棺定论，也是这部歌剧的核心精神。刘天华同年葬于此，兄弟长眠一处。"}];
+window.__EMBEDDED_SCENES__ = [{"id": "scene-prologue", "title": "序", "subtitle": "嗣音有人，流风无尽", "location_ids": ["xiangshan"], "time_setting": "1934年之后，回忆视角", "atmosphere": "肃穆、追忆", "color_theme": "#4A4A4A", "songs": [{"number": "曲1", "title": "《教我如何不想她》", "performers": ["刘小蕙（青年）"], "type": "aria", "key_lines": ["天上飘着些微云，地上吹着些微风。", "啊！微风吹动了我的头发，教我如何不想她？"]}], "characters": ["青年刘小蕙"], "stage_direction": "场灯熄灭，全场静默。纱幕上蔡元培题写的碑文「嗣音有人，流风无尽」映出。青年刘小蕙在北京西郊香山抚今追昔，百感交集。", "thematic_keywords": ["追忆", "故国", "父亲", "碑文"], "synopsis": "全剧以刘小蕙对亡父的思念开场，时间从1934年倒回1920年初，展开刘半农一生的故事。"}, {"id": "scene-1", "title": "第一场", "subtitle": "留别北大", "location_ids": ["beijing-beida"], "time_setting": "1920年初", "atmosphere": "激昂、论战、离别", "color_theme": "#7A1818", "songs": [{"number": "曲2", "title": "《对决》", "performers": ["合唱", "卫道士甲乙丙丁", "刘半农"], "type": "ensemble", "key_lines": ["惊雷奔走，地火燃烧，新文化运动掀起狂涛大潮。", "语言本为劳动所生，语言本为民众创造。", "我们就是要把文学还给民众！把诗还给乡间村野，妇孺渔樵！"]}, {"number": "曲3", "title": "《山高水长》", "performers": ["蔡元培", "刘半农"], "type": "duet", "key_lines": ["此一去万里迢迢山高水长，为中华求存图强我心亦往。", "「非为以往、非为现在、而专为将来」，走西洋先生教海岂敢遗忘。"]}, {"number": "曲4", "title": "《先生的风骨》", "performers": ["众学生"], "type": "chorus", "key_lines": ["先生的风骨，先生的学养，破千年旧习，领一代风尚。", "心中的偶像，路上的灯光，照我们前行，给我们方向。"]}, {"number": "曲5", "title": "《历史的潮流》", "performers": ["刘半农", "蔡元培", "众"], "type": "ensemble", "key_lines": ["历史的潮流滚滚向前，摧枯拉朽不可阻挡。", "国家兴亡，匹夫有责，民族复兴，我们担当。"]}], "characters": ["刘半农", "蔡元培", "卫道士甲乙丙丁", "北大学生", "朱惠", "童年刘小蕙"], "stage_direction": "背景为《新青年》杂志封面。刘半农与卫道士论战新文化运动，蔡元培亲来送行，北大学生依依不舍，合唱壮别。", "thematic_keywords": ["新文化运动", "白话文", "文学革命", "科学民主", "离别北大"], "synopsis": "刘半农在北大与守旧派论战，慷慨激昂地捍卫新文化运动理念，随后在蔡元培和北大学生送别中，踏上赴欧留学之路。"}, {"id": "scene-2", "title": "第二场", "subtitle": "雾雨伦敦", "location_ids": ["london"], "time_setting": "1920–1921年，伦敦寓所，深夜", "atmosphere": "阴郁、思乡、坚韧", "color_theme": "#4169E1", "songs": [{"number": "曲6", "title": "《伦敦的雨》", "performers": ["朱惠"], "type": "aria", "key_lines": ["伦敦的雨，漫天飞舞，似烟似霾又似雾。", "学不成，岂能休！国之托，岂敢负！", "此心惟愿与君风雨同渡，生死共赴！"]}, {"number": "曲7", "title": "《故乡的风故乡的云》", "performers": ["刘半农"], "type": "aria", "key_lines": ["他乡的夜，比故乡更沉，他乡的雨，比故乡更冷。", "忘不了江阴城里水巷月影，忘不了村外渡口渔火浆声。", "五四的号角，街头的热血，同志今安在？烈士何安魂。"]}, {"number": "曲8", "title": "《甘苦同尝》", "performers": ["刘半农", "朱惠"], "type": "duet", "key_lines": ["夫妻十载，相濡以沫，颠沛流离，甘苦同尝。", "他年遇君江畔上，不用媒妁自主张。风雨携手苦与乐，患难与共两相望。"]}, {"number": "曲9", "title": "《一切都会好的》", "performers": ["英国大夫", "英国妈妈"], "type": "duet", "key_lines": ["一切都会好的，亲爱的中国朋友！", "爱是共同的语言，一切都可以改变。"]}, {"number": "曲10", "title": "《太阳蒸红了她的脸》", "performers": ["刘小蕙", "刘半农"], "type": "duet", "key_lines": ["太阳蒸红了她的脸，灰沙染黑了她的汗。", "她擦一把泪水扑过来，原来是去追一只蝴蝶迷了路。"]}], "characters": ["朱惠", "刘半农", "童年刘小蕙", "英国妈妈", "英国大夫"], "stage_direction": "伦敦寓所深夜，煤气灯下刘半农写作，朱惠赶织毛衣，小蕙睡在妈妈腿上。刘半农病倒，小蕙夜敲英国妈妈家门求医，英国大夫连夜出诊。", "thematic_keywords": ["异乡孤苦", "夫妻情深", "思乡", "坚守"], "key_moment": "刘半农读出新写的《教我如何不想她》诗稿，朱惠问：「你想家了？」——这首诗在这一刻诞生于舞台上。", "synopsis": "刘半农在伦敦贫病交困，朱惠赶织毛衣贴补家用，刘小蕙深夜外出求医，英国邻居热心相助。夫妻深情在异国他乡愈发深厚，刘半农写下《教我如何不想她》。"}, {"id": "scene-3", "title": "第三场", "subtitle": "他乡知己", "location_ids": ["london"], "time_setting": "1920–1921年，伦敦大学语音实验室", "atmosphere": "志同道合、学术热情", "color_theme": "#4169E1", "songs": [{"number": "曲11", "title": "《语言，你这生命的居所》", "performers": ["刘半农"], "type": "aria", "key_lines": ["语言，你这生命的居所，凝聚起一个个族群，连接成一个个部落。", "要学玄奘西天取经，要像普罗米修斯神山窃火，", "我要用人类科学之手，去解码汉语这个五彩纷呈的世界！"]}, {"number": "曲12", "title": "《为国语统一凿壁取光》", "performers": ["赵元任", "刘半农"], "type": "duet", "key_lines": ["探九洲方言，标北调南腔，引百川归流，领万船同航。为国语统一凿壁取光。", "始皇帝书同文、车同轨，一统天下，却遗憾未完成话同音、字同韵，大统四方。"]}, {"number": "曲13", "title": "《卖布谣》", "performers": ["赵元任", "杨步伟", "朱惠", "刘半农"], "type": "quartet", "key_lines": ["嫂嫂织布，哥哥卖布。卖布买米，有饭落肚。", "土布粗，洋布细，洋布便宜，财主欢喜。土布没人要，饿倒了哥哥嫂嫂。"]}], "characters": ["刘半农", "赵元任", "杨步伟", "朱惠"], "stage_direction": "赵元任在欧洲游学，隔空相遇。两对江南同乡在不同空间里隔空唱起江南小调《卖布谣》，温馨如同回到故乡。赵元任决定为《教我如何不想她》谱曲。", "thematic_keywords": ["知音", "语言学", "国语统一", "《卖布谣》", "江南乡情"], "key_moment": "赵元任读到刘半农诗稿中的「她」字，打趣道：「从此中华字典里又多了一个'她'！」——四人朗声大笑。", "synopsis": "刘半农在伦敦与旅欧的语言学家赵元任相遇，二人志同道合，决意携手推进国语统一与实验语音学研究。"}, {"id": "scene-4", "title": "第四场", "subtitle": "迁渡巴黎", "location_ids": ["paris"], "time_setting": "1921–1925年，巴黎寓所", "atmosphere": "明朗、勤奋、家庭温情", "color_theme": "#4169E1", "songs": [{"number": "曲14", "title": "《走进巴黎的阳光》", "performers": ["刘半农", "朱惠"], "type": "duet", "key_lines": ["告别了伦敦的雨，走进巴黎的阳光。", "这里优越的研究条件，是我梦寐以求的向往。"]}, {"number": "曲15", "title": "《彩虹总在风雨后》", "performers": ["刘小蕙", "刘半农", "朱惠"], "type": "trio", "key_lines": ["爸爸、爸爸，音鼓突然不工作了！——别急，别急，让我来看看。", "因为你不会织毛衣！（朱惠用捆扎鼓膜的麻线法解决故障）", "彩虹总在风雨后，五年的心血终开花！"]}], "characters": ["刘半农", "朱惠", "刘小蕙"], "stage_direction": "巴黎寓所堆满语音实验设备与手稿。刘半农孤灯调试音鼓，音鼓故障，朱惠以毛线技艺解决科学难题，一家三口合力修好仪器，欢笑合唱。", "thematic_keywords": ["科学研究", "自制仪器", "家庭温情", "音鼓浪纹计"], "key_moment": "朱惠靠织毛衣的直觉发现音鼓的问题（「会不会是捆扎鼓膜的麻线松了？」），刘半农恍然大悟：「我怎么没想到！」——艺术与科学在家庭生活中奇妙交汇。", "synopsis": "迁往巴黎的刘半农全身心投入语音实验，朱惠用织毛衣的经验帮助修好关键仪器。一家人在研究室里温情互助，苦中有乐。"}, {"id": "scene-5", "title": "第五场", "subtitle": "东方荣耀", "location_ids": ["paris", "sea-route"], "time_setting": "1925年，巴黎大学答辩及回国途中", "atmosphere": "紧张、荣耀、归心似箭", "color_theme": "#A0845C", "songs": [{"number": "曲16", "title": "《相信他，我的朋友》", "performers": ["杨步伟"], "type": "aria", "key_lines": ["相信他，相信他我亲爱的朋友，会用他的天才之手改写历史！", "一千八百多个日日夜夜，其间多少苦乐悲欢坎坷艰辛！"]}, {"number": "曲17", "title": "《答辩》", "performers": ["刘半农", "教授甲乙丙丁", "青年教授"], "type": "ensemble", "key_lines": ["我认为声调的本质是音高！音高的声学特征是人的声带振动频率！", "很遗憾，全世界都买不到，是我自己制作的！", "这太神奇了！亲爱的刘半农先生，您的研究是成功的伟大的！"]}, {"number": "曲18", "title": "《劈开地中海的波涛》", "performers": ["刘半农", "朱惠", "赵元任", "杨步伟"], "type": "quartet", "key_lines": ["劈开地中海的波涛，穿过苏伊士运河的水道，绕过马六甲海峡的险要，", "啊，祖国，我久别的祖国，请接受儿女久违的问好！", "我们将用你的母语，唱一首最美最动听的歌谣。"]}], "characters": ["刘半农", "杨步伟", "赵元任", "蔡元培", "朱惠", "刘小蕙", "教授甲乙丙丁"], "stage_direction": "答辩教室，刘半农对音鼓发出「妈、麻、马、骂」四声，浪纹计显示优美曲线，全场哗然。教授宣布授予博士学位与伏尔内语言学奖。随后转至邮轮甲板，四人凭栏望海，壮歌归国。", "thematic_keywords": ["博士答辩", "东方荣耀", "科学证明", "归国", "母语"], "key_moment": "巴黎大学教授甲宣布：「将法兰西国家博士学位授予刘半农先生！」——马赛曲响起，众人起立，掌声如潮。刘小蕙按捺不住，跑上台给爸爸献花。", "synopsis": "刘半农在巴黎大学答辩获得圆满成功，荣获博士学位和伏尔内奖，成为首位获此殊荣的中国人。随后踏上回国旅程，途经地中海写定《教我如何不想她》。"}, {"id": "scene-6", "title": "第六场", "subtitle": "重归北大", "location_ids": ["beijing-return"], "time_setting": "1925年秋，北大语音乐律研究所", "atmosphere": "生动、诙谐、充满生机", "color_theme": "#7A1818", "songs": [{"number": "曲19", "title": "《奇妙世界》", "performers": ["众学生", "白涤洲"], "type": "chorus", "key_lines": ["这是什么？这又是什么？让我们走进这奇妙世界！", "尺上春秋，人间烟火，南腔北调都在这小小实验室集合！"]}, {"number": "曲20", "title": "《巴黎归来的刘博士》", "performers": ["女生甲乙丙丁", "众学生"], "type": "chorus", "key_lines": ["他？他？他？不穿西装穿马褂。他？他？他？不穿皮鞋穿布鞋。", "听说您不喝咖啡，专喝前门大碗茶！教我如何再想他？"]}], "characters": ["白涤洲", "众学生", "女生甲乙丙丁", "刘半农", "刘天华"], "stage_direction": "北大语音乐律研究所内，声学仪器新颖神秘。女生们在草坪学唱《教我如何不想她》，发现「刘博士」竟不穿西装、穿布鞋、喝大碗茶，哄堂大笑。", "thematic_keywords": ["语音实验室", "学生互动", "回归北大", "平民本色"], "key_moment": "「教我如何不想他？」「教我如何再想他？」——北大女生们把刘半农的诗句调侃地套用在他自己身上，刘半农大笑：「教我如何不想他，请进门来喝杯茶！」", "synopsis": "归国后的刘半农建立语音乐律研究所，展示各种自制声学仪器，北大女生们对「洋博士」的素朴形象大感意外，全场欢笑。"}, {"id": "scene-7", "title": "第七场", "subtitle": "音律和鸣", "location_ids": ["beijing-return"], "time_setting": "除夕·大阮府胡同含辉堂；及1932年刘天华去世", "atmosphere": "温暖团圆转为沉痛哀伤", "color_theme": "#7A1818", "songs": [{"number": "曲21", "title": "《团圆》", "performers": ["刘半农", "刘天华", "刘北茂"], "type": "trio", "key_lines": ["逝光如流水，匆匆又一年。几经颠沛，几多漂零，兄弟们难得一处共团圆。", "孝悌齐家，情深似海，刘门家风世代传！"]}, {"number": "曲22", "title": "《音乐和文字都是语言》", "performers": ["刘半农", "刘天华", "刘北茂"], "type": "trio", "key_lines": ["音乐和文字都是语言，一个有形一个无形忽隐忽现。", "依韵行腔，字正腔圆，依腔带韵，韵味长绵。"]}, {"number": "曲23", "title": "《你为何这般匆匆离去？》", "performers": ["刘半农"], "type": "aria", "key_lines": ["天华，吾弟，你为何这般匆匆离去？难道真的是天妒英才？", "三十七岁年华正当人生嘉季，你给人间留下多少美妙乐曲，如今却成了为你送行的哭泣。"]}, {"number": "曲24", "title": "《江阴三杰》", "performers": ["合唱"], "type": "chorus", "key_lines": ["刘氏兄弟，江阴三杰。一奶同胞，天资卓越。", "文学先声，国乐叹绝。音律和鸣，韵留山河。"]}], "characters": ["刘半农", "刘天华", "刘北茂", "朱惠", "刘小蕙", "刘育和", "二嬸三嬸"], "stage_direction": "除夕团圆，刘天华演奏新作二胡曲《良宵》，刘半农为其命名。随后笔锋一转，传来1932年刘天华在天桥采风时染猩红热离世的噩耗。", "thematic_keywords": ["刘氏三兄弟", "《良宵》", "团圆", "刘天华去世", "音乐与语言"], "key_moment": "刘半农问：「喜欢这首乐曲的什么？」刘天华答：「韵味！」——一个「韵」字，道尽了文学、音乐、语音学的共同灵魂。", "synopsis": "除夕家宴，刘氏三兄弟情深合唱。刘天华演奏新曲《良宵》，刘半农命名。随后传来刘天华英年早逝的噩耗，全剧情绪急转，刘半农痛陈哀思，托付三弟继续国乐改良事业。"}, {"id": "scene-8", "title": "第八场", "subtitle": "绥远采风", "location_ids": ["suiyuan"], "time_setting": "1934年6月，北京西直门→绥远内蒙", "atmosphere": "悲壮、苍凉、民间生命力", "color_theme": "#5C7A6B", "songs": [{"number": "民歌", "title": "绥远山曲（男民歌手）", "performers": ["男民歌手"], "type": "folk_song", "key_lines": ["八月里来秋风儿凉，啊么得儿依儿哟，咱姐妹那个三人得儿三人，去打了酸枣，啊么得儿依儿哟"]}, {"number": "曲25", "title": "《采风绥远》", "performers": ["朱惠", "刘半农"], "type": "duet", "key_lines": ["你大病初愈，尚未复原，今又要远走西口，采风绥远。", "岁月的罗盘飞速旋转，我必须抢时间快马加鞭！", "待他日国语统一大事如愿，我一定陪你们去拜访江阴老家，看三月江南。"]}, {"number": "曲26", "title": "《国语统一》", "performers": ["刘半农", "白涤洲"], "type": "duet", "key_lines": ["国语统一，何去何从。不到民间，难得真经。"]}], "characters": ["刘半农", "朱惠", "刘小蕙", "白涤洲", "男民歌手", "绥远老乡"], "stage_direction": "北京西直门送行，朱惠担忧，刘半农执意出发。转至内蒙古破庙，刘半农记录山曲民歌，与老乡其乐融融。（此后刘半农染病，将成绝笔之旅。）", "thematic_keywords": ["绥远采风", "方言记录", "民间歌谣", "《四声新谱》", "最后的旅程"], "key_moment": "「乙二声调推断尺」带上没有？——您的这件宝贝怎么能落下呢！火车进站的汽笛声打破早晨的寂静。", "synopsis": "病体初愈的刘半农执意出发赴绥远采风，为完成《四声新谱》与《方音字典》赶时间。他沿黄河追录船工号子，在破庙里与牧民共歌，却在途中染上致命的回归热。"}, {"id": "scene-9", "title": "第九场", "subtitle": "流风无尽", "location_ids": ["xiangshan"], "time_setting": "1934年7月14日及其后", "atmosphere": "悲悼、升华、永恒", "color_theme": "#4A4A4A", "songs": [{"number": "曲27", "title": "《听雨》", "performers": ["合唱"], "type": "chorus", "key_lines": ["我来北地已半年，今日初听一宵雨。", "若移此雨在江南，故园新笋添几许。"]}, {"number": "曲28", "title": "《我的梦在远方》", "performers": ["刘半农（灵魂）", "朱惠", "刘小蕙", "合唱"], "type": "finale", "key_lines": ["我的梦在远方，梦里山水爹和娘。我的梦在大海，海天万里两茫茫。", "我的梦在远方，千秋文字与谁商。我的梦在中国，天下兄弟同声唱。"]}, {"number": "曲1（再现）", "title": "《教我如何不想她》（终曲合唱）", "performers": ["全体合唱"], "type": "reprise", "key_lines": ["水面落花慢慢流，水底鱼儿慢慢游。啊！燕子你说些什么话？教我如何不想她？", "枯树在冷风里摇，野火在暮色中烧。啊！西天还有些儿残霞，教我如何不想她？"]}], "characters": ["刘小蕙（画外音）", "蔡元培", "赵元任", "杨步伟", "朱惠", "白涤洲", "童年刘小蕙", "合唱团"], "stage_direction": "黑幕中刘小蕙画外音述父亲离世。场景回到香山。亲友执花而来，刘半农灵魂之歌从烟雨中传来。童年刘小蕙张臂奔来呼唤「爸爸」，音乐嘎然而止，再骤起《教我如何不想她》交响。镶嵌「嗣音有人，流风无尽」的纱幕徐徐落下。", "thematic_keywords": ["离世", "升华", "流风无尽", "回归香山", "母语永存"], "key_moment": "童年刘小蕙的一声「爸爸！」——令全场空气凝固，音乐戛然而止——片刻寂静后，辉煌的《教我如何不想她》交响骤起，令人心碎又令人振奋。", "synopsis": "全剧尾声。刘半农在香山长眠，亲友们悲戚追悼。他的灵魂从群山传来《我的梦在远方》，《教我如何不想她》作为全剧主题再次响起，「嗣音有人，流风无尽」——纱幕落下，剧终。"}];
+window.__EMBEDDED_ROUTES__ = {"type": "FeatureCollection", "features": [{"type": "Feature", "id": "route-to-europe", "properties": {"name": "赴欧航线", "name_en": "Voyage to Europe", "year": 1920, "color": "#4169E1", "dashArray": "8, 6", "weight": 2.5, "opacity": 0.7, "description": "1920年2月7日，刘半农携妻女从上海登船赴欧，经香港、新加坡、科伦坡，穿苏伊士运河，过地中海，3月17日抵伦敦。", "type": "sea", "scene_ids": ["scene-1", "scene-2"]}, "geometry": {"type": "LineString", "coordinates": [[121.4737, 31.2304], [120.1, 29.2], [114.17, 22.3], [109.0, 18.0], [106.0, 10.0], [103.82, 1.35], [95.0, 5.5], [85.0, 6.0], [79.85, 6.93], [72.0, 12.0], [60.0, 18.0], [50.0, 20.0], [40.0, 22.0], [32.53, 29.97], [32.3, 31.26], [30.0, 32.5], [25.0, 35.0], [18.0, 37.5], [14.52, 35.9], [5.37, 43.3], [2.0, 46.5], [1.85, 50.95], [-0.1278, 51.5074]]}}, {"type": "Feature", "id": "route-london-paris", "properties": {"name": "迁渡巴黎", "name_en": "London to Paris", "year": 1921, "color": "#9370DB", "dashArray": null, "weight": 3, "opacity": 0.7, "description": "1921年夏，刘半农转入巴黎大学（索邦），在法兰西学院旁听。研究条件大为改善，自制音鼓与浪纹计。", "type": "land", "scene_ids": ["scene-3", "scene-4"]}, "geometry": {"type": "LineString", "coordinates": [[-0.1278, 51.5074], [1.85, 50.95], [2.3522, 48.8566]]}}, {"type": "Feature", "id": "route-return", "properties": {"name": "回国航线", "name_en": "Return Voyage", "year": 1925, "color": "#DAA520", "dashArray": "4, 4", "weight": 3, "opacity": 0.8, "description": "1925年8月，刘半农获博士学位后携家人归国。横渡地中海，过苏伊士运河，绕马六甲海峡。在海上写定《教我如何不想她》。", "type": "sea", "scene_ids": ["scene-5"]}, "geometry": {"type": "LineString", "coordinates": [[2.3522, 48.8566], [5.37, 43.3], [8.0, 41.0], [14.52, 35.9], [18.0, 37.5], [25.0, 35.0], [30.0, 32.5], [32.3, 31.26], [32.53, 29.97], [40.0, 22.0], [50.0, 20.0], [60.0, 18.0], [72.0, 12.0], [79.85, 6.93], [85.0, 6.0], [95.0, 5.5], [103.82, 1.35], [106.0, 10.0], [109.0, 18.0], [114.17, 22.3], [120.1, 29.2], [121.4737, 31.2304], [122.0, 34.0], [120.0, 36.0], [116.3058, 39.9923]]}}, {"type": "Feature", "id": "route-suiyuan", "properties": {"name": "绥远采风路线", "name_en": "Suiyuan Field Survey", "year": 1934, "color": "#556B2F", "dashArray": "3, 5", "weight": 3, "opacity": 0.85, "description": "1934年6月19日，刘半农从北京西直门火车站出发，沿平绥铁路西行。经张家口、大同，至包头沿黄河追录船工号子，到归绥调查方音，终至百灵庙。染回归热，抱病返京，7月14日辞世。", "type": "land", "scene_ids": ["scene-8"]}, "geometry": {"type": "LineString", "coordinates": [[116.35, 39.94], [116.1, 40.15], [115.5, 40.38], [114.88, 40.77], [113.8, 40.35], [113.3, 40.09], [112.0, 40.3], [110.5, 40.5], [109.84, 40.66], [109.9, 40.8], [110.5, 40.82], [111.75, 40.84], [111.0, 41.1], [110.43, 41.75], [111.0, 41.1], [111.75, 40.84], [112.0, 40.8], [113.0, 40.5], [115.0, 40.2], [116.4, 39.91]]}}]};
+window.__EMBEDDED_SCENE_AUDIO__ = [{"id": "scene-prologue", "file": "assets/audio/scenes/scene-prologue.mp3", "duration": 284.5, "start": "00:24", "end": "05:08", "title": "序", "subtitle": "嗣音有人，流风无尽"}, {"id": "scene-1", "file": "assets/audio/scenes/scene-1.mp3", "duration": 588.9, "start": "05:13", "end": "15:02", "title": "第一场", "subtitle": "留别北大"}, {"id": "scene-2", "file": "assets/audio/scenes/scene-2.mp3", "duration": 1191.0, "start": "15:25", "end": "35:16", "title": "第二场", "subtitle": "雾雨伦敦"}, {"id": "scene-3", "file": "assets/audio/scenes/scene-3.mp3", "duration": 565.0, "start": "35:18", "end": "44:43", "title": "第三场", "subtitle": "他乡知己"}, {"id": "scene-4", "file": "assets/audio/scenes/scene-4.mp3", "duration": 412.0, "start": "44:45", "end": "51:37", "title": "第四场", "subtitle": "迁渡巴黎"}, {"id": "scene-5", "file": "assets/audio/scenes/scene-5.mp3", "duration": 554.0, "start": "51:46", "end": "61:00", "title": "第五场", "subtitle": "东方荣耀"}, {"id": "scene-6", "file": "assets/audio/scenes/scene-6.mp3", "duration": 638.0, "start": "61:02", "end": "71:40", "title": "第六场", "subtitle": "重归北大"}, {"id": "scene-7", "file": "assets/audio/scenes/scene-7.mp3", "duration": 728.0, "start": "71:45", "end": "83:53", "title": "第七场", "subtitle": "音律和鸣"}, {"id": "scene-8", "file": "assets/audio/scenes/scene-8.mp3", "duration": 492.0, "start": "83:55", "end": "92:07", "title": "第八场", "subtitle": "绥远采风"}, {"id": "scene-9", "file": "assets/audio/scenes/scene-9.mp3", "duration": 493.4, "start": "92:07", "end": "100:20", "title": "第九场", "subtitle": "流风无尽"}];
+
+/* ═══════ app.js ═══════ */
+/* ═══════════════════════════════════════════
+   app.js — 全局应用状态、事件总线、数据加载
+   协调整合所有组件
+   ═══════════════════════════════════════════ */
+
+const App = (() => {
+  'use strict';
+
+  const state = {
+    view: 'world',
+    locations: [],
+    scenes: [],
+    routes: null,
+    activeLocationId: null,
+    activeSceneId: null,
+    activeYear: null,
+    isPlaying: false,
+    playTimer: null,
+    playQueue: [],
+    playQueueIdx: 0,
+    filters: { category: [], person: null, period: null },
+  };
+
+  // ── 事件总线 ──
+  const listeners = {};
+  function on(event, fn) { (listeners[event] ??= []).push(fn); }
+  function off(event, fn) {
+    const arr = listeners[event];
+    if (arr) { const i = arr.indexOf(fn); if (i !== -1) arr.splice(i, 1); }
+  }
+  function emit(event, data) {
+    (listeners[event] || []).forEach(fn => { try { fn(data); } catch (e) { console.error('[Event]', event, e); } });
+  }
+
+  // ── 数据加载 ──
+  async function loadJSON(path) {
+    const resp = await fetch(path);
+    if (!resp.ok) throw new Error(`${path} (${resp.status})`);
+    return resp.json();
+  }
+
+  async function loadData() {
+    // ═══ STANDALONE: use embedded data instead of fetch ═══
+    try {
+      state.locations = window.__EMBEDDED_LOCATIONS__;
+      state.scenes = window.__EMBEDDED_SCENES__;
+      state.routes = window.__EMBEDDED_ROUTES__;
+      console.log(`[App] 数据加载: ${state.locations.length} 地点, ${state.scenes.length} 场次, ${state.routes.features.length} 路线 (embedded)`);
+      return true;
+    } catch (err) { console.error('[App] 加载失败:', err); return false; }
+    /*
+    // ═══ ORIGINAL fetch version (disabled) ═══
+    try {
+    try {
+      const [locations, scenes, routes] = await Promise.all([
+        loadJSON('locations.json'),
+        loadJSON('scenes.json'),
+        loadJSON('data/journey-routes.geojson')
+      ]);
+      state.locations = locations;
+      state.scenes = scenes;
+      state.routes = routes;
+      console.log(`[App] 数据加载: ${locations.length} 地点, ${scenes.length} 场次, ${routes.features.length} 路线`);
+      return true;
+    } catch (err) { console.error('[App] 加载失败:', err); return false; }
+  }
+  */
+
+  // ── 辅助函数 ──
+  function getLocation(id) { return state.locations.find(l => l.id === id); }
+  function getScene(id) { return state.scenes.find(s => s.id === id); }
+  function getScenesByLocation(locId) {
+    const loc = getLocation(locId);
+    if (!loc || !loc.scenes) return [];
+    return loc.scenes.map(id => getScene(id)).filter(Boolean);
+  }
+  function getLocationByScene(sceneId) {
+    const sc = getScene(sceneId);
+    if (!sc || !sc.location_ids) return null;
+    return getLocation(sc.location_ids[0]);
+  }
+
+  // ── 路线数据辅助 ──
+  function getRouteCoordsBetween(fromLocId, toLocId) {
+    const from = getLocation(fromLocId);
+    const to = getLocation(toLocId);
+    if (!from || !to) return [];
+
+    // GeoJSON 是 [lng, lat]，locations.json 是 [lat, lng]，需统一格式比较
+    if (state.routes && state.routes.features) {
+      for (const feat of state.routes.features) {
+        const coords = feat.geometry.coordinates;
+        // GeoJSON first/last: [lng, lat] → 转为 [lat, lng] 以便与 locations.coords 比较
+        const first = [coords[0][1], coords[0][0]];
+        const last = [coords[coords.length - 1][1], coords[coords.length - 1][0]];
+        const d1a = dist(first, from.coords), d1b = dist(last, to.coords);
+        const d2a = dist(first, to.coords), d2b = dist(last, from.coords);
+        if ((d1a < 50 && d1b < 50) || (d2a < 50 && d2b < 50)) {
+          return coords.map(c => [c[1], c[0]]); // GeoJSON→Leaflet [lat, lng]
+        }
+      }
+    }
+    // 没找到匹配路线，返回直线
+    return [[from.coords[0], from.coords[1]], [to.coords[0], to.coords[1]]];
+  }
+
+  function dist(a, b) {
+    // Haversine 公式：准确计算球面距离 (km)
+    const R = 6371;
+    const dLat = (b[0] - a[0]) * Math.PI / 180;
+    const dLon = (b[1] - a[1]) * Math.PI / 180;
+    const lat1 = a[0] * Math.PI / 180;
+    const lat2 = b[0] * Math.PI / 180;
+    const sinDLat = Math.sin(dLat / 2);
+    const sinDLon = Math.sin(dLon / 2);
+    const h = sinDLat * sinDLat + Math.cos(lat1) * Math.cos(lat2) * sinDLon * sinDLon;
+    return 2 * R * Math.atan2(Math.sqrt(h), Math.sqrt(1 - h));
+  }
+
+  // ── 核心操作 ──
+  function selectLocation(locId) {
+    if (state.activeLocationId === locId) return;
+    state.activeLocationId = locId;
+    state.activeSceneId = null;
+    updateHash();
+    emit('location:selected', locId);
+  }
+
+  function selectScene(sceneId) {
+    if (state.activeSceneId === sceneId) return;
+    state.activeSceneId = sceneId;
+    const loc = getLocationByScene(sceneId);
+    if (loc) {
+      state.activeLocationId = loc.id;
+      emit('location:selected', loc.id);
+    }
+    updateHash();
+    emit('scene:selected', sceneId);
+  }
+
+  function setView(view) {
+    if (state.view === view) return;
+    state.view = view;
+    updateHash();
+    emit('view:changed', view);
+  }
+
+  function setYear(year) {
+    if (state.activeYear === year) return;
+    state.activeYear = year;
+    emit('year:changed', year);
+  }
+
+  // ── 筛选 ──
+  function setFilter(key, value) {
+    state.filters[key] = value;
+    emit('filter:changed', state.filters);
+  }
+
+  function clearFilters() {
+    state.filters = { category: [], person: null, period: null, locationIds: null };
+    emit('filter:changed', state.filters);
+  }
+
+  // ── 增强播放全程（Layer 2：含路线动画） ──
+  const TOUR_SEQUENCE = [
+    { locId: 'xiangshan', sceneId: 'scene-prologue' },
+    { locId: 'beijing-beida', sceneId: 'scene-1' },
+    { locId: 'london', sceneId: 'scene-2' },
+    { locId: 'london', sceneId: 'scene-3' },
+    { locId: 'paris', sceneId: 'scene-4' },
+    { locId: 'paris', sceneId: 'scene-5' },
+    { locId: 'beijing-return', sceneId: 'scene-6' },
+    { locId: 'beijing-return', sceneId: 'scene-7' },
+    { locId: 'suiyuan', sceneId: 'scene-8' },
+    { locId: 'xiangshan', sceneId: 'scene-9' },
+  ];
+
+  function togglePlayTour() {
+    state.isPlaying ? stopTour() : startTour();
+  }
+
+  function startTour() {
+    state.isPlaying = true;
+    state.playQueueIdx = 0;
+    const btn = document.getElementById('btn-play-tour');
+    btn.textContent = '停止';
+    btn.classList.add('playing');
+    showProgress();
+    advanceTour();
+  }
+
+  function stopTour() {
+    state.isPlaying = false;
+    if (state.playTimer) clearTimeout(state.playTimer);
+    const btn = document.getElementById('btn-play-tour');
+    btn.textContent = '播放';
+    btn.classList.remove('playing');
+    hideProgress();
+    emit('tour:stopped');
+  }
+
+  function showProgress() {
+    let bar = document.getElementById('tour-progress');
+    if (!bar) {
+      bar = document.createElement('div');
+      bar.id = 'tour-progress';
+      bar.innerHTML = '<span class="tp-label"></span><span class="tp-bar-wrap"><span class="tp-bar"></span></span>';
+      document.body.appendChild(bar);
+    }
+    bar.classList.remove('hidden');
+  }
+
+  function hideProgress() {
+    document.getElementById('tour-progress')?.classList.add('hidden');
+  }
+
+  function updateProgress() {
+    const bar = document.getElementById('tour-progress');
+    if (!bar || !state.isPlaying) return;
+    const idx = state.playQueueIdx;
+    const total = TOUR_SEQUENCE.length;
+    const step = TOUR_SEQUENCE[Math.min(idx, total - 1)];
+    const label = bar.querySelector('.tp-label');
+    const fill = bar.querySelector('.tp-bar');
+    if (label && step) {
+      const sc = getScene(step.sceneId);
+      label.textContent = `${idx + 1}/${total}  ${sc ? sc.title + ' · ' + sc.subtitle : ''}`;
+    }
+    if (fill) fill.style.width = `${(idx / total) * 100}%`;
+  }
+
+  function advanceTour() {
+    if (!state.isPlaying || state.playQueueIdx >= TOUR_SEQUENCE.length) {
+      stopTour();
+      return;
+    }
+
+    updateProgress();
+    const step = TOUR_SEQUENCE[state.playQueueIdx];
+    const prevStep = state.playQueueIdx > 0 ? TOUR_SEQUENCE[state.playQueueIdx - 1] : null;
+
+    // 如果地点变了，先飞地图
+    if (!prevStep || prevStep.locId !== step.locId) {
+      // 地点变了 → 飞地图 + 路线动画
+      if (prevStep) {
+        const routeCoords = getRouteCoordsBetween(prevStep.locId, step.locId);
+        if (routeCoords.length > 2) {
+          // 有路线数据，做动画
+          emit('tour:animate-route', routeCoords);
+          // 等动画走完再继续
+          state.playTimer = setTimeout(() => {
+            selectScene(step.sceneId);
+            state.playQueueIdx++;
+            state.playTimer = setTimeout(advanceTour, 3500);
+          }, Math.min(routeCoords.length * 50, 3000));
+          return;
+        }
+      }
+      // 直接飞
+      MapComponent.flyToLocation(step.locId);
+    }
+
+    selectScene(step.sceneId);
+    state.playQueueIdx++;
+    state.playTimer = setTimeout(advanceTour, 3500);
+  }
+
+  // ── URL Hash 状态管理 ──
+  function updateHash() {
+    const parts = [];
+    if (state.activeLocationId) parts.push('loc=' + state.activeLocationId);
+    if (state.activeSceneId) parts.push('scene=' + state.activeSceneId);
+    if (state.view !== 'world') parts.push('view=' + state.view);
+    const hash = parts.length ? '#' + parts.join('&') : '';
+    if (window.location.hash !== hash) {
+      history.replaceState(null, '', hash || window.location.pathname);
+    }
+  }
+
+  function restoreFromHash() {
+    const raw = window.location.hash.replace(/^#/, '');
+    if (!raw) return false;
+    const params = {};
+    raw.split('&').forEach(p => {
+      const [k, v] = p.split('=');
+      if (k && v) params[k] = decodeURIComponent(v);
+    });
+    if (params.view) setView(params.view);
+    if (params.scene) { selectScene(params.scene); return true; }
+    if (params.loc) { selectLocation(params.loc); return true; }
+    return false;
+  }
+
+  window.addEventListener('hashchange', () => restoreFromHash());
+  async function init() {
+    const ok = await loadData();
+    if (!ok) return;
+
+    document.getElementById('loading-overlay')?.classList.add('hidden');
+
+    // 初始化各组件（依赖顺序：地图→路线→面板→时间轴→特殊页面）
+    // 每个组件独立 try-catch，单个失败不影响其他
+    const initModule = (name, fn) => {
+      try { fn(state); console.log(`[App] ${name} 就绪`); }
+      catch (e) { console.error(`[App] ${name} 初始化失败:`, e); }
+    };
+    initModule('Map', MapComponent.init);
+    initModule('Routes', RoutesComponent.init);
+    initModule('Panel', PanelComponent.init);
+    initModule('Timeline', TimelineComponent.init);
+    if (typeof SpecialPages !== 'undefined') initModule('SpecialPages', SpecialPages.init);
+    if (typeof KnowledgeGraph !== 'undefined') initModule('KnowledgeGraph', KnowledgeGraph.init);
+    if (typeof ToneLab !== 'undefined') initModule('ToneLab', ToneLab.init);
+    if (typeof FilterComponent !== 'undefined') initModule('Filters', FilterComponent.init);
+    if (typeof AudioComponent !== 'undefined') initModule('Audio', AudioComponent.init);
+
+    bindUI();
+    const restored = restoreFromHash();
+    if (!restored) {
+      setTimeout(() => selectLocation('xiangshan'), 500);
+      // 初始展示刘半农肖像
+      setTimeout(() => emit('person:clicked', '刘半农'), 800);
+    }
+    setTimeout(showGuide, 1500);
+    console.log('[App] 初始化完成');
+
+    // ── 防伪水印 ──
+    console.log(
+      '%c 教我如何不想她 · 刘半农生平地理叙事 %c数字伴生作品\n' +
+      '%c制作者：李司略\n' +
+      '北京大学歌剧研究院 25 级硕士 | 香港大学经济管理学院 24 级硕士 | 中山大学岭南学院 20 级本科\n\n' +
+      '%c未经授权禁止转载、复制或用于商业用途。',
+      'font-family:"Noto Serif SC",serif;font-size:16px;color:#B22222;',
+      'font-size:12px;color:#9C948C;',
+      'font-size:12px;color:#1C1A18;',
+      'font-size:9px;color:#9C948C;letter-spacing:1px;'
+    );
+  }
+
+  // ── 首次引导 ──
+  function showGuide() {
+    const guides = [
+      '点击地图上的汉字标记查看地点详情',
+      '点击左侧「序 – 玖」按场次浏览歌剧',
+      '点击底部时间轴跳转到不同年份',
+    ];
+    let i = 0;
+    showToast(guides[0]);
+    const timer = setInterval(() => {
+      i++;
+      if (i >= guides.length) { clearInterval(timer); return; }
+      showToast(guides[i]);
+    }, 3500);
+  }
+
+  // ── UI 事件绑定 ──
+  function bindUI() {
+    // 视图切换
+    document.querySelectorAll('.view-tab').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.view-tab').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        setView(btn.dataset.view);
+      });
+    });
+
+    // 播放全程
+    document.getElementById('btn-play-tour')?.addEventListener('click', togglePlayTour);
+
+    // 关于
+    const aboutBtn = document.getElementById('btn-about');
+    const aboutOverlay = document.getElementById('about-overlay');
+    if (aboutBtn && aboutOverlay) {
+      aboutBtn.addEventListener('click', () => aboutOverlay.classList.remove('hidden'));
+      aboutOverlay.querySelector('.btn-overlay-close')?.addEventListener('click', () => aboutOverlay.classList.add('hidden'));
+      aboutOverlay.addEventListener('click', e => { if (e.target === aboutOverlay) aboutOverlay.classList.add('hidden'); });
+    }
+
+    // 场次导航
+    document.querySelectorAll('.scene-nav-item').forEach(btn => {
+      btn.addEventListener('click', () => selectScene(btn.dataset.scene));
+    });
+
+    // 场景选中高亮
+    on('scene:selected', sceneId => {
+      document.querySelectorAll('.scene-nav-item').forEach(b => b.classList.remove('active'));
+      document.querySelector(`.scene-nav-item[data-scene="${sceneId}"]`)?.classList.add('active');
+    });
+
+    on('location:selected', locId => {
+      document.querySelectorAll('.scene-nav-item').forEach(b => b.classList.remove('active'));
+      const loc = getLocation(locId);
+      if (loc && loc.scenes && loc.scenes.length > 0) {
+        document.querySelector(`.scene-nav-item[data-scene="${loc.scenes[0]}"]`)?.classList.add('active');
+      }
+    });
+
+    // 人物点击
+    on('person:clicked', personName => {
+      setFilter('person', personName);
+      // 弹提示
+      showToast(`已筛选与「${personName}」相关的节点`);
+    });
+
+    // 人物浮层关闭（点击遮罩）
+    const personOverlay = document.getElementById('person-overlay');
+    if (personOverlay) {
+      personOverlay.addEventListener('click', e => {
+        if (e.target === personOverlay) personOverlay.classList.add('hidden');
+      });
+    }
+
+    // ESC 关闭面板和浮层
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        document.getElementById('side-panel')?.classList.remove('open');
+        document.querySelectorAll('.overlay').forEach(o => o.classList.add('hidden'));
+        document.getElementById('search-results')?.classList.add('hidden');
+        document.getElementById('portrait-card')?.classList.add('hidden');
+        clearFilters();
+      }
+    });
+
+    // 肖像卡片关闭按钮
+    document.getElementById('btn-portrait-close')?.addEventListener('click', () => {
+      document.getElementById('portrait-card')?.classList.add('hidden');
+    });
+
+    // 点击肖像卡片 → 打开详细人物浮层
+    document.getElementById('portrait-card')?.addEventListener('click', (e) => {
+      if (e.target.id === 'btn-portrait-close') return;
+      const nameEl = document.getElementById('portrait-name');
+      if (!nameEl) return;
+      const name = nameEl.textContent;
+      // 显示旧的人物详情浮层（含高亮按钮）
+      showPersonOverlay(name);
+    });
+
+    // 点击地图空白区域关闭肖像卡片
+    document.getElementById('map')?.addEventListener('click', () => {
+      document.getElementById('portrait-card')?.classList.add('hidden');
+    });
+
+    // 地点搜索
+    const searchInput = document.getElementById('search-input');
+    const searchResults = document.getElementById('search-results');
+    if (searchInput && searchResults) {
+      searchInput.addEventListener('input', () => {
+        const q = searchInput.value.trim().toLowerCase();
+        if (!q) { searchResults.classList.add('hidden'); return; }
+        const matches = state.locations.filter(loc =>
+          loc.name.includes(q) || loc.name_en?.toLowerCase().includes(q) ||
+          loc.category.includes(q) || loc.summary.includes(q) ||
+          (loc.people || []).some(p => p.includes(q))
+        );
+        if (matches.length === 0) {
+          searchResults.innerHTML = '<div class="search-no-result">无匹配地点</div>';
+        } else {
+          searchResults.innerHTML = matches.map(loc => `
+            <div class="search-result-item" data-loc="${loc.id}">
+              <span class="sr-period">${loc.period}</span>
+              <div class="sr-name">${loc.name}</div>
+              <div class="sr-meta">${loc.category}</div>
+            </div>`).join('');
+        }
+        searchResults.classList.remove('hidden');
+      });
+      searchResults.addEventListener('click', e => {
+        const item = e.target.closest('.search-result-item');
+        if (item) {
+          selectLocation(item.dataset.loc);
+          searchResults.classList.add('hidden');
+          searchInput.value = '';
+        }
+      });
+      searchInput.addEventListener('blur', () => {
+        setTimeout(() => searchResults.classList.add('hidden'), 200);
+      });
+      searchInput.addEventListener('focus', () => {
+        if (searchInput.value.trim()) searchResults.classList.remove('hidden');
+      });
+    }
+  }
+
+  // ── 人物详情浮层 ──
+  function showPersonOverlay(personName) {
+    const overlay = document.getElementById('person-overlay');
+    const content = overlay?.querySelector('.overlay-content');
+    if (!overlay || !content) return;
+
+    const loc = state.locations.find(l => (l.people || []).includes(personName));
+    const locName = loc ? loc.name : '';
+
+    content.innerHTML = `
+      <button class="btn-overlay-close" onclick="document.getElementById('person-overlay').classList.add('hidden')">×</button>
+      <h2>${personName}</h2>
+      ${locName ? `<p style="color:var(--ink-light);font-size:12px;letter-spacing:1px">关联地点：${locName}</p>` : ''}
+      <button style="margin-top:12px;padding:6px 16px;border:1px solid var(--vermillion);background:transparent;color:var(--vermillion);cursor:pointer;font-family:var(--font-serif);font-size:12px;letter-spacing:2px"
+              onclick="App.setFilter('person','${personName}');document.getElementById('person-overlay').classList.add('hidden');document.getElementById('portrait-card').classList.add('hidden')">
+        在地图上高亮与「${personName}」相关的地点
+      </button>
+    `;
+    overlay.classList.remove('hidden');
+  }
+  function showToast(msg) {
+    let toast = document.getElementById('toast');
+    if (!toast) {
+      toast = document.createElement('div');
+      toast.id = 'toast';
+      document.body.appendChild(toast);
+    }
+    toast.textContent = msg;
+    toast.classList.add('show');
+    clearTimeout(toast._timer);
+    toast._timer = setTimeout(() => toast.classList.remove('show'), 2500);
+  }
+
+  return {
+    init, on, off, emit,
+    get state() { return state; },
+    getLocation, getScene, getScenesByLocation, getLocationByScene,
+    getRouteCoordsBetween,
+    selectLocation, selectScene, setView, setYear,
+    setFilter, clearFilters,
+    togglePlayTour, startTour, stopTour,
+    showToast, showPersonOverlay,
+  };
+})();
+
+/* ═══════ map.js ═══════ */
+/* ═══════════════════════════════════════════
+   map.js — Leaflet 双视图地图（世界 + 中国）
+   支持标记聚类、动画飞行、分类图标
+   ═══════════════════════════════════════════ */
+
+const MapComponent = (() => {
+  'use strict';
+
+  let map = null;
+  let markers = {};
+  let currentView = 'world';
+  let tileLayer = null;
+  let animMarker = null;  // 路线动画标记
+
+  // ── 视图配置 ──
+  // 高德地图中文瓦片：中国视图完美中文标注，世界视图主要城市也有中文名
+  const views = {
+    world: {
+      center: [32, 55],
+      zoom: 3,
+      minZoom: 2,
+      maxZoom: 14,
+      tileUrl: 'https://webrd0{s}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}',
+      tileAttrib: '&copy; <a href="https://www.amap.com/">高德地图</a>',
+      tileSubdomains: ['1','2','3','4'],
+      visibleCategories: null,  // null = 全部可见
+    },
+    china: {
+      center: [37.5, 110],
+      zoom: 5,
+      minZoom: 4,
+      maxZoom: 17,
+      tileUrl: 'https://webrd0{s}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}',
+      tileAttrib: '&copy; <a href="https://www.amap.com/">高德地图</a>',
+      tileSubdomains: ['1','2','3','4'],
+      // 中国视图下只显示这些类别
+      visibleCategories: ['故乡', '求学', '执教', '采风', '长眠'],
+    }
+  };
+
+  // ── 分类图标 ──
+  function getMarkerHTML(loc) {
+    const color = loc.color || '#8B4513';
+    const iconMap = { '故乡':'乡', '求学':'学', '执教':'教', '留学':'洋', '旅途':'旅', '采风':'风', '长眠':'眠' };
+    const icon = iconMap[loc.category] || '●';
+    return `<div class="custom-marker pulse" style="background:${color}" data-location-id="${loc.id}">${icon}</div>`;
+  }
+
+  // ── 创建弹出卡片（比 tooltip 更丰富） ──
+  function createPopupContent(loc) {
+    const sceneCount = (loc.scenes && loc.scenes.length > 0) ? loc.scenes.length : 0;
+    return `
+      <div style="font-family:'Noto Serif SC','STSong','SimSun',serif;max-width:240px;padding:4px">
+        <strong style="font-size:14px;color:#B22222;letter-spacing:2px">${loc.name}</strong>
+        <span style="font-size:10px;color:#9C948C;margin-left:6px;letter-spacing:1px">${loc.category}</span>
+        <p style="font-size:11px;color:#45403B;margin:6px 0;line-height:1.7">${loc.summary}</p>
+        <small style="color:#6E6760">${loc.period}</small>
+        ${sceneCount > 0 ? `<br><small style="color:#B22222">${sceneCount} 场关联歌剧场次</small>` : ''}
+        <br><small style="color:#9C948C">点击查看详情</small>
+      </div>`;
+  }
+
+  // ── 初始化 ──
+  function init(state) {
+    const cfg = views.world;
+    map = L.map('map', {
+      center: cfg.center,
+      zoom: cfg.zoom,
+      minZoom: cfg.minZoom,
+      maxZoom: cfg.maxZoom,
+      zoomControl: true,
+      attributionControl: false,
+      worldCopyJump: true,
+    });
+
+    tileLayer = L.tileLayer(cfg.tileUrl, {
+      attribution: cfg.tileAttrib,
+      maxZoom: cfg.maxZoom,
+      subdomains: cfg.tileSubdomains || 'abc',
+    }).addTo(map);
+
+    // 创建动画标记（隐藏）
+    animMarker = L.circleMarker([0, 0], {
+      radius: 0, fillOpacity: 0, opacity: 0,
+      color: '#B22222', fillColor: '#B22222',
+    }).addTo(map);
+
+    renderMarkers(state.locations);
+
+    App.on('location:selected', onLocationSelected);
+    App.on('view:changed', onViewChanged);
+    App.on('year:changed', onYearChanged);
+    App.on('tour:animate-route', onAnimateRoute);
+    App.on('filter:changed', onFilterChanged);
+
+    console.log('[Map] 双视图地图初始化完成');
+  }
+
+  // ── 渲染标记 ──
+  function renderMarkers(locations) {
+    Object.values(markers).forEach(m => map.removeLayer(m));
+    markers = {};
+
+    locations.forEach(loc => {
+      const icon = L.divIcon({
+        className: 'marker-wrapper',
+        html: getMarkerHTML(loc),
+        iconSize: [30, 30],
+        iconAnchor: [15, 15],
+        popupAnchor: [0, -16],
+      });
+
+      const marker = L.marker([loc.coords[0], loc.coords[1]], {
+        icon, riseOnHover: true,
+      }).addTo(map);
+
+      marker.bindPopup(createPopupContent(loc), {
+        closeButton: false,
+        className: 'custom-popup',
+      });
+
+      marker.on('click', () => App.selectLocation(loc.id));
+      marker.on('mouseover', function() { this.openPopup(); });
+      marker.on('mouseout', function() { this.closePopup(); });
+
+      markers[loc.id] = marker;
+    });
+  }
+
+  // ── 飞至地点 ──
+  function flyToLocation(locationId, zoomOverride) {
+    const loc = App.getLocation(locationId);
+    if (!loc || !markers[locationId]) return;
+
+    const zoomLevel = zoomOverride || (currentView === 'china' ? 9 : 5);
+    map.flyTo([loc.coords[0], loc.coords[1]], zoomLevel, {
+      duration: 1.5, easeLinearity: 0.25,
+    });
+
+    // 高亮当前标记
+    Object.values(markers).forEach(m => m.setZIndexOffset(0));
+    const m = markers[locationId];
+    if (m) {
+      m.setZIndexOffset(1000);
+      m.openPopup();
+      setTimeout(() => m.closePopup(), 3000);
+    }
+  }
+
+  // ── 路线动画 ──
+  function onAnimateRoute(routeCoords, callback) {
+    if (!routeCoords || routeCoords.length === 0) {
+      if (callback) callback();
+      return;
+    }
+
+    // 创建移动标记
+    animMarker.setLatLng(routeCoords[0]);
+    animMarker.setStyle({ radius: 7, fillOpacity: 0.9, opacity: 0.9, weight: 2 });
+
+    let step = 0;
+    const total = routeCoords.length;
+    const interval = setInterval(() => {
+      step++;
+      if (step >= total) {
+        clearInterval(interval);
+        animMarker.setStyle({ radius: 0, fillOpacity: 0, opacity: 0 });
+        if (callback) callback();
+        return;
+      }
+      animMarker.setLatLng(routeCoords[step]);
+    }, 50); // 每 50ms 走一步
+
+    // 同时飞地图跟随动画标记
+    if (routeCoords.length > 10) {
+      const mid = routeCoords[Math.floor(routeCoords.length / 2)];
+      map.flyTo(mid, currentView === 'china' ? 6 : 4, { duration: 2, easeLinearity: 0.5 });
+    }
+  }
+
+  // ── 事件处理 ──
+  function onLocationSelected(locationId) {
+    flyToLocation(locationId);
+  }
+
+  function onViewChanged(view) {
+    currentView = view;
+    const cfg = views[view];
+
+    map.removeLayer(tileLayer);
+    tileLayer = L.tileLayer(cfg.tileUrl, {
+      attribution: cfg.tileAttrib,
+      maxZoom: cfg.maxZoom,
+      subdomains: cfg.tileSubdomains || 'abc',
+    }).addTo(map);
+
+    map.setMinZoom(cfg.minZoom);
+    map.setMaxZoom(cfg.maxZoom);
+    map.flyTo(cfg.center, cfg.zoom, { duration: 1.2, easeLinearity: 0.3 });
+
+    // 根据视图显示/隐藏标记
+    if (cfg.visibleCategories) {
+      Object.entries(markers).forEach(([id, marker]) => {
+        const loc = App.getLocation(id);
+        if (loc && !cfg.visibleCategories.includes(loc.category)) {
+          map.removeLayer(marker);
+        } else if (loc && !map.hasLayer(marker)) {
+          marker.addTo(map);
+        }
+      });
+    } else {
+      // 世界视图：显示全部
+      Object.values(markers).forEach(m => {
+        if (!map.hasLayer(m)) m.addTo(map);
+      });
+    }
+
+    App.emit('view:tiles-changed', view);
+  }
+
+  function onYearChanged(year) {
+    const loc = App.state.locations.find(l => {
+      if (!l.years || l.years.length < 2) return false;
+      return year >= l.years[0] && year <= l.years[1];
+    });
+    if (loc && App.state.activeLocationId !== loc.id) {
+      App.selectLocation(loc.id);
+    }
+  }
+
+  function onFilterChanged(filters) {
+    Object.entries(markers).forEach(([id, marker]) => {
+      const loc = App.getLocation(id);
+      if (!loc) return;
+      let visible = true;
+
+      // 类别筛选
+      if (filters.category && filters.category.length > 0) {
+        visible = visible && filters.category.includes(loc.category);
+      }
+      // 人物筛选
+      if (filters.person) {
+        const people = loc.people || [];
+        visible = visible && people.includes(filters.person);
+      }
+      // 主题/时期筛选 (locationIds)
+      if (filters.locationIds && filters.locationIds.length > 0) {
+        visible = visible && filters.locationIds.includes(id);
+      }
+
+      if (visible && !map.hasLayer(marker)) marker.addTo(map);
+      if (!visible && map.hasLayer(marker)) map.removeLayer(marker);
+    });
+  }
+
+  return {
+    init,
+    get map() { return map; },
+    get markers() { return markers; },
+    get currentView() { return currentView; },
+    flyToLocation,
+  };
+})();
+
+/* ═══════ routes.js ═══════ */
+/* ═══════════════════════════════════════════
+   routes.js — GeoJSON 路线渲染、视图联动、高亮
+   ═══════════════════════════════════════════ */
+
+const RoutesComponent = (() => {
+  'use strict';
+
+  let routeLayers = {};
+  let allRoutes = null;
+
+  function init(state) {
+    allRoutes = state.routes;
+    if (!allRoutes || !allRoutes.features) {
+      console.warn('[Routes] 无路线数据');
+      return;
+    }
+
+    renderAllRoutes();
+    App.on('view:changed', onViewChanged);
+    App.on('location:selected', onLocationSelected);
+    console.log('[Routes] 渲染完成:', allRoutes.features.length, '条');
+  }
+
+  function renderAllRoutes() {
+    allRoutes.features.forEach(feature => {
+      const props = feature.properties;
+      const coords = feature.geometry.coordinates.map(c => [c[1], c[0]]);
+
+      const style = {
+        color: props.color || '#888',
+        weight: props.weight || 2.5,
+        opacity: props.opacity || 0.7,
+        dashArray: props.dashArray || null,
+        lineCap: 'round',
+        lineJoin: 'round',
+      };
+
+      const polyline = L.polyline(coords, style).addTo(MapComponent.map);
+
+      // 装饰箭头标记（在中点显示方向）
+      if (coords.length > 2) {
+        const mid = coords[Math.floor(coords.length / 2)];
+        const decorator = L.circleMarker(mid, {
+          radius: 3, color: props.color, fillColor: props.color,
+          fillOpacity: 0.9, opacity: 0.8, weight: 0,
+        }).addTo(MapComponent.map);
+        decorator.bindTooltip(props.name, {
+          permanent: false, direction: 'center',
+          className: 'route-tooltip',
+        });
+        polyline._decorator = decorator;
+      }
+
+      polyline.on('mouseover', function () {
+        this.setStyle({ weight: props.weight + 2, opacity: 1 });
+        if (this._decorator) this._decorator.setRadius(6);
+      });
+      polyline.on('mouseout', function () {
+        this.setStyle({ weight: props.weight, opacity: props.opacity });
+        if (this._decorator) this._decorator.setRadius(3);
+      });
+      polyline.on('click', () => {
+        L.popup()
+          .setLatLng(coords[Math.floor(coords.length / 2)])
+          .setContent(`<div style="font-size:13px;line-height:1.7;max-width:280px;font-family:'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif"><strong>${props.name}</strong> · ${props.year}年<br><small>${props.description}</small></div>`)
+          .openOn(MapComponent.map);
+      });
+
+      routeLayers[feature.id] = polyline;
+    });
+  }
+
+  function onViewChanged(view) {
+    Object.entries(routeLayers).forEach(([id, layer]) => {
+      const map = MapComponent.map;
+      if (view === 'china') {
+        if (id === 'route-suiyuan' || id === 'route-london-paris') {
+          if (!map.hasLayer(layer)) layer.addTo(map);
+        } else {
+          if (map.hasLayer(layer)) map.removeLayer(layer);
+        }
+      } else {
+        if (!map.hasLayer(layer)) layer.addTo(map);
+      }
+    });
+  }
+
+  function onLocationSelected(locId) {
+    const loc = App.getLocation(locId);
+    if (!loc) return;
+    const relatedSceneIds = new Set(loc.scenes || []);
+
+    Object.entries(routeLayers).forEach(([id, layer]) => {
+      const feature = allRoutes.features.find(f => f.id === id);
+      if (!feature) return;
+      const featSceneIds = feature.properties.scene_ids || [];
+      const isRelated = featSceneIds.some(sid => relatedSceneIds.has(sid));
+      layer.setStyle({
+        weight: isRelated ? 5 : feature.properties.weight,
+        opacity: isRelated ? 1 : feature.properties.opacity * 0.35,
+      });
+      if (isRelated) layer.bringToFront();
+    });
+  }
+
+  return { init, get routeLayers() { return routeLayers; } };
+})();
+
+/* ═══════ panel.js ═══════ */
+/* ═══════════════════════════════════════════
+   panel.js — 抽屉面板（含虚实对照模式）
+   剧情/曲目/作品/历史/人物 五Tab
+   ═══════════════════════════════════════════ */
+
+const PanelComponent = (() => {
+  'use strict';
+
+  let panel, content, locationName;
+  let activeTab = 'plot';
+  let currentLocation = null;
+  let compareMode = false; // 虚实对照模式
+
+  function init(state) {
+    panel = document.getElementById('side-panel');
+    content = document.getElementById('panel-content');
+    locationName = document.getElementById('panel-location-name');
+
+    document.getElementById('btn-close-panel').addEventListener('click', close);
+    document.getElementById('side-panel').addEventListener('click', e => {
+      if (e.target === panel) close();
+    });
+
+    document.querySelectorAll('.panel-tab').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.panel-tab').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        activeTab = btn.dataset.tab;
+        if (currentLocation) renderTab(activeTab, currentLocation);
+      });
+    });
+
+    App.on('location:selected', onLocationSelected);
+    App.on('scene:selected', onSceneSelected);
+    console.log('[Panel] 面板就绪（含虚实对照模式）');
+  }
+
+  function open() { panel.classList.add('open'); }
+  function close() {
+    panel.classList.remove('open');
+    compareMode = false;
+  }
+
+  function onLocationSelected(locId) {
+    const loc = App.getLocation(locId);
+    if (!loc) return;
+    currentLocation = loc;
+    locationName.textContent = loc.name;
+    activeTab = 'plot';
+    document.querySelectorAll('.panel-tab').forEach(b => {
+      b.classList.toggle('active', b.dataset.tab === 'plot');
+    });
+    renderTab('plot', loc);
+    open();
+  }
+
+  function onSceneSelected(sceneId) {
+    const scene = App.getScene(sceneId);
+    if (!scene) return;
+    const loc = App.getLocationByScene(sceneId);
+    if (loc && currentLocation?.id !== loc.id) {
+      currentLocation = loc;
+      locationName.textContent = loc.name;
+    }
+    activeTab = 'plot';
+    document.querySelectorAll('.panel-tab').forEach(b => {
+      b.classList.toggle('active', b.dataset.tab === 'plot');
+    });
+    renderTab('plot', currentLocation);
+    updateAudioButton(sceneId);
+    open();
+  }
+
+  // ── 场景音频按钮 ──
+  function updateAudioButton(sceneId) {
+    const header = document.querySelector('.panel-header');
+    if (!header) return;
+    // 移除旧按钮
+    const oldBtn = header.querySelector('.btn-scene-audio');
+    if (oldBtn) oldBtn.remove();
+
+    const btn = document.createElement('button');
+    btn.className = 'btn-scene-audio';
+    btn.title = '聆听本场歌剧音频';
+    btn.innerHTML = '&#9835;'; // ♪ music note
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (typeof AudioComponent !== 'undefined') {
+        AudioComponent.toggleScenePlay();
+      }
+    });
+    header.appendChild(btn);
+  }
+
+  function renderTab(tab, loc) {
+    switch (tab) {
+      case 'plot': renderPlot(loc); break;
+      case 'music': renderMusic(loc); break;
+      case 'works': renderWorks(loc); break;
+      case 'history': renderHistory(loc); break;
+      case 'people': renderPeople(loc); break;
+    }
+    content.scrollTop = 0;
+  }
+
+  // ── 剧情 Tab（增强版：含虚实对照切换） ──
+  function renderPlot(loc) {
+    const scenes = App.getScenesByLocation(loc.id);
+
+    let html = `
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <p style="color:var(--text-secondary);font-size:13px;flex:1">${loc.summary}</p>
+        <button style="flex-shrink:0;margin-left:8px;padding:4px 10px;border:1px solid var(--border);border-radius:12px;background:#fff;font-size:11px;cursor:pointer;color:var(--text-secondary)"
+                onclick="PanelComponent.toggleCompareMode()">
+          ${compareMode ? '纯脚本' : '虚实对照'}
+        </button>
+      </div>
+    `;
+
+    if (scenes.length === 0) {
+      html += `<div style="text-align:center;padding:30px;color:var(--text-muted)">
+        <p>该地点暂无直接关联的歌剧场次。</p>
+        <p style="font-size:12px;margin-top:8px">但它在刘半农生平中仍占有重要位置。</p>
+      </div>`;
+      content.innerHTML = html;
+      return;
+    }
+
+    scenes.forEach(scene => {
+      html += `
+        <div class="scene-card">
+          <div class="scene-title">${scene.title} · ${scene.subtitle}</div>
+          <div class="scene-atmosphere">${scene.time_setting} &nbsp;|&nbsp; ${scene.atmosphere}</div>
+          <div class="scene-synopsis">${scene.synopsis}</div>
+      `;
+
+      // 虚实对照模式
+      if (compareMode && loc.historical_note) {
+        html += `
+          <div style="margin:8px 0;padding:10px 14px;background:#F0F8E8;border-left:3px solid var(--accent-green);border-radius:0 6px 6px 0;font-size:12px;color:var(--text-secondary);line-height:1.7">
+            <strong>史料对照：</strong>${loc.historical_note}
+          </div>`;
+      }
+
+      // 关键台词
+      if (loc.quote_from_script && loc.quote_from_script.lines) {
+        html += `<div class="scene-quote">`;
+        loc.quote_from_script.lines.forEach(line => {
+          html += `"${line}"<br>`;
+        });
+        html += `<small style="color:var(--text-muted)">—— ${loc.quote_from_script.song}</small></div>`;
+      }
+
+      if (scene.key_moment) {
+        html += `<p style="font-size:12px;color:var(--accent-vermillion);margin-top:8px">${scene.key_moment}</p>`;
+      }
+
+      if (scene.characters && scene.characters.length > 0) {
+        html += `<div class="scene-characters">出场：`;
+        scene.characters.forEach(c => {
+          html += `<span class="person-chip" onclick="App.emit('person:clicked','${c}')">${c}</span>`;
+        });
+        html += `</div>`;
+      }
+
+      html += `</div>`;
+    });
+
+    content.innerHTML = html;
+  }
+
+  function toggleCompareMode() {
+    compareMode = !compareMode;
+    if (currentLocation) renderTab('plot', currentLocation);
+  }
+
+  // ── 曲目 Tab ──
+  function renderMusic(loc) {
+    const scenes = App.getScenesByLocation(loc.id);
+    if (scenes.length === 0) {
+      content.innerHTML = `<p style="text-align:center;padding:40px;color:var(--text-muted)">该地点暂无关联曲目。</p>`;
+      return;
+    }
+
+    let html = '';
+    let songCount = 0;
+    scenes.forEach(scene => {
+      if (!scene.songs || scene.songs.length === 0) return;
+      html += `<h3>${scene.title} · ${scene.subtitle}</h3>`;
+      scene.songs.forEach(song => {
+        songCount++;
+        html += `
+          <div class="song-item" onclick="this.classList.toggle('expanded')">
+            <div class="song-number">${song.number}</div>
+            <div class="song-title">${song.title}</div>
+            <div class="song-performers">${song.performers.join(' · ')} &nbsp;|&nbsp; ${song.type}</div>
+            <div class="song-lyrics">${song.key_lines.map(l => `"${l}"`).join('<br>')}
+              <br><small style="color:var(--text-muted);cursor:pointer;margin-top:4px;display:inline-block" onclick="event.stopPropagation();PanelComponent.playAudioHint('${song.title.replace(/'/g, "\\'")}')">试听提示</small>
+            </div>
+          </div>`;
+      });
+    });
+
+    if (songCount === 0) html = `<p style="text-align:center;padding:40px;color:var(--text-muted)">该地点暂无关联曲目。</p>`;
+    content.innerHTML = html;
+  }
+
+  // ── 作品 Tab ──
+  function renderWorks(loc) {
+    let html = '';
+    if (loc.works && loc.works.length > 0) {
+      html += `<h3>在此地/时期的创作与成果</h3>`;
+      loc.works.forEach(work => {
+        html += `
+          <div class="work-card">
+            <div class="work-title">${work.title}</div>
+            <div class="work-meta">${work.date||''} &nbsp;|&nbsp; ${work.type||''}</div>
+            <div class="work-note">${work.note}</div>
+            ${work.excerpt ? `<div class="scene-quote" style="margin-top:8px">${work.excerpt}</div>` : ''}
+          </div>`;
+      });
+    } else {
+      html += `<p style="text-align:center;padding:40px;color:var(--text-muted)">该地点暂无关联作品记录。</p>`;
+    }
+    content.innerHTML = html;
+  }
+
+  // ── 历史 Tab（增强版） ──
+  function renderHistory(loc) {
+    let html = '';
+
+    if (loc.historical_note) {
+      html += `
+        <div class="history-note" style="border-left:3px solid var(--accent-green)">
+          <h3 style="margin-top:0">📋 史料补充</h3>
+          <p>${loc.historical_note}</p>
+        </div>`;
+    }
+
+    html += `
+      <div class="history-note">
+        <h3 style="margin-top:0">⏱ 基本信息</h3>
+        <p><strong>时期：</strong>${loc.period}</p>
+        <p><strong>类别：</strong>${loc.category}</p>
+        ${loc.name_en ? `<p><strong>英文名：</strong>${loc.name_en}</p>` : ''}
+      </div>`;
+
+    if (loc.opera_scenes && loc.opera_scenes.length > 0) {
+      html += `<div class="history-note"><h3 style="margin-top:0">🎭 歌剧场次</h3>`;
+      loc.opera_scenes.forEach(s => {
+        html += `<p style="margin:4px 0"><strong>${s.scene}</strong>：${s.desc}</p>`;
+      });
+      html += `</div>`;
+    }
+
+    // 无脚本关联的提示
+    if ((!loc.scenes || loc.scenes.length === 0) && loc.historical_note) {
+      html += `
+        <div class="history-note" style="border-left:3px solid var(--accent-gold);background:#FFFDF5">
+          <p style="font-size:12px;color:var(--text-secondary)">此处为刘半农生平中的重要历史节点，在歌剧脚本中未单独成场，但与前后的戏剧事件紧密关联。</p>
+        </div>`;
+    }
+
+    // 媒体资源提示
+    if (loc.media && (loc.media.images?.length > 0 || loc.media.audio?.length > 0)) {
+      html += `<div class="history-note"><h3 style="margin-top:0">📁 媒体资源</h3>`;
+      if (loc.media.images?.length > 0) {
+        html += `<p>🖼 图像：${loc.media.images.join(', ')}</p>`;
+      }
+      if (loc.media.audio?.length > 0) {
+        html += `<p>🎵 音频：${loc.media.audio.join(', ')}</p>`;
+      }
+      html += `<p style="font-size:11px;color:var(--text-muted)">媒体文件待后续版本添加。</p></div>`;
+    }
+
+    content.innerHTML = html;
+  }
+
+  // ── 人物 Tab ──
+  function renderPeople(loc) {
+    let html = '';
+    const locPeople = new Set(loc.people || []);
+
+    if (loc.people && loc.people.length > 0) {
+      html += `<h3>与此地相关的人物</h3><div>`;
+      loc.people.forEach(person => {
+        html += `<span class="person-chip" onclick="App.emit('person:clicked','${person}')">${person}</span>`;
+      });
+      html += `</div>`;
+    }
+
+    const scenes = App.getScenesByLocation(loc.id);
+    const sceneChars = new Set();
+    scenes.forEach(s => { if (s.characters) s.characters.forEach(c => sceneChars.add(c)); });
+    const newChars = [...sceneChars].filter(c => !locPeople.has(c));
+
+    if (newChars.length > 0) {
+      html += `<h3>出场人物（脚本）</h3><div>`;
+      newChars.forEach(person => {
+        html += `<span class="person-chip" onclick="App.emit('person:clicked','${person}')">${person}</span>`;
+      });
+      html += `</div>`;
+    }
+
+    if (locPeople.size === 0 && newChars.length === 0) {
+      html += `<p style="text-align:center;padding:40px;color:var(--text-muted)">暂无关联人物信息。</p>`;
+    }
+
+    content.innerHTML = html;
+  }
+
+  // ── 音频提示（Layer 5 占位：用 Web Audio API 生成简单提示音） ──
+  function playAudioHint(title) {
+    try {
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.type = 'sine';
+      // 简单旋律：do re mi
+      const notes = [523.25, 587.33, 659.25];
+      let t = ctx.currentTime;
+      notes.forEach((freq, i) => {
+        osc.frequency.setValueAtTime(freq, t + i * 0.15);
+      });
+      gain.gain.setValueAtTime(0.1, t);
+      gain.gain.exponentialRampToValueAtTime(0.01, t + 0.6);
+      osc.start(t);
+      osc.stop(t + 0.6);
+      App.showToast(`🎵 "${title}" — 完整音频将随后续版本提供`);
+    } catch(e) {
+      App.showToast('音频播放需要用户交互授权');
+    }
+  }
+
+  return {
+    init, open, close, toggleCompareMode,
+    playAudioHint,
+    get currentLocation() { return currentLocation; },
+  };
+})();
+
+/* ═══════ timeline.js ═══════ */
+/* ═══════════════════════════════════════════
+   timeline.js — 增强时间轴 (1891–1934)
+   关键事件标记、双向联动、悬浮气泡
+   ═══════════════════════════════════════════ */
+
+const TimelineComponent = (() => {
+  'use strict';
+
+  let track;
+  const START = 1891, END = 1934;
+
+  // 关键事件（含详细描述、关联地点）
+  const keyEvents = {
+    1891: { text: '生于江阴南沙镇殷家埭', locId: 'jiangyin', icon: '生' },
+    1907: { text: '入读常州府中学堂', locId: 'changzhou', icon: '读' },
+    1912: { text: '赴沪，入开明剧社，开始翻译生涯', locId: 'shanghai', icon: '译' },
+    1917: { text: '受蔡元培破格聘为北大预科教授', locId: 'beijing-beida', icon: '教' },
+    1920: { text: '赴伦敦大学大学院留学', locId: 'london', icon: '洋' },
+    1921: { text: '转入巴黎大学，自制音鼓浪纹计', locId: 'paris', icon: '研' },
+    1925: { text: '获法国国家文学博士，回国', locId: 'beijing-return', icon: '归' },
+    1926: { text: '《扬鞭集》《瓦釜集》出版；赵元任为《教我如何不想她》谱曲', locId: 'beijing-return', icon: '著' },
+    1931: { text: '主持故宫天坛古乐器测音', locId: 'beijing-return', icon: '乐' },
+    1932: { text: '弟刘天华病逝，年仅37岁', locId: 'beijing-return', icon: '哀' },
+    1933: { text: '赴河南、山东（曲阜）考察古乐', locId: 'henan-shandong', icon: '考' },
+    1934: { text: '绥远采风，染回归热逝世', locId: 'xiangshan', icon: '眠' },
+  };
+
+  function init(state) {
+    track = document.getElementById('timeline-track');
+    if (!track) return;
+    renderTicks();
+    App.on('location:selected', onLocationSelected);
+    App.on('year:changed', onYearChanged);
+    App.on('scene:selected', onSceneSelected);
+    console.log('[Timeline] 增强时间轴就绪');
+  }
+
+  function renderTicks() {
+    let html = '';
+    for (let y = START; y <= END; y++) {
+      const ev = keyEvents[y];
+      const cls = ev ? 'timeline-tick key-event' : 'timeline-tick';
+      const showLabel = y % 5 === 0 || ev;
+      html += `
+        <div class="timeline-tick ${ev ? 'key-event' : ''}"
+             data-year="${y}"
+             ${ev ? `data-loc="${ev.locId}"` : ''}
+             title="${ev ? `${y}年：${ev.text}` : `${y}年`}">
+          ${showLabel ? `<span class="tick-label">${y}</span>` : ''}
+        </div>`;
+    }
+    track.innerHTML = html;
+
+    // 点击事件
+    track.querySelectorAll('.timeline-tick').forEach(tick => {
+      tick.addEventListener('click', () => {
+        const year = parseInt(tick.dataset.year);
+        App.setYear(year);
+        const locId = tick.dataset.loc;
+        if (locId) App.selectLocation(locId);
+      });
+    });
+
+    // 初始化悬浮提示（用原生 title 已够用，但也可以做自定义 tooltip）
+  }
+
+  function onLocationSelected(locId) {
+    const loc = App.getLocation(locId);
+    if (!loc || !loc.years || loc.years.length < 2) return;
+    const [s, e] = loc.years;
+
+    track.querySelectorAll('.timeline-tick').forEach(tick => {
+      const y = parseInt(tick.dataset.year);
+      tick.classList.toggle('active', y >= s && y <= e);
+    });
+
+    // 滚动到起始年份
+    const firstTick = track.querySelector(`.timeline-tick[data-year="${s}"]`);
+    firstTick?.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+  }
+
+  function onSceneSelected(sceneId) {
+    const loc = App.getLocationByScene(sceneId);
+    if (loc) onLocationSelected(loc.id);
+  }
+
+  function onYearChanged(year) {
+    track.querySelectorAll('.timeline-tick').forEach(tick => {
+      const y = parseInt(tick.dataset.year);
+      tick.classList.toggle('active', y === year);
+    });
+  }
+
+  return { init, get keyEvents() { return keyEvents; } };
+})();
+
+/* ═══════ special-pages.js ═══════ */
+/* ═══════════════════════════════════════════
+   special-pages.js — 「她」字专题 + 江阴三杰 + 人物关系
+   ═══════════════════════════════════════════ */
+
+const SpecialPages = (() => {
+  'use strict';
+
+  function init(state) {
+    // 绑定触发按钮
+    document.getElementById('btn-she-zi')?.addEventListener('click', openSheZiPage);
+    document.getElementById('btn-three-brothers')?.addEventListener('click', openThreeBrothersPage);
+    document.getElementById('btn-knowledge-graph')?.addEventListener('click', () => {
+      if (typeof KnowledgeGraph !== 'undefined' && typeof d3 !== 'undefined') {
+        KnowledgeGraph.render();
+      } else {
+        openKnowledgeGraph(); // 回退到静态 CSS+SVG
+      }
+    });
+
+    // 人物点击弹出关系卡
+    App.on('person:clicked', openPersonCard);
+
+    console.log('[SpecialPages] 专题页模块就绪');
+  }
+
+  // ═══════════════════════════════════════
+  // 「她」字专题页
+  // ═══════════════════════════════════════
+  function openSheZiPage() {
+    const overlay = document.getElementById('shezi-overlay');
+    if (!overlay) return;
+    overlay.classList.remove('hidden');
+
+    const content = overlay.querySelector('.overlay-content');
+    if (content) {
+      content.innerHTML = `
+        <button class="btn-overlay-close" onclick="document.getElementById('shezi-overlay').classList.add('hidden')">✕</button>
+        <h2>「她」字的诞生</h2>
+        <p style="color:#6E6760;margin-bottom:16px">一个字的创造，改变了一个民族的表达方式。</p>
+
+        <div class="shezi-timeline">
+          <div class="shezi-step">
+            <div class="shezi-year">1920.9</div>
+            <h3>伦敦寓所，煤气灯下</h3>
+            <p>刘半农在伦敦大学大学院攻读实验语音学时，写下新诗《教我如何不想她》，首次将「她」字引入中国现代诗歌。此前汉语第三人称代词不分性别，「他」兼指男女。刘半农受英文 he/she 启发，提议用「她」作为女性第三人称代词。</p>
+            <div class="scene-quote">"天上飘着些微云，地上吹着些微风。<br>啊！微风吹动了我的头发，<br>教我如何不想她？"</div>
+          </div>
+
+          <div class="shezi-step">
+            <div class="shezi-year">1920–1923</div>
+            <h3>争议与论战</h3>
+            <p>「她」字的提出引发了激烈争议。保守派认为「何必另造一字」；女权主义者质疑「为什么女性要区别出来」；甚至有人写《她之研究》长文抨击。但刘半农坚持：「她」不是区分性别，而是让女性在语言中被「看见」。</p>
+            <p style="font-size:12px;color:var(--text-muted)">歌剧第三场中，赵元任打趣道："从此中华字典里又多了一个'她'！"四人朗声大笑——这个戏剧时刻正是历史真实的写照。</p>
+          </div>
+
+          <div class="shezi-step">
+            <div class="shezi-year">1926</div>
+            <h3>赵元任谱曲</h3>
+            <p>语言学家、作曲家赵元任为《教我如何不想她》谱曲，这首歌迅速风靡全国，成为 20 世纪最著名的中国艺术歌曲之一。「她」字随着旋律深入人心，最终被全社会接受。</p>
+          </div>
+
+          <div class="shezi-step">
+            <div class="shezi-year">1934</div>
+            <h3>流风无尽</h3>
+            <p>刘半农去世后，鲁迅在《忆刘半农君》中称赞「她」字的创造。如今近百年过去，「她」字已成为现代汉语中使用频率最高的汉字之一。据统计，「她」在当代中文文本中的出现频率约为 0.8%，每 125 个字中就有一个「她」。</p>
+          </div>
+        </div>
+
+        <hr>
+        <p style="text-align:center;font-size:12px;color:var(--text-muted)">
+          点击「她」字 → 返回地图，查看伦敦节点中的完整故事
+        </p>
+        <div style="text-align:center;margin-top:16px">
+          <span class="big-she-zi" onclick="App.selectLocation('london');document.getElementById('shezi-overlay').classList.add('hidden')" title="点击回到伦敦">她</span>
+        </div>
+      `;
+    }
+  }
+
+  // ═══════════════════════════════════════
+  // 江阴三杰专题页
+  // ═══════════════════════════════════════
+  function openThreeBrothersPage() {
+    const overlay = document.getElementById('brothers-overlay');
+    if (!overlay) return;
+    overlay.classList.remove('hidden');
+
+    const content = overlay.querySelector('.overlay-content');
+    if (content) {
+      content.innerHTML = `
+        <button class="btn-overlay-close" onclick="document.getElementById('brothers-overlay').classList.add('hidden')">✕</button>
+        <h2>江阴三杰</h2>
+        <p style="color:#6E6760;margin-bottom:20px">刘氏三兄弟，一母同胞，各擅胜场。歌剧第七场「音律和鸣」的核心人物。</p>
+
+        <div class="brothers-grid">
+          <div class="brother-card" style="border-top:4px solid #B22222">
+            <h3>刘半农 <small>（刘寿彭）</small></h3>
+            <p class="brother-years">1891–1934</p>
+            <p class="brother-role">文学先声</p>
+            <p>文学家、语言学家、新文化运动先驱。首创「她」字，建立中国第一个语音乐律实验室，以《汉语字声实验录》获法国国家文学博士。</p>
+            <p class="brother-works"><strong>代表作：</strong>《扬鞭集》《瓦釜集》《半农杂文》《教我如何不想她》</p>
+          </div>
+
+          <div class="brother-card" style="border-top:4px solid #3D6B5D">
+            <h3>刘天华 <small>（刘寿椿）</small></h3>
+            <p class="brother-years">1895–1932</p>
+            <p class="brother-role">国乐叹绝</p>
+            <p>中国现代民族音乐一代宗师。改良二胡、琵琶，使民间乐器登上大雅之堂。在天桥采风时染猩红热，37 岁早逝。</p>
+            <p class="brother-works"><strong>代表作：</strong>《良宵》《病中吟》《空山鸟语》《光明行》《烛影摇红》</p>
+            <p style="font-size:11px;color:var(--accent-vermillion);margin-top:8px">歌剧第七场：刘天华除夕演奏《良宵》，刘半农为其命名；随后传来噩耗。</p>
+          </div>
+
+          <div class="brother-card" style="border-top:4px solid #3D5273">
+            <h3>刘北茂 <small>（刘寿慈）</small></h3>
+            <p class="brother-years">1903–1981</p>
+            <p class="brother-role">继志述事</p>
+            <p>作曲家、二胡演奏家。两位兄长相继离世后，继承国乐改良事业。创作大量二胡曲，被誉为「刘氏三杰」中最长寿者。</p>
+            <p class="brother-works"><strong>代表作：</strong>《汉江潮》《漂泊者之歌》《小花鼓》</p>
+            <p style="font-size:11px;color:var(--text-muted);margin-top:8px">歌剧第七场：刘半农托付三弟"北茂啊，国乐改良的事业，往后就靠你和你的学生们了！"</p>
+          </div>
+        </div>
+
+        <hr>
+        <p style="text-align:center;font-size:12px;color:var(--text-muted)">
+          歌剧第七场「音律和鸣」以三兄弟除夕团圆为主线 → <a href="javascript:void(0)" onclick="App.selectScene('scene-7');document.getElementById('brothers-overlay').classList.add('hidden')">查看第七场</a>
+        </p>
+      `;
+    }
+  }
+
+  // ═══════════════════════════════════════
+  // 人物关系卡片（弹窗简化版）
+  // ═══════════════════════════════════════
+  const PERSON_DB = {
+    '刘半农': { role: '文学家·语言学家', birth: '1891', death: '1934', relation: '新文化运动先驱，首创「她」字，建立中国第一个语音乐律实验室', photo: 'assets/portraits/liu_bannong.jpg', scenes: ['scene-prologue','scene-1','scene-2','scene-3','scene-4','scene-5','scene-6','scene-7','scene-8','scene-9'] },
+    '蔡元培': { role: '北大校长', birth: '1868', death: '1940', relation: '破格聘用刘半农为北大教授，题碑文「嗣音有人，流风无尽」', photo: 'assets/portraits/cai_yuanpei.jpg', scenes: ['scene-1', 'scene-5', 'scene-9'] },
+    '赵元任': { role: '语言学家、作曲家', birth: '1892', death: '1982', relation: '刘半农毕生知音，为《教我如何不想她》谱曲，共同推进国语统一', photo: 'assets/portraits/zhao_yuanren.jpg', scenes: ['scene-3', 'scene-5'] },
+    '刘天华': { role: '国乐大师', birth: '1895', death: '1932', relation: '二弟，除夕合奏《良宵》，1932年早逝', photo: 'assets/portraits/liu_tianhua.jpg', scenes: ['scene-6', 'scene-7'] },
+    '刘北茂': { role: '作曲家', birth: '1903', death: '1981', relation: '三弟，继承国乐改良事业', photo: null, scenes: ['scene-7'] },
+    '朱惠': { role: '刘半农夫人', birth: '?', death: '?', relation: '风雨携手一生，伦敦赶织毛衣贴补家用，巴黎用毛线法助修音鼓', photo: null, scenes: ['scene-1', 'scene-2', 'scene-3', 'scene-4', 'scene-5', 'scene-8', 'scene-9'] },
+    '刘小蕙': { role: '刘半农长女', birth: '1916', death: '?', relation: '剧中叙事视角，童年随父赴欧，全剧以她的回忆串联', photo: null, scenes: ['scene-prologue', 'scene-2', 'scene-4', 'scene-5', 'scene-9'] },
+    '钱玄同': { role: '新文化运动战友', birth: '1887', death: '1939', relation: '合撰《复王敬轩书》，痛批旧文学', photo: 'assets/portraits/qian_xuantong.jpg', scenes: ['scene-1'] },
+    '鲁迅': { role: '文学家', birth: '1881', death: '1936', relation: '新青年同人，后写《忆刘半农君》', photo: 'assets/portraits/lu_xun.jpg', scenes: [] },
+    '白涤洲': { role: '助手、学生', birth: '1900', death: '1934', relation: '协助语音乐律实验室工作，陪同绥远采风', photo: null, scenes: ['scene-6', 'scene-8'] },
+    '杨步伟': { role: '赵元任夫人', birth: '1889', death: '1981', relation: '江南同乡，巴黎时期两对夫妇交情深厚', photo: 'assets/portraits/yang_buwei.jpg', scenes: ['scene-3', 'scene-5'] },
+    '齐白石': { role: '画家', birth: '1864', death: '1957', relation: '1933年为刘半农画《审音鉴古图》', photo: 'assets/portraits/qi_baishi.png', scenes: [] },
+    '徐悲鸿': { role: '画家', birth: '1895', death: '1953', relation: '同为光社成员', photo: 'assets/portraits/xu_beihong.jpg', scenes: [] },
+    '陈独秀': { role: '新青年主编', birth: '1879', death: '1942', relation: '北大文科学长，新文化运动领袖', photo: 'assets/portraits/chen_duxiu.jpg', scenes: [] },
+    '胡适': { role: '北大教授', birth: '1891', death: '1962', relation: '白话文运动倡导者，与刘半农同为北大同事', photo: 'assets/portraits/hu_shi.jpg', scenes: [] },
+  };
+
+  function openPersonCard(personName) {
+    const info = PERSON_DB[personName];
+    if (!info) return;
+
+    const card = document.getElementById('portrait-card');
+    if (!card) return;
+
+    // 处理肖像图片：有真实照片则显示，无则保留 CSS 剪影
+    const placeholder = document.getElementById('portrait-img');
+    const initialEl = document.getElementById('portrait-initial');
+    const frameEl = card.querySelector('.portrait-frame');
+
+    // 始终保留 #portrait-initial 在 DOM 中（onerror 回退用）
+    // 清除之前可能添加的 <img>
+    const existingImg = placeholder.querySelector('.portrait-photo');
+    if (existingImg) existingImg.remove();
+
+    if (initialEl) {
+      initialEl.textContent = personName.charAt(0);
+    }
+
+    if (info.photo) {
+      // 创建真实照片 <img>，prepend 到 placeholder
+      const img = document.createElement('img');
+      img.src = info.photo;
+      img.alt = personName;
+      img.className = 'portrait-photo';
+      img.onerror = function () {
+        // 图片加载失败 → 隐藏 img，显示字号剪影
+        this.style.display = 'none';
+        if (initialEl) initialEl.style.display = 'flex';
+      };
+      img.onload = function () {
+        // 图片加载成功 → 隐藏字号剪影
+        if (initialEl) initialEl.style.display = 'none';
+      };
+      placeholder.insertBefore(img, placeholder.firstChild);
+      placeholder.classList.add('has-photo');
+      if (frameEl) frameEl.classList.add('has-photo');
+    } else {
+      // 无照片 — 只显示 CSS 剪影 + 字号水印
+      if (initialEl) initialEl.style.display = 'flex';
+      placeholder.classList.remove('has-photo');
+      if (frameEl) frameEl.classList.remove('has-photo');
+    }
+
+    const nameEl = document.getElementById('portrait-name');
+    if (nameEl) nameEl.textContent = personName;
+
+    const roleEl = document.getElementById('portrait-role');
+    if (roleEl) roleEl.textContent = info.role;
+
+    const datesEl = document.getElementById('portrait-dates');
+    if (datesEl) {
+      datesEl.textContent = (info.birth && info.death && info.birth !== '?')
+        ? `${info.birth} – ${info.death}`
+        : '';
+    }
+
+    const relEl = document.getElementById('portrait-relation');
+    if (relEl) relEl.textContent = info.relation;
+
+    // 显示
+    card.classList.remove('hidden');
+    // 重新触发 animation
+    card.style.animation = 'none';
+    card.offsetHeight;
+    card.style.animation = 'portrait-in 0.35s cubic-bezier(0.6,0.04,0.4,0.94)';
+  }
+
+  function hidePortrait() {
+    document.getElementById('portrait-card')?.classList.add('hidden');
+  }
+
+  // ═══════════════════════════════════════
+  // 简化知识图谱（D3 太重，用纯 CSS 卡片网格替代）
+  // ═══════════════════════════════════════
+  function openKnowledgeGraph() {
+    const overlay = document.getElementById('graph-overlay');
+    if (!overlay) return;
+    overlay.classList.remove('hidden');
+
+    const nodes = [
+      { name: '刘半农', color: '#B22222', x: 50, y: 40 },
+      { name: '蔡元培', color: '#7A1818', x: 40, y: 15 },
+      { name: '赵元任', color: '#3D5273', x: 65, y: 20 },
+      { name: '钱玄同', color: '#7A1818', x: 30, y: 30 },
+      { name: '鲁迅', color: '#7A1818', x: 25, y: 50 },
+      { name: '刘天华', color: '#3D6B5D', x: 60, y: 55 },
+      { name: '刘北茂', color: '#3D6B5D', x: 70, y: 60 },
+      { name: '朱惠', color: '#A0845C', x: 45, y: 65 },
+      { name: '刘小蕙', color: '#A0845C', x: 55, y: 70 },
+      { name: '白涤洲', color: '#5C7A6B', x: 75, y: 35 },
+      { name: '杨步伟', color: '#5B7BA0', x: 75, y: 15 },
+    ];
+
+    const content = overlay.querySelector('.overlay-content');
+    if (content) {
+      const nodeHTML = nodes.map(n =>
+        `<div class="graph-node" style="left:${n.x}%;top:${n.y}%;border-color:${n.color}" onclick="App.emit('person:clicked','${n.name}')">${n.name}</div>`
+      ).join('');
+
+      content.innerHTML = `
+        <button class="btn-overlay-close" onclick="document.getElementById('graph-overlay').classList.add('hidden')">✕</button>
+        <h2>民国学术圈 · 人物关系网络</h2>
+        <p style="color:#6E6760;margin-bottom:16px;font-size:13px">以刘半农为中心，辐射新文化运动、现代语言学、国乐改良三大领域。点击人物查看详情。</p>
+        <div class="graph-container">
+          ${nodeHTML}
+          <!-- 关系线用 SVG -->
+          <svg class="graph-lines" viewBox="0 0 100 100" preserveAspectRatio="none">
+            <line x1="50" y1="40" x2="40" y2="15" stroke="#B22222" stroke-width="0.3" opacity="0.5"/>
+            <line x1="50" y1="40" x2="65" y2="20" stroke="#3D5273" stroke-width="0.3" opacity="0.6"/>
+            <line x1="50" y1="40" x2="30" y2="30" stroke="#7A1818" stroke-width="0.2" opacity="0.4"/>
+            <line x1="50" y1="40" x2="25" y2="50" stroke="#7A1818" stroke-width="0.2" opacity="0.4"/>
+            <line x1="50" y1="40" x2="60" y2="55" stroke="#3D6B5D" stroke-width="0.4" opacity="0.8"/>
+            <line x1="50" y1="40" x2="70" y2="60" stroke="#3D6B5D" stroke-width="0.3" opacity="0.6"/>
+            <line x1="50" y1="40" x2="45" y2="65" stroke="#A0845C" stroke-width="0.5" opacity="0.8"/>
+            <line x1="50" y1="40" x2="55" y2="70" stroke="#A0845C" stroke-width="0.4" opacity="0.7"/>
+            <line x1="50" y1="40" x2="75" y2="35" stroke="#5C7A6B" stroke-width="0.3" opacity="0.6"/>
+            <line x1="65" y1="20" x2="75" y2="15" stroke="#5B7BA0" stroke-width="0.2" opacity="0.5"/>
+            <line x1="40" y1="15" x2="30" y2="30" stroke="#7A1818" stroke-width="0.2" opacity="0.3"/>
+            <line x1="60" y1="55" x2="70" y2="60" stroke="#3D6B5D" stroke-width="0.3" opacity="0.6"/>
+          </svg>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:12px">
+          <span style="font-size:11px;color:#B22222">● 刘半农</span>
+          <span style="font-size:11px;color:#7A1818">● 北大/新青年</span>
+          <span style="font-size:11px;color:#3D5273">● 语言学同道</span>
+          <span style="font-size:11px;color:#3D6B5D">● 兄弟</span>
+          <span style="font-size:11px;color:#A0845C">● 家庭</span>
+          <span style="font-size:11px;color:#5C7A6B">● 学生/助手</span>
+        </div>
+      `;
+    }
+  }
+
+  return { init, openSheZiPage, openThreeBrothersPage, openKnowledgeGraph, openPersonCard, hidePortrait };
+})();
+
+/* ═══════ knowledge-graph.js ═══════ */
+/* ═══════════════════════════════════════════
+   knowledge-graph.js — D3.js 力导向人物关系图
+   替换原 CSS+SVG 静态图，支持拖拽、缩放、点击
+   致敬刘半农的民国学术圈
+   ═══════════════════════════════════════════ */
+
+const KnowledgeGraph = (() => {
+  'use strict';
+
+  let overlay, container, svg, simulation;
+  let nodes = [], links = [];
+
+  // 完整人物关系数据（含权重和分类）
+  const graphData = {
+    nodes: [
+      { id: '刘半农', group: 'center', desc: '文学家·语言学家·新文化先驱', color: '#B22222', size: 22 },
+      { id: '蔡元培', group: 'beida', desc: '北大校长·破格聘用', color: '#7A1818', size: 18 },
+      { id: '赵元任', group: 'linguist', desc: '语言学家·作曲家·知音', color: '#3D5273', size: 17 },
+      { id: '钱玄同', group: 'beida', desc: '新文化战友·合撰双簧信', color: '#7A1818', size: 14 },
+      { id: '鲁迅', group: 'beida', desc: '文学家·新青年同人', color: '#7A1818', size: 15 },
+      { id: '刘天华', group: 'family', desc: '二弟·国乐大师·《良宵》', color: '#3D6B5D', size: 18 },
+      { id: '刘北茂', group: 'family', desc: '三弟·继承国乐事业', color: '#3D6B5D', size: 14 },
+      { id: '朱惠', group: 'family', desc: '夫人·风雨携手一生', color: '#A0845C', size: 16 },
+      { id: '刘小蕙', group: 'family', desc: '长女·叙事视角', color: '#A0845C', size: 13 },
+      { id: '白涤洲', group: 'student', desc: '助手·陪同绥远采风', color: '#5C7A6B', size: 13 },
+      { id: '杨步伟', group: 'linguist', desc: '赵元任夫人·江南同乡', color: '#5B7BA0', size: 12 },
+      { id: '齐白石', group: 'art', desc: '画家·《审音鉴古图》', color: '#A0845C', size: 12 },
+      { id: '徐悲鸿', group: 'art', desc: '画家·光社同人', color: '#A0845C', size: 12 },
+      { id: '陈独秀', group: 'beida', desc: '新青年主编·北大文科学长', color: '#7A1818', size: 14 },
+      { id: '胡适', group: 'beida', desc: '北大教授·白话文运动', color: '#7A1818', size: 14 },
+      { id: '周作人', group: 'beida', desc: '北大教授·散文家', color: '#7A1818', size: 12 },
+      { id: '郭沫若', group: 'literary', desc: '诗人·后撰文评价刘半农', color: '#6E6760', size: 11 },
+      { id: '萧乾', group: 'literary', desc: '记者·回忆刘半农', color: '#6E6760', size: 10 },
+    ],
+    links: [
+      { source: '刘半农', target: '蔡元培', strength: 0.9, label: '破格聘用·题碑' },
+      { source: '刘半农', target: '赵元任', strength: 0.95, label: '毕生知音·谱曲' },
+      { source: '刘半农', target: '钱玄同', strength: 0.8, label: '合撰双簧信' },
+      { source: '刘半农', target: '鲁迅', strength: 0.7, label: '新青年同人' },
+      { source: '刘半农', target: '刘天华', strength: 1.0, label: '同胞兄弟' },
+      { source: '刘半农', target: '刘北茂', strength: 0.9, label: '同胞兄弟' },
+      { source: '刘半农', target: '朱惠', strength: 1.0, label: '夫妻' },
+      { source: '刘半农', target: '刘小蕙', strength: 0.9, label: '父女' },
+      { source: '刘半农', target: '白涤洲', strength: 0.7, label: '师生·助手' },
+      { source: '刘半农', target: '陈独秀', strength: 0.6, label: '新青年同人' },
+      { source: '刘半农', target: '胡适', strength: 0.55, label: '白话文运动' },
+      { source: '赵元任', target: '杨步伟', strength: 0.9, label: '夫妻' },
+      { source: '刘天华', target: '刘北茂', strength: 0.85, label: '兄弟' },
+      { source: '朱惠', target: '刘小蕙', strength: 0.8, label: '母女' },
+      { source: '蔡元培', target: '陈独秀', strength: 0.7, label: '聘为文科学长' },
+      { source: '蔡元培', target: '胡适', strength: 0.6, label: '北大同事' },
+      { source: '鲁迅', target: '钱玄同', strength: 0.5, label: '新青年同人' },
+      { source: '鲁迅', target: '周作人', strength: 0.7, label: '兄弟' },
+      { source: '齐白石', target: '徐悲鸿', strength: 0.4, label: '画坛同道' },
+      { source: '刘半农', target: '郭沫若', strength: 0.3, label: '后世评述' },
+      { source: '刘半农', target: '萧乾', strength: 0.3, label: '后世采访' },
+    ],
+  };
+
+  // 颜色分组
+  const groupColors = {
+    center: '#B22222',
+    beida: '#7A1818',
+    linguist: '#3D5273',
+    family: '#3D6B5D',
+    student: '#5C7A6B',
+    art: '#A0845C',
+    literary: '#6E6760',
+  };
+
+  function init(state) {
+    overlay = document.getElementById('graph-overlay');
+    // 按钮绑定由 special-pages.js 处理，这里只做 D3 检测
+
+    if (typeof d3 === 'undefined') {
+      console.warn('[KnowledgeGraph] D3.js 未加载，回退到静态图');
+      return;
+    }
+    console.log('[KnowledgeGraph] D3 力导向图就绪');
+  }
+
+  function render() {
+    if (!overlay) return;
+    overlay.classList.remove('hidden');
+
+    const content = overlay.querySelector('.overlay-content');
+    if (!content) return;
+
+    content.innerHTML = `
+      <button class="btn-overlay-close" id="kg-close">✕</button>
+      <h2>民国学术圈 · 人物关系网络</h2>
+      <p style="color:#6E6760;margin-bottom:12px;font-size:13px">
+        以刘半农为中心，辐射新文化运动、现代语言学、国乐改良三大领域。
+        <strong>拖拽节点</strong> · <strong>滚轮缩放</strong> · <strong>点击查看详情</strong>
+      </p>
+      <div id="kg-legend" style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:10px"></div>
+      <div id="kg-container" style="width:100%;height:500px;background:#FFF;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden"></div>
+      <button id="kg-reset" style="margin-top:10px;padding:6px 16px;border:1px solid var(--border);border-radius:20px;background:#fff;cursor:pointer;font-size:12px;color:var(--text-secondary)">重置布局</button>
+    `;
+
+    // 关闭
+    content.querySelector('#kg-close').addEventListener('click', () => overlay.classList.add('hidden'));
+
+    // 图例
+    const legend = content.querySelector('#kg-legend');
+    const groupLabels = {
+      center: '核心人物', beida: '北大/新青年', linguist: '语言学同道',
+      family: '家庭', student: '学生/助手', art: '艺术圈', literary: '文学圈',
+    };
+    legend.innerHTML = Object.entries(groupLabels).map(([k, v]) =>
+      `<span style="font-size:11px;color:${groupColors[k]};display:flex;align-items:center;gap:4px">
+        <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:${groupColors[k]}"></span>${v}
+      </span>`
+    ).join('');
+
+    // D3 绑定
+    const box = content.querySelector('#kg-container');
+    buildGraph(box);
+
+    content.querySelector('#kg-reset').addEventListener('click', () => {
+      buildGraph(box);
+    });
+  }
+
+  function buildGraph(box) {
+    if (typeof d3 === 'undefined') {
+      box.innerHTML = `<p style="text-align:center;padding:40px;color:var(--text-muted)">D3.js 未加载，请检查网络连接。</p>`;
+      return;
+    }
+
+    // 清理旧图和 observer
+    if (box._resizeObserver) box._resizeObserver.disconnect();
+    box.innerHTML = '';
+    const W = box.clientWidth;
+    const H = box.clientHeight || 500;
+
+    // ResizeObserver: 窗口变化时重建布局
+    box._resizeObserver = new ResizeObserver(() => {
+      clearTimeout(box._resizeTimer);
+      box._resizeTimer = setTimeout(() => buildGraph(box), 250);
+    });
+    box._resizeObserver.observe(box);
+
+    svg = d3.select(box).append('svg')
+      .attr('width', W)
+      .attr('height', H)
+      .attr('viewBox', [0, 0, W, H]);
+
+    // 缩放
+    const g = svg.append('g');
+    const zoom = d3.zoom()
+      .scaleExtent([0.3, 3])
+      .on('zoom', (event) => { g.attr('transform', event.transform); });
+    svg.call(zoom);
+
+    // 数据深拷贝
+    nodes = graphData.nodes.map(n => ({ ...n }));
+    links = graphData.links.map(l => ({ ...l }));
+
+    // 力模拟
+    simulation = d3.forceSimulation(nodes)
+      .force('link', d3.forceLink(links).id(d => d.id).distance(d => 120 - d.strength * 50))
+      .force('charge', d3.forceManyBody().strength(-400))
+      .force('center', d3.forceCenter(W / 2, H / 2))
+      .force('collision', d3.forceCollide().radius(d => d.size + 8));
+
+    // 连线
+    const link = g.append('g')
+      .selectAll('line')
+      .data(links)
+      .join('line')
+      .attr('stroke', '#C7C0B8')
+      .attr('stroke-width', d => d.strength * 3)
+      .attr('stroke-opacity', 0.5)
+      .attr('stroke-dasharray', d => d.strength < 0.5 ? '4,4' : null);
+
+    // 连线标签（仅高权重显示）
+    const linkLabel = g.append('g')
+      .selectAll('text')
+      .data(links.filter(l => l.strength >= 0.7))
+      .join('text')
+      .text(d => d.label)
+      .attr('font-size', 10)
+      .attr('fill', '#9C948C')
+      .attr('text-anchor', 'middle')
+      .attr('dy', -4);
+
+    // 节点组
+    const node = g.append('g')
+      .selectAll('g')
+      .data(nodes)
+      .join('g')
+      .attr('cursor', 'pointer')
+      .call(drag(simulation));
+
+    // 节点圆
+    node.append('circle')
+      .attr('r', d => d.size)
+      .attr('fill', d => d.color)
+      .attr('stroke', '#fff')
+      .attr('stroke-width', 2.5)
+      .attr('filter', 'drop-shadow(0 2px 4px rgba(0,0,0,0.2))');
+
+    // 中心人物光晕
+    node.filter(d => d.group === 'center')
+      .append('circle')
+      .attr('r', d => d.size + 6)
+      .attr('fill', 'none')
+      .attr('stroke', '#B22222')
+      .attr('stroke-width', 1.5)
+      .attr('stroke-opacity', 0.3)
+      .attr('class', 'kg-halo');
+
+    // 标签
+    node.append('text')
+      .text(d => d.id)
+      .attr('text-anchor', 'middle')
+      .attr('dy', d => d.size + 14)
+      .attr('font-size', d => d.group === 'center' ? 13 : 11)
+      .attr('font-weight', d => d.group === 'center' ? 700 : 400)
+      .attr('font-family', "'Noto Sans SC', sans-serif")
+      .attr('fill', '#2C2416')
+      .attr('pointer-events', 'none');
+
+    // 描述标注（hover显示）
+    node.append('title')
+      .text(d => `${d.id}\n${d.desc}`);
+
+    // 交互
+    node.on('click', (event, d) => {
+      event.stopPropagation();
+      // 高亮当前节点及其连线
+      const connected = new Set();
+      links.forEach(l => {
+        if (l.source.id === d.id || l.target.id === d.id) {
+          connected.add(l.source.id);
+          connected.add(l.target.id);
+        }
+      });
+
+      node.select('circle')
+        .attr('stroke', n => connected.has(n.id) ? '#B22222' : '#fff')
+        .attr('stroke-width', n => connected.has(n.id) ? 3 : (n.id === d.id ? 3 : 2.5))
+        .attr('opacity', n => connected.has(n.id) || n.id === d.id ? 1 : 0.3);
+
+      link
+        .attr('stroke-opacity', l => (l.source.id === d.id || l.target.id === d.id) ? 0.9 : 0.1)
+        .attr('stroke', l => (l.source.id === d.id || l.target.id === d.id) ? '#B22222' : '#C7C0B8')
+        .attr('stroke-width', l => (l.source.id === d.id || l.target.id === d.id) ? 4 : 1);
+
+      // 弹人物卡片
+      if (typeof App !== 'undefined') {
+        App.emit('person:clicked', d.id);
+      }
+    });
+
+    // 双击重置
+    node.on('dblclick', () => {
+      node.select('circle').attr('stroke', '#fff').attr('stroke-width', 2.5).attr('opacity', 1);
+      link.attr('stroke', '#C7C0B8').attr('stroke-opacity', 0.5).attr('stroke-width', d => d.strength * 3);
+    });
+
+    // 空白区域点击重置
+    svg.on('click', () => {
+      node.select('circle').attr('stroke', '#fff').attr('stroke-width', 2.5).attr('opacity', 1);
+      link.attr('stroke', '#C7C0B8').attr('stroke-opacity', 0.5).attr('stroke-width', d => d.strength * 3);
+    });
+
+    // 模拟 tick
+    simulation.on('tick', () => {
+      link
+        .attr('x1', d => d.source.x)
+        .attr('y1', d => d.source.y)
+        .attr('x2', d => d.target.x)
+        .attr('y2', d => d.target.y);
+
+      linkLabel
+        .attr('x', d => (d.source.x + d.target.x) / 2)
+        .attr('y', d => (d.source.y + d.target.y) / 2);
+
+      node.attr('transform', d => `translate(${d.x},${d.y})`);
+    });
+
+    // 脉冲动画（中心节点）
+    animateHalo();
+  }
+
+  function drag(simulation) {
+    function dragstarted(event) {
+      if (!event.active) simulation.alphaTarget(0.3).restart();
+      event.subject.fx = event.subject.x;
+      event.subject.fy = event.subject.y;
+    }
+    function dragged(event) {
+      event.subject.fx = event.x;
+      event.subject.fy = event.y;
+    }
+    function dragended(event) {
+      if (!event.active) simulation.alphaTarget(0);
+      event.subject.fx = null;
+      event.subject.fy = null;
+    }
+    return d3.drag()
+      .on('start', dragstarted)
+      .on('drag', dragged)
+      .on('end', dragended);
+  }
+
+  function animateHalo() {
+    if (!svg) return;
+    const halo = svg.select('.kg-halo');
+    if (halo.empty()) return;
+    halo.transition()
+      .duration(1500)
+      .attr('stroke-opacity', 0.8)
+      .attr('r', d => d.size + 10)
+      .transition()
+      .duration(1500)
+      .attr('stroke-opacity', 0.2)
+      .attr('r', d => d.size + 4)
+      .on('end', animateHalo);
+  }
+
+  return { init, render };
+})();
+
+/* ═══════ tone-lab.js ═══════ */
+/* ═══════════════════════════════════════════
+   tone-lab.js — 声调实验室
+   浏览器录音 + 波形可视化 + 音高对比
+   致敬刘半农的「语音乐律实验室」
+   ═══════════════════════════════════════════ */
+
+const ToneLab = (() => {
+  'use strict';
+
+  let overlay, canvas, canvasCtx;
+  let audioCtx = null;
+  let mediaStream = null;
+  let mediaRecorder = null;
+  let recordedChunks = [];
+  let isRecording = false;
+  let animationId = null;
+
+  // 可视化的音频数据
+  let analyser = null;
+  let dataArray = null;
+
+  // 参考音（对应刘半农实验语音学研究的四声调值）
+  const REFERENCE_TONES = {
+    '阴平': { freq: 220, label: '阴平（第一声）', desc: '高平调 55 → 如「她」字本调', color: '#B22222' },
+    '阳平': { freq: 280, label: '阳平（第二声）', desc: '高升调 35 → 上扬', color: '#A0845C' },
+    '上声': { freq: 180, label: '上声（第三声）', desc: '降升调 214 → 先降后升', color: '#3D6B5D' },
+    '去声': { freq: 330, label: '去声（第四声）', desc: '全降调 51 → 急促下降', color: '#3D5273' },
+  };
+
+  function init(state) {
+    overlay = document.getElementById('tone-lab-overlay');
+    canvas = document.getElementById('tone-lab-canvas');
+    if (canvas) {
+      canvasCtx = canvas.getContext('2d');
+      resizeCanvas();
+      window.addEventListener('resize', () => { if (overlay && !overlay.classList.contains('hidden')) resizeCanvas(); });
+    }
+
+    document.getElementById('btn-tone-lab')?.addEventListener('click', open);
+    document.getElementById('btn-tl-close')?.addEventListener('click', () => close());
+    overlay?.addEventListener('click', e => { if (e.target === overlay) close(); });
+    document.getElementById('btn-tl-record')?.addEventListener('click', toggleRecord);
+    document.getElementById('btn-tl-playback')?.addEventListener('click', playRecorded);
+    document.getElementById('btn-tl-stop')?.addEventListener('click', stopAll);
+
+    // 参考音按钮
+    document.querySelectorAll('.tl-ref-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const tone = btn.dataset.tone;
+        playReferenceTone(tone);
+      });
+    });
+
+    console.log('[ToneLab] 声调实验室就绪');
+  }
+
+  function resizeCanvas() {
+    if (!canvas) return;
+    const rect = canvas.parentElement.getBoundingClientRect();
+    canvas.width = rect.width || 600;
+    canvas.height = 200;
+    drawIdleWaveform();
+  }
+
+  function open() {
+    if (!overlay) return;
+    overlay.classList.remove('hidden');
+    resizeCanvas();
+    drawIdleWaveform();
+  }
+
+  function close() {
+    if (!overlay) return;
+    stopAll();
+    overlay.classList.add('hidden');
+  }
+
+  // ── 录音 ──
+  async function toggleRecord() {
+    if (isRecording) {
+      stopRecording();
+    } else {
+      await startRecording();
+    }
+  }
+
+  async function startRecording() {
+    try {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+
+      mediaStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const source = audioCtx.createMediaStreamSource(mediaStream);
+
+      // 分析器
+      analyser = audioCtx.createAnalyser();
+      analyser.fftSize = 2048;
+      analyser.smoothingTimeConstant = 0.8;
+      source.connect(analyser);
+      dataArray = new Uint8Array(analyser.fftSize);
+
+      // MediaRecorder
+      recordedChunks = [];
+      mediaRecorder = new MediaRecorder(mediaStream);
+      mediaRecorder.ondataavailable = e => { if (e.data.size > 0) recordedChunks.push(e.data); };
+      mediaRecorder.onstop = () => {
+        document.getElementById('btn-tl-playback').disabled = false;
+        updateStatus('录音完成 —— 点击播放回听');
+      };
+
+      mediaRecorder.start();
+      isRecording = true;
+
+      const btn = document.getElementById('btn-tl-record');
+      btn.textContent = '停止录音';
+      btn.classList.add('recording');
+      document.getElementById('btn-tl-playback').disabled = true;
+      document.getElementById('btn-tl-status').textContent = '录音中... 请对着麦克风说话或哼唱';
+      document.getElementById('btn-tl-status').className = 'tl-status recording';
+
+      animateWaveform();
+    } catch (err) {
+      updateStatus('无法访问麦克风：' + err.message);
+      console.error('[ToneLab] 麦克风错误:', err);
+    }
+  }
+
+  function stopRecording() {
+    if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+      mediaRecorder.stop();
+    }
+    if (mediaStream) {
+      mediaStream.getTracks().forEach(t => t.stop());
+      mediaStream = null;
+    }
+    isRecording = false;
+
+    const btn = document.getElementById('btn-tl-record');
+    btn.textContent = '开始录音';
+    btn.classList.remove('recording');
+
+    cancelAnimationFrame(animationId);
+    drawIdleWaveform();
+  }
+
+  function stopAll() {
+    if (isRecording) stopRecording();
+    if (audioCtx) {
+      audioCtx.close();
+      audioCtx = null;
+      analyser = null;
+    }
+    document.getElementById('btn-tl-playback').disabled = true;
+    document.getElementById('btn-tl-status').textContent = '准备就绪 — 点击麦克风按钮开始';
+    document.getElementById('btn-tl-status').className = 'tl-status';
+  }
+
+  // ── 波形动画 ──
+  function animateWaveform() {
+    if (!analyser || !dataArray || !canvasCtx || !canvas) return;
+
+    const W = canvas.width;
+    const H = canvas.height;
+    const sliceWidth = W / dataArray.length;
+
+    canvasCtx.clearRect(0, 0, W, H);
+
+    // 背景网格
+    canvasCtx.strokeStyle = '#EBE7E2';
+    canvasCtx.lineWidth = 0.5;
+    for (let y = 0; y < H; y += 40) {
+      canvasCtx.beginPath();
+      canvasCtx.moveTo(0, y);
+      canvasCtx.lineTo(W, y);
+      canvasCtx.stroke();
+    }
+
+    // 获取时域数据
+    analyser.getByteTimeDomainData(dataArray);
+
+    // 绘制波形
+    canvasCtx.beginPath();
+    canvasCtx.strokeStyle = '#B22222';
+    canvasCtx.lineWidth = 2;
+    canvasCtx.shadowBlur = 8;
+    canvasCtx.shadowColor = 'rgba(196,30,58,0.3)';
+
+    let x = 0;
+    for (let i = 0; i < dataArray.length; i++) {
+      const v = dataArray[i] / 128.0;
+      const y = (v * H) / 2;
+      if (i === 0) canvasCtx.moveTo(x, y);
+      else canvasCtx.lineTo(x, y);
+      x += sliceWidth;
+    }
+    canvasCtx.lineTo(W, H / 2);
+    canvasCtx.stroke();
+    canvasCtx.shadowBlur = 0;
+
+    // 音高估计指示器
+    analyser.getByteFrequencyData(dataArray);
+    let maxIdx = 0, maxVal = 0;
+    for (let i = 10; i < dataArray.length / 2; i++) {
+      if (dataArray[i] > maxVal) { maxVal = dataArray[i]; maxIdx = i; }
+    }
+    const freq = Math.round(maxIdx * audioCtx.sampleRate / analyser.fftSize);
+    if (maxVal > 30 && freq > 50 && freq < 2000) {
+      canvasCtx.fillStyle = '#B22222';
+      canvasCtx.font = '12px "Noto Sans SC", sans-serif';
+      canvasCtx.fillText(`主频 ≈ ${freq} Hz`, 10, H - 10);
+    }
+
+    animationId = requestAnimationFrame(animateWaveform);
+  }
+
+  function drawIdleWaveform() {
+    if (!canvasCtx || !canvas) return;
+    const W = canvas.width;
+    const H = canvas.height;
+    canvasCtx.clearRect(0, 0, W, H);
+
+    // 网格
+    canvasCtx.strokeStyle = '#EBE7E2';
+    canvasCtx.lineWidth = 0.5;
+    for (let y = 0; y < H; y += 40) {
+      canvasCtx.beginPath();
+      canvasCtx.moveTo(0, y);
+      canvasCtx.lineTo(W, y);
+      canvasCtx.stroke();
+    }
+
+    // 安静的基线
+    canvasCtx.beginPath();
+    canvasCtx.strokeStyle = '#C7C0B8';
+    canvasCtx.lineWidth = 1;
+    canvasCtx.moveTo(0, H / 2);
+    canvasCtx.lineTo(W, H / 2);
+    canvasCtx.stroke();
+
+    canvasCtx.fillStyle = '#9C948C';
+    canvasCtx.font = '14px "Noto Serif SC", serif';
+    canvasCtx.textAlign = 'center';
+    canvasCtx.fillText('等待录音...', W / 2, H / 2 - 20);
+    canvasCtx.textAlign = 'start';
+  }
+
+  // ── 播放已录制音频 ──
+  function playRecorded() {
+    if (recordedChunks.length === 0) return;
+    const blob = new Blob(recordedChunks, { type: 'audio/webm' });
+    const url = URL.createObjectURL(blob);
+    const audio = new Audio(url);
+    audio.onended = () => URL.revokeObjectURL(url);
+    audio.play().catch(e => updateStatus('播放失败: ' + e.message));
+
+    // 同时在 canvas 上回放波形
+    visualizePlayback(audio);
+  }
+
+  function visualizePlayback(audio) {
+    // 简化回放可视化
+    if (!canvasCtx || !canvas) return;
+    const W = canvas.width;
+    const H = canvas.height;
+
+    let startTime = null;
+    function drawPlayback(timestamp) {
+      if (!startTime) startTime = timestamp;
+      const elapsed = (timestamp - startTime) / 1000;
+      if (elapsed > audio.duration + 0.1 || audio.paused) {
+        drawIdleWaveform();
+        return;
+      }
+
+      canvasCtx.clearRect(0, 0, W, H);
+      canvasCtx.strokeStyle = '#EBE7E2';
+      canvasCtx.lineWidth = 0.5;
+      for (let y = 0; y < H; y += 40) {
+        canvasCtx.beginPath();
+        canvasCtx.moveTo(0, y);
+        canvasCtx.lineTo(W, y);
+        canvasCtx.stroke();
+      }
+
+      const progress = elapsed / audio.duration;
+      const cx = progress * W;
+
+      // 模拟播放波形
+      canvasCtx.beginPath();
+      canvasCtx.strokeStyle = '#3D5273';
+      canvasCtx.lineWidth = 2;
+      for (let x = 0; x < cx; x += 2) {
+        const y = H / 2 + Math.sin(x * 0.05 + elapsed * 10) * 30 * Math.sin(elapsed * 3) + Math.sin(x * 0.02) * 20;
+        if (x === 0) canvasCtx.moveTo(x, y);
+        else canvasCtx.lineTo(x, y);
+      }
+      canvasCtx.stroke();
+
+      // 播放头
+      canvasCtx.fillStyle = '#3D5273';
+      canvasCtx.beginPath();
+      canvasCtx.arc(cx, H / 2, 5, 0, Math.PI * 2);
+      canvasCtx.fill();
+
+      canvasCtx.fillStyle = '#9C948C';
+      canvasCtx.font = '11px "Noto Sans SC", sans-serif';
+      canvasCtx.fillText(`回放中 ${elapsed.toFixed(1)}s / ${audio.duration.toFixed(1)}s`, 10, H - 10);
+
+      requestAnimationFrame(drawPlayback);
+    }
+    requestAnimationFrame(drawPlayback);
+  }
+
+  // ── 参考音播放 ──
+  function playReferenceTone(toneKey) {
+    const ref = REFERENCE_TONES[toneKey];
+    if (!ref) return;
+
+    try {
+      if (audioCtx) { audioCtx.close(); }
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+
+      osc.type = 'sine';
+      const t = audioCtx.currentTime;
+
+      // 根据声调特征生成滑音
+      switch (toneKey) {
+        case '阴平': // 高平调 55
+          osc.frequency.setValueAtTime(ref.freq, t);
+          osc.frequency.setValueAtTime(ref.freq, t + 1);
+          break;
+        case '阳平': // 高升调 35
+          osc.frequency.setValueAtTime(ref.freq * 0.8, t);
+          osc.frequency.linearRampToValueAtTime(ref.freq, t + 0.8);
+          break;
+        case '上声': // 降升调 214
+          osc.frequency.setValueAtTime(ref.freq, t);
+          osc.frequency.linearRampToValueAtTime(ref.freq * 0.6, t + 0.4);
+          osc.frequency.linearRampToValueAtTime(ref.freq * 1.1, t + 0.8);
+          break;
+        case '去声': // 全降调 51
+          osc.frequency.setValueAtTime(ref.freq * 1.2, t);
+          osc.frequency.exponentialRampToValueAtTime(ref.freq * 0.6, t + 0.6);
+          break;
+      }
+
+      gain.gain.setValueAtTime(0.12, t);
+      gain.gain.exponentialRampToValueAtTime(0.001, t + 1.2);
+
+      osc.start(t);
+      osc.stop(t + 1.2);
+
+      updateStatus(`播放参考音：${ref.label}`);
+      document.getElementById('btn-tl-status').className = 'tl-status';
+
+      // 在 canvas 上绘制参考波形示意
+      drawReferenceTone(toneKey);
+    } catch (e) {
+      updateStatus('播放失败: ' + e.message);
+    }
+  }
+
+  function drawReferenceTone(toneKey) {
+    if (!canvasCtx || !canvas) return;
+    const W = canvas.width;
+    const H = canvas.height;
+    canvasCtx.clearRect(0, 0, W, H);
+
+    // 网格
+    canvasCtx.strokeStyle = '#EBE7E2';
+    canvasCtx.lineWidth = 0.5;
+    for (let y = 0; y < H; y += 40) {
+      canvasCtx.beginPath();
+      canvasCtx.moveTo(0, y);
+      canvasCtx.lineTo(W, y);
+      canvasCtx.stroke();
+    }
+
+    // 标签
+    canvasCtx.fillStyle = '#9C948C';
+    canvasCtx.font = '11px "Noto Sans SC", sans-serif';
+    canvasCtx.fillText('五度标记法（参考）', 10, 16);
+    canvasCtx.fillText('5 —— 高', 10, H * 0.15);
+    canvasCtx.fillText('1 —— 低', 10, H * 0.85);
+
+    // 五度线
+    for (let deg = 1; deg <= 5; deg++) {
+      const y = H * (0.85 - (deg - 1) * 0.175);
+      canvasCtx.beginPath();
+      canvasCtx.strokeStyle = '#EBE7E2';
+      canvasCtx.lineWidth = 0.5;
+      canvasCtx.moveTo(30, y);
+      canvasCtx.lineTo(W, y);
+      canvasCtx.stroke();
+      canvasCtx.fillStyle = '#9C948C';
+      canvasCtx.fillText(deg.toString(), 22, y + 4);
+    }
+
+    // 声调曲线
+    const ref = REFERENCE_TONES[toneKey];
+    canvasCtx.beginPath();
+    canvasCtx.strokeStyle = ref.color;
+    canvasCtx.lineWidth = 3;
+    canvasCtx.shadowBlur = 6;
+    canvasCtx.shadowColor = ref.color;
+
+    const cx = W * 0.2;
+    const cw = W * 0.6;
+    const topY = H * 0.15;
+    const bottomY = H * 0.85;
+    const range = bottomY - topY;
+
+    let x = cx;
+    canvasCtx.moveTo(x, bottomY);
+
+    switch (toneKey) {
+      case '阴平': // 55
+        canvasCtx.lineTo(x + cw, topY);
+        break;
+      case '阳平': // 35
+        canvasCtx.lineTo(x + cw * 0.7, bottomY - range * 0.6);
+        canvasCtx.lineTo(x + cw, topY);
+        break;
+      case '上声': // 214
+        canvasCtx.lineTo(x + cw * 0.3, bottomY - range * 0.8);
+        canvasCtx.lineTo(x + cw * 0.6, bottomY);
+        canvasCtx.lineTo(x + cw, topY);
+        break;
+      case '去声': // 51
+        canvasCtx.lineTo(x + cw, bottomY);
+        canvasCtx.moveTo(x, topY);
+        canvasCtx.lineTo(x + cw, bottomY);
+        break;
+    }
+    canvasCtx.stroke();
+    canvasCtx.shadowBlur = 0;
+
+    // 标注
+    canvasCtx.fillStyle = ref.color;
+    canvasCtx.font = 'bold 14px "Noto Serif SC", serif';
+    canvasCtx.fillText(ref.label, cx + cw + 10, H / 2);
+
+    canvasCtx.fillStyle = '#6E6760';
+    canvasCtx.font = '11px "Noto Sans SC", sans-serif';
+    canvasCtx.fillText(ref.desc, cx + cw + 10, H / 2 + 20);
+  }
+
+  function updateStatus(msg) {
+    const el = document.getElementById('btn-tl-status');
+    if (el) el.textContent = msg;
+  }
+
+  return { init, open, close, stopAll };
+})();
+
+/* ═══════ filters.js ═══════ */
+/* ═══════════════════════════════════════════
+   filters.js — 多维度筛选（类别、人物、时期、主题）
+   ═══════════════════════════════════════════ */
+
+const FilterComponent = (() => {
+  'use strict';
+
+  const FILTER_CONFIG = {
+    category: {
+      label: '类别',
+      options: [
+        { value: '故乡', label: '故乡', color: '#8B7355' },
+        { value: '求学', label: '求学', color: '#8B7355' },
+        { value: '执教', label: '执教', color: '#7A1818' },
+        { value: '留学', label: '留学', color: '#3D5273' },
+        { value: '旅途', label: '旅途', color: '#5C7A6B' },
+        { value: '采风', label: '采风', color: '#3D6B5D' },
+        { value: '长眠', label: '长眠', color: '#45403B' },
+      ]
+    },
+    period: {
+      label: '时期',
+      options: [
+        { value: 'pre-1917', label: '留学前 (1891–1917)', range: [1891, 1917] },
+        { value: 'europe', label: '欧洲五年 (1920–1925)', range: [1920, 1925] },
+        { value: 'post-1925', label: '回国后 (1925–1934)', range: [1925, 1934] },
+      ]
+    },
+    theme: {
+      label: '主题',
+      options: [
+        { value: 'linguistics', label: '语言学', keywords: ['语音', '实验语音', '四声', '音律', '方言', '国语统一'] },
+        { value: 'new-culture', label: '新文化运动', keywords: ['新青年', '文学革命', '白话文', '文学改良'] },
+        { value: 'family', label: '家庭情感', keywords: ['朱惠', '刘小蕙', '三兄弟', '刘天华', '团圆'] },
+        { value: 'fieldwork', label: '民间采风', keywords: ['采风', '民歌', '号子', '山曲', '方言'] },
+      ]
+    }
+  };
+
+  let activeFilters = { category: [], period: null, theme: null, person: null, locationIds: null };
+
+  function init(state) {
+    buildFilterUI();
+    console.log('[Filters] 筛选组件就绪');
+  }
+
+  // 匹配主题关键词的地点 ID 集合
+  function getThemeLocationIds(themeValue) {
+    const themeConfig = FILTER_CONFIG.theme.options.find(t => t.value === themeValue);
+    if (!themeConfig || !themeConfig.keywords) return null;
+    const ids = [];
+    App.state.locations.forEach(loc => {
+      const haystack = [
+        loc.summary, loc.historical_note, loc.category, loc.name,
+        ...(loc.works || []).map(w => `${w.title} ${w.note}`),
+        ...(loc.opera_scenes || []).map(s => `${s.scene} ${s.desc}`),
+        ...(loc.people || []),
+      ].join(' ').toLowerCase();
+      const matches = themeConfig.keywords.some(kw => haystack.includes(kw.toLowerCase()));
+      if (matches) ids.push(loc.id);
+    });
+    return ids;
+  }
+
+  function buildFilterUI() {
+    const container = document.getElementById('filter-bar');
+    if (!container) return;
+
+    let html = '<div class="filter-inner">';
+
+    // 类别筛选
+    html += '<div class="filter-group"><span class="filter-label">类别</span>';
+    FILTER_CONFIG.category.options.forEach(opt => {
+      html += `<button class="filter-chip" data-filter="category" data-value="${opt.value}" style="--chip-color:${opt.color}">${opt.label}</button>`;
+    });
+    html += '</div>';
+
+    // 时期筛选
+    html += '<div class="filter-group"><span class="filter-label">时期</span>';
+    FILTER_CONFIG.period.options.forEach(opt => {
+      html += `<button class="filter-chip" data-filter="period" data-value="${opt.value}">${opt.label}</button>`;
+    });
+    html += '</div>';
+
+    // 主题筛选
+    html += '<div class="filter-group"><span class="filter-label">主题</span>';
+    FILTER_CONFIG.theme.options.forEach(opt => {
+      html += `<button class="filter-chip" data-filter="theme" data-value="${opt.value}">${opt.label}</button>`;
+    });
+    html += '</div>';
+
+    // 清除按钮
+    html += `<button class="filter-clear" id="btn-clear-filters">清除筛选</button>`;
+    html += '</div>';
+
+    container.innerHTML = html;
+
+    // 绑定事件
+    container.querySelectorAll('.filter-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        chip.classList.toggle('active');
+        applyFilters();
+      });
+    });
+
+    document.getElementById('btn-clear-filters')?.addEventListener('click', () => {
+      container.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+      activeFilters = { category: [], period: null, theme: null, person: null, locationIds: null };
+      App.clearFilters();
+    });
+  }
+
+  function applyFilters() {
+    const chips = document.querySelectorAll('.filter-chip.active');
+    const filters = { category: [], period: null, theme: null, locationIds: null };
+
+    chips.forEach(chip => {
+      const key = chip.dataset.filter;
+      const value = chip.dataset.value;
+      if (key === 'category') filters.category.push(value);
+      else if (key === 'period') filters.period = filters.period || value;
+      else if (key === 'theme') filters.theme = filters.theme || value;
+    });
+
+    // 主题筛选 → 计算匹配的地点 ID
+    if (filters.theme) {
+      filters.locationIds = getThemeLocationIds(filters.theme);
+    }
+
+    // 时期筛选 → 匹配地点
+    if (filters.period) {
+      const periodCfg = FILTER_CONFIG.period.options.find(p => p.value === filters.period);
+      if (periodCfg && periodCfg.range) {
+        const periodIds = [];
+        App.state.locations.forEach(loc => {
+          if (loc.years && loc.years.length >= 2) {
+            const [s, e] = loc.years;
+            if (s <= periodCfg.range[1] && e >= periodCfg.range[0]) periodIds.push(loc.id);
+          }
+        });
+        if (filters.locationIds) {
+          filters.locationIds = filters.locationIds.filter(id => periodIds.includes(id));
+        } else {
+          filters.locationIds = periodIds;
+        }
+      }
+    }
+
+    activeFilters = { ...filters, person: activeFilters.person };
+    App.emit('filter:changed', activeFilters);
+  }
+
+  return { init, applyFilters };
+})();
+
+/* ═══════ audio.js ═══════ */
+/* ═══════════════════════════════════════════
+   audio.js — 场景音频播放模块
+   基于歌剧视频提取的真实音频（MP3）
+   保留地点主题提示音（Web Audio API）
+   ═══════════════════════════════════════════ */
+
+const AudioComponent = (() => {
+  'use strict';
+
+  let audioBar, audioTitle, audioPlayBtn, audioCloseBtn;
+  let currentTrack = null;
+  let audioCtx = null;
+  let sceneAudio = null;    // HTML5 Audio for scene playback
+  let sceneMeta = null;     // scene_audio.json data
+  let activeSceneId = null;
+  let isScenePlaying = false;
+
+  // ── 地点主题提示音映射（保留） ──
+  const locationThemeMap = {
+    'jiangyin': { theme: '江南小调', note: '江阴民歌风格' },
+    'beijing-beida': { theme: '新文化运动', note: '慷慨激昂' },
+    'london': { theme: '伦敦的雨', note: '曲6《伦敦的雨》动机' },
+    'paris': { theme: '巴黎阳光', note: '曲14《走进巴黎的阳光》动机' },
+    'sea-route': { theme: '劈开地中海的波涛', note: '曲18' },
+    'beijing-return': { theme: '良宵', note: '曲21《团圆》、刘天华《良宵》' },
+    'suiyuan': { theme: '山曲儿', note: '绥远采风民歌' },
+    'xiangshan': { theme: '听雨', note: '曲27《听雨》、曲28终曲' },
+  };
+
+  function init(state) {
+    audioBar = document.getElementById('audio-bar');
+    audioTitle = audioBar?.querySelector('.audio-title');
+    audioPlayBtn = document.getElementById('btn-audio-play');
+    audioCloseBtn = document.getElementById('btn-audio-close');
+
+    audioCloseBtn?.addEventListener('click', hideAudioBar);
+    audioPlayBtn?.addEventListener('click', toggleScenePlay);
+
+    // 加载场景音频元数据
+    // ═══ STANDALONE: embedded metadata ═══
+      sceneMeta = window.__EMBEDDED_SCENE_AUDIO__;
+      console.log('[Audio] 场景音频数据已内嵌:', sceneMeta.length, 'tracks');
+
+    App.on('location:selected', onLocationChanged);
+    App.on('scene:selected', onSceneSelected);
+    console.log('[Audio] 音频模块就绪（场景 MP3 + 主题提示音）');
+  }
+
+  // ── 地点切换：播放主题提示音 ──
+  function onLocationChanged(locId) {
+    const theme = locationThemeMap[locId];
+    if (!theme) { hideAudioBar(); return; }
+    if (isScenePlaying) return; // 场景音频播放中，不打断
+    currentTrack = theme;
+    showAudioBar(theme);
+    playThemeHint(theme);
+  }
+
+  // ── 场景切换：加载场景 MP3 ──
+  function onSceneSelected(sceneId) {
+    if (!sceneMeta) return;
+    const meta = sceneMeta.find(s => s.id === sceneId);
+    if (!meta) return;
+
+    activeSceneId = sceneId;
+    stopSceneAudio();
+
+    // 显示音频条，状态为"就绪"
+    currentTrack = { theme: meta.title, note: meta.subtitle };
+    showAudioBar({ theme: meta.title + ' · ' + meta.subtitle, note: '(演示版不含音频文件)' });
+    if (audioPlayBtn) audioPlayBtn.textContent = '▶';
+  }
+
+  // ── 播放/暂停场景音频 ──
+  function toggleScenePlay() {
+    if (!activeSceneId || !sceneMeta) return;
+    const meta = sceneMeta.find(s => s.id === activeSceneId);
+    if (!meta) return;
+
+    if (isScenePlaying) {
+      pauseSceneAudio();
+    } else {
+      playSceneAudio(meta);
+    }
+  }
+
+  function updatePanelButton(state) {
+    const btn = document.querySelector('.btn-scene-audio');
+    if (!btn) return;
+    if (state === 'playing') {
+      btn.classList.add('playing');
+      btn.innerHTML = '&#9646;&#9646;'; // ⏸ pause symbol
+    } else {
+      btn.classList.remove('playing');
+      btn.innerHTML = '&#9835;'; // ♪
+    }
+  }
+
+  function playSceneAudio(meta) {
+    stopAudio(); // 停止任何合成音
+
+    if (!sceneAudio) {
+      sceneAudio = new Audio();
+      sceneAudio.addEventListener('ended', () => {
+        isScenePlaying = false;
+        if (audioPlayBtn) audioPlayBtn.textContent = '▶';
+        if (audioTitle) audioTitle.textContent = meta.title + ' · ' + meta.subtitle + ' — 播放完毕';
+        updatePanelButton('paused');
+      });
+      sceneAudio.addEventListener('error', () => {
+        isScenePlaying = false;
+        if (audioPlayBtn) audioPlayBtn.textContent = '▶';
+        if (audioTitle) audioTitle.textContent = '音频加载失败';
+        console.warn('[Audio] 场景音频加载失败:', meta.file);
+      });
+    }
+
+    // 如果当前加载的不是这个文件，重新加载
+    if (sceneAudio.src.indexOf(meta.file) === -1) {
+      sceneAudio.src = meta.file;
+      sceneAudio.load();
+    }
+
+    sceneAudio.play().then(() => {
+      isScenePlaying = true;
+      if (audioPlayBtn) audioPlayBtn.textContent = '⏸';
+      if (audioTitle) audioTitle.textContent = meta.title + ' · ' + meta.subtitle;
+      updatePanelButton('playing');
+    }).catch(e => {
+      console.warn('[Audio] 播放失败:', e.message);
+      if (audioTitle) audioTitle.textContent = '播放失败，请重试';
+    });
+  }
+
+  function pauseSceneAudio() {
+    if (sceneAudio) {
+      sceneAudio.pause();
+      isScenePlaying = false;
+      if (audioPlayBtn) audioPlayBtn.textContent = '▶';
+      updatePanelButton('paused');
+    }
+  }
+
+  function stopSceneAudio() {
+    if (sceneAudio) {
+      sceneAudio.pause();
+      sceneAudio.currentTime = 0;
+    }
+    isScenePlaying = false;
+    if (audioPlayBtn) audioPlayBtn.textContent = '▶';
+    updatePanelButton('paused');
+  }
+
+  // ── 音频条 UI ──
+  function showAudioBar(theme) {
+    if (!audioBar) return;
+    audioBar.classList.remove('hidden');
+    if (audioTitle) audioTitle.textContent = theme ? `${theme.theme} — ${theme.note}` : '';
+  }
+
+  function hideAudioBar() {
+    stopSceneAudio();
+    stopAudio();
+    audioBar?.classList.add('hidden');
+    activeSceneId = null;
+    isScenePlaying = false;
+    updatePanelButton('paused');
+  }
+
+  function togglePlay() {
+    if (isScenePlaying || activeSceneId) {
+      toggleScenePlay();
+      return;
+    }
+    if (!audioPlayBtn) return;
+    if (audioPlayBtn.textContent === '▶') {
+      audioPlayBtn.textContent = '⏸';
+      playThemeHint(currentTrack);
+    } else {
+      audioPlayBtn.textContent = '▶';
+      stopAudio();
+    }
+  }
+
+  function stopAudio() {
+    if (audioCtx) {
+      audioCtx.close();
+      audioCtx = null;
+    }
+    if (audioPlayBtn && !activeSceneId) audioPlayBtn.textContent = '▶';
+  }
+
+  // ── Web Audio 主题提示音（保留） ──
+  function playThemeHint(theme) {
+    if (!theme) return;
+    try {
+      if (audioCtx) audioCtx.close();
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      const filter = audioCtx.createBiquadFilter();
+
+      osc.connect(filter);
+      filter.connect(gain);
+      gain.connect(audioCtx.destination);
+
+      const t = audioCtx.currentTime;
+
+      switch (theme.theme) {
+        case '伦敦的雨':
+          osc.type = 'sine';
+          filter.type = 'lowpass';
+          filter.frequency.setValueAtTime(600, t);
+          playSequence(osc, gain, t, [392, 440, 523.25, 440], 0.4);
+          break;
+        case '巴黎阳光':
+          osc.type = 'triangle';
+          playSequence(osc, gain, t, [523.25, 659.25, 783.99], 0.3);
+          break;
+        case '良宵':
+          osc.type = 'sine';
+          playSequence(osc, gain, t, [293.66, 369.99, 440, 293.66], 0.5);
+          break;
+        case '山曲儿':
+          osc.type = 'sawtooth';
+          gain.gain.setValueAtTime(0.05, t);
+          playSequence(osc, gain, t, [330, 392, 440, 523.25, 392], 0.25);
+          break;
+        case '听雨':
+          osc.type = 'sine';
+          filter.type = 'lowpass';
+          filter.frequency.setValueAtTime(400, t);
+          playSequence(osc, gain, t, [587.33, 523.25, 440, 349.23], 0.6);
+          break;
+        default:
+          osc.type = 'sine';
+          playSequence(osc, gain, t, [440, 523.25, 440], 0.3);
+      }
+
+      gain.gain.setValueAtTime(0.08, t);
+      gain.gain.exponentialRampToValueAtTime(0.001, t + 3);
+      osc.start(t);
+      osc.stop(t + 3);
+    } catch(e) {
+      console.log('[Audio] 播放失败:', e.message);
+    }
+  }
+
+  function playSequence(osc, gain, startTime, freqs, interval) {
+    freqs.forEach((freq, i) => {
+      osc.frequency.setValueAtTime(freq, startTime + i * interval);
+    });
+  }
+
+  // 公开 API
+  function playScene(sceneId) {
+    onSceneSelected(sceneId);
+    setTimeout(() => toggleScenePlay(), 300);
+  }
+
+  return {
+    init,
+    showAudioBar,
+    hideAudioBar,
+    playThemeHint,
+    playScene,
+    toggleScenePlay,
+    get isScenePlaying() { return isScenePlaying; },
+    get activeSceneId() { return activeSceneId; }
+  };
+})();
+
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => { App.init(); });
+  </script>
+
+<!-- ═══ STANDALONE BUILD — shareable single-file version ═══ -->
+</body>
+</html>
