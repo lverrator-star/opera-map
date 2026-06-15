@@ -14,6 +14,39 @@
 </head>
 <body>
 
+  <!-- ═══════ 启卷封面 ═══════ -->
+  <div id="splash-screen">
+    <div class="splash-bg">
+      <!-- 墨韵装饰 -->
+      <div class="splash-ink splash-ink-1"></div>
+      <div class="splash-ink splash-ink-2"></div>
+      <div class="splash-ink splash-ink-3"></div>
+      <!-- 她字水印 -->
+      <div class="splash-she-bg">她</div>
+    </div>
+    <div class="splash-content">
+      <div class="splash-seal">语言 · 文学 · 音韵</div>
+      <h1 class="splash-title">
+        <span class="splash-title-top">教我如何</span>
+        <span class="splash-title-mid">不想她</span>
+      </h1>
+      <div class="splash-she-main">她</div>
+      <p class="splash-subtitle">刘半农生平地理叙事</p>
+      <p class="splash-dates">1891 — 1934</p>
+      <div class="splash-divider">
+        <span class="splash-divider-dot"></span>
+        <span class="splash-divider-line"></span>
+        <span class="splash-divider-diamond">◇</span>
+        <span class="splash-divider-line"></span>
+        <span class="splash-divider-dot"></span>
+      </div>
+      <button id="btn-enter" class="splash-enter-btn">
+        <span class="splash-enter-text">轻 触 启 卷</span>
+        <span class="splash-enter-hint">Touch to Unfold the Scroll</span>
+      </button>
+    </div>
+  </div>
+
   <!-- ═══════ 顶部导航 ═══════ -->
   <header id="top-bar">
     <div class="top-left">
@@ -239,6 +272,45 @@
   <script src="src/tone-lab.js"></script>
   <script src="src/filters.js"></script>
   <script src="src/audio.js"></script>
+  <script>
+    /* ═══ 启卷封面交互 ═══ */
+    (function() {
+      var splash = document.getElementById('splash-screen');
+      var btn = document.getElementById('btn-enter');
+      if (!splash || !btn) return;
+
+      btn.addEventListener('click', function() {
+        // 墨色渐隐
+        splash.classList.add('fade-out');
+        // 动画结束后移除
+        splash.addEventListener('transitionend', function handler() {
+          splash.classList.add('removed');
+          splash.removeEventListener('transitionend', handler);
+          // 如果浏览器支持，播放微弱的翻页音感
+          try {
+            if (window.AudioContext || window.webkitAudioContext) {
+              var ctx = new (window.AudioContext || window.webkitAudioContext)();
+              var o = ctx.createOscillator();
+              var g = ctx.createGain();
+              o.connect(g); g.connect(ctx.destination);
+              o.type = 'sine'; o.frequency.setValueAtTime(180, ctx.currentTime);
+              o.frequency.linearRampToValueAtTime(260, ctx.currentTime + 0.3);
+              g.gain.setValueAtTime(0.04, ctx.currentTime);
+              g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.5);
+              o.start(ctx.currentTime); o.stop(ctx.currentTime + 0.5);
+            }
+          } catch(e) {}
+        }, { once: true });
+      });
+
+      // 键盘 Enter 也可进入
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' && !splash.classList.contains('fade-out')) {
+          btn.click();
+        }
+      });
+    })();
+  </script>
   <script>
     document.addEventListener('DOMContentLoaded', () => { App.init(); });
   </script>

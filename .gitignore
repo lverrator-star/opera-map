@@ -1,6 +1,7 @@
 # 巨型文件 — 不上传 GitHub
 教我如何不想她视频.mp4
-assets/audio/
+assets/audio/scenes/
+assets/audio/full_opera.mp3
 runtime/
 
 # Python 缓存

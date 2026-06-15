@@ -1,0 +1,242 @@
+[
+  {
+    "scene_id": "scene-prologue",
+    "song_number": "曲1",
+    "start": 0,
+    "end": 284.500658,
+    "duration": 284.500658,
+    "file": "scene-prologue.mp3"
+  },
+  {
+    "scene_id": "scene-1",
+    "song_number": "曲2",
+    "start": 0,
+    "end": 147.22,
+    "duration": 147.22,
+    "file": "曲2.mp3"
+  },
+  {
+    "scene_id": "scene-1",
+    "song_number": "曲3",
+    "start": 147.22,
+    "end": 294.45,
+    "duration": 147.22,
+    "file": "曲3.mp3"
+  },
+  {
+    "scene_id": "scene-1",
+    "song_number": "曲4",
+    "start": 294.45,
+    "end": 441.67,
+    "duration": 147.22,
+    "file": "曲4.mp3"
+  },
+  {
+    "scene_id": "scene-1",
+    "song_number": "曲5",
+    "start": 441.67,
+    "end": 588.9,
+    "duration": 147.23,
+    "file": "曲5.mp3"
+  },
+  {
+    "scene_id": "scene-2",
+    "song_number": "曲6",
+    "start": 0,
+    "end": 238.2,
+    "duration": 238.2,
+    "file": "曲6.mp3"
+  },
+  {
+    "scene_id": "scene-2",
+    "song_number": "曲7",
+    "start": 238.2,
+    "end": 405.3,
+    "duration": 167.1,
+    "file": "曲7.mp3"
+  },
+  {
+    "scene_id": "scene-2",
+    "song_number": "曲8",
+    "start": 405.3,
+    "end": 686.14,
+    "duration": 280.84,
+    "file": "曲8.mp3"
+  },
+  {
+    "scene_id": "scene-2",
+    "song_number": "曲9",
+    "start": 686.14,
+    "end": 856.74,
+    "duration": 170.6,
+    "file": "曲9.mp3"
+  },
+  {
+    "scene_id": "scene-2",
+    "song_number": "曲10",
+    "start": 856.74,
+    "end": 1191.0,
+    "duration": 334.26,
+    "file": "曲10.mp3"
+  },
+  {
+    "scene_id": "scene-3",
+    "song_number": "曲11",
+    "start": 0,
+    "end": 146.03,
+    "duration": 146.03,
+    "file": "曲11.mp3"
+  },
+  {
+    "scene_id": "scene-3",
+    "song_number": "曲12",
+    "start": 146.03,
+    "end": 433.8,
+    "duration": 287.77,
+    "file": "曲12.mp3"
+  },
+  {
+    "scene_id": "scene-3",
+    "song_number": "曲13",
+    "start": 433.8,
+    "end": 565.0,
+    "duration": 131.2,
+    "file": "曲13.mp3"
+  },
+  {
+    "scene_id": "scene-4",
+    "song_number": "曲14",
+    "start": 0,
+    "end": 206.0,
+    "duration": 206.0,
+    "file": "曲14.mp3"
+  },
+  {
+    "scene_id": "scene-4",
+    "song_number": "曲15",
+    "start": 206.0,
+    "end": 412.0,
+    "duration": 206.0,
+    "file": "曲15.mp3"
+  },
+  {
+    "scene_id": "scene-5",
+    "song_number": "曲16",
+    "start": 0,
+    "end": 154.01,
+    "duration": 154.01,
+    "file": "曲16.mp3"
+  },
+  {
+    "scene_id": "scene-5",
+    "song_number": "曲17",
+    "start": 154.01,
+    "end": 376.46,
+    "duration": 222.45,
+    "file": "曲17.mp3"
+  },
+  {
+    "scene_id": "scene-5",
+    "song_number": "曲18",
+    "start": 376.46,
+    "end": 554.0,
+    "duration": 177.54,
+    "file": "曲18.mp3"
+  },
+  {
+    "scene_id": "scene-6",
+    "song_number": "曲19",
+    "start": 0,
+    "end": 356.13,
+    "duration": 356.13,
+    "file": "曲19.mp3"
+  },
+  {
+    "scene_id": "scene-6",
+    "song_number": "曲20",
+    "start": 356.13,
+    "end": 638.0,
+    "duration": 281.87,
+    "file": "曲20.mp3"
+  },
+  {
+    "scene_id": "scene-7",
+    "song_number": "曲21",
+    "start": 0,
+    "end": 183.73,
+    "duration": 183.73,
+    "file": "曲21.mp3"
+  },
+  {
+    "scene_id": "scene-7",
+    "song_number": "曲22",
+    "start": 183.73,
+    "end": 364.0,
+    "duration": 180.27,
+    "file": "曲22.mp3"
+  },
+  {
+    "scene_id": "scene-7",
+    "song_number": "曲23",
+    "start": 364.0,
+    "end": 546.0,
+    "duration": 182.0,
+    "file": "曲23.mp3"
+  },
+  {
+    "scene_id": "scene-7",
+    "song_number": "曲24",
+    "start": 546.0,
+    "end": 728.0,
+    "duration": 182.0,
+    "file": "曲24.mp3"
+  },
+  {
+    "scene_id": "scene-8",
+    "song_number": "曲25",
+    "start": 0,
+    "end": 76.94,
+    "duration": 76.94,
+    "file": "曲25.mp3"
+  },
+  {
+    "scene_id": "scene-8",
+    "song_number": "曲26",
+    "start": 76.94,
+    "end": 328.0,
+    "duration": 251.06,
+    "file": "曲26.mp3"
+  },
+  {
+    "scene_id": "scene-8",
+    "song_number": "曲27",
+    "start": 328.0,
+    "end": 492.0,
+    "duration": 164.0,
+    "file": "曲27.mp3"
+  },
+  {
+    "scene_id": "scene-9",
+    "song_number": "曲28",
+    "start": 0,
+    "end": 164.47,
+    "duration": 164.47,
+    "file": "曲28.mp3"
+  },
+  {
+    "scene_id": "scene-9",
+    "song_number": "曲29",
+    "start": 164.47,
+    "end": 328.93,
+    "duration": 164.47,
+    "file": "曲29.mp3"
+  },
+  {
+    "scene_id": "scene-9",
+    "song_number": "曲30",
+    "start": 328.93,
+    "end": 493.4,
+    "duration": 164.47,
+    "file": "曲30.mp3"
+  }
+]

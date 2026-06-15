@@ -10,10 +10,12 @@ const AudioComponent = (() => {
   let audioBar, audioTitle, audioPlayBtn, audioCloseBtn;
   let currentTrack = null;
   let audioCtx = null;
-  let sceneAudio = null;    // HTML5 Audio for scene playback
+  let sceneAudio = null;    // HTML5 Audio for playback
   let sceneMeta = null;     // scene_audio.json data
+  let songMeta = null;      // song_audio.json data (per-song timings)
   let activeSceneId = null;
-  let isScenePlaying = false;
+  let activeSongNumber = null;  // 曲1, 曲2, etc.
+  let isPlaying = false;
 
   // ── 地点主题提示音映射（保留） ──
   const locationThemeMap = {
@@ -42,6 +44,12 @@ const AudioComponent = (() => {
       .then(data => { sceneMeta = data; })
       .catch(e => console.warn('[Audio] 场景音频数据加载失败:', e));
 
+    // 加载歌曲音频元数据
+    fetch('assets/audio/song_audio.json')
+      .then(r => r.json())
+      .then(data => { songMeta = data; console.log('[Audio] 歌曲元数据:', data.length, '首'); })
+      .catch(e => console.warn('[Audio] 歌曲元数据加载失败:', e));
+
     App.on('location:selected', onLocationChanged);
     App.on('scene:selected', onSceneSelected);
     console.log('[Audio] 音频模块就绪（场景 MP3 + 主题提示音）');
@@ -51,7 +59,7 @@ const AudioComponent = (() => {
   function onLocationChanged(locId) {
     const theme = locationThemeMap[locId];
     if (!theme) { hideAudioBar(); return; }
-    if (isScenePlaying) return; // 场景音频播放中，不打断
+    if (isPlaying) return; // 场景音频播放中，不打断
     currentTrack = theme;
     showAudioBar(theme);
     playThemeHint(theme);
@@ -72,13 +80,63 @@ const AudioComponent = (() => {
     if (audioPlayBtn) audioPlayBtn.textContent = '▶';
   }
 
+  // ── 单曲播放 ──
+  function playSong(songNumber) {
+    if (!songMeta) return;
+    const meta = songMeta.find(s => s.song_number === songNumber);
+    if (!meta) return;
+
+    stopSceneAudio();
+    activeSongNumber = songNumber;
+
+    if (!sceneAudio) {
+      sceneAudio = new Audio();
+      sceneAudio.addEventListener('ended', () => {
+        isPlaying = false;
+        activeSongNumber = null;
+        if (audioPlayBtn) audioPlayBtn.textContent = '▶';
+        if (audioTitle) audioTitle.textContent = songNumber + ' — 播放完毕';
+        updatePanelButton('paused');
+      });
+      sceneAudio.addEventListener('error', () => {
+        isPlaying = false;
+        if (audioPlayBtn) audioPlayBtn.textContent = '▶';
+        if (audioTitle) audioTitle.textContent = '音频加载失败';
+      });
+    }
+
+    sceneAudio.src = 'assets/audio/songs/' + songNumber + '.mp3';
+    sceneAudio.load();
+    sceneAudio.play().then(() => {
+      isPlaying = true;
+      if (audioPlayBtn) audioPlayBtn.textContent = '⏸';
+      if (audioTitle) audioTitle.textContent = songNumber + ' — 正在播放';
+      updatePanelButton('playing');
+    }).catch(e => {
+      console.warn('[Audio] 播放失败:', e.message);
+      if (audioTitle) audioTitle.textContent = '播放失败，请重试';
+    });
+
+    showAudioBar({ theme: songNumber, note: '单曲选段' });
+  }
+
   // ── 播放/暂停场景音频 ──
   function toggleScenePlay() {
+    // 如果正在播放歌曲，优先处理
+    if (isPlaying && activeSongNumber) {
+      pauseSceneAudio();
+      return;
+    }
+    if (activeSongNumber) {
+      playSong(activeSongNumber);
+      return;
+    }
+    // 否则按场景播放
     if (!activeSceneId || !sceneMeta) return;
     const meta = sceneMeta.find(s => s.id === activeSceneId);
     if (!meta) return;
 
-    if (isScenePlaying) {
+    if (isPlaying) {
       pauseSceneAudio();
     } else {
       playSceneAudio(meta);
@@ -103,13 +161,13 @@ const AudioComponent = (() => {
     if (!sceneAudio) {
       sceneAudio = new Audio();
       sceneAudio.addEventListener('ended', () => {
-        isScenePlaying = false;
+        isPlaying = false;
         if (audioPlayBtn) audioPlayBtn.textContent = '▶';
         if (audioTitle) audioTitle.textContent = meta.title + ' · ' + meta.subtitle + ' — 播放完毕';
         updatePanelButton('paused');
       });
       sceneAudio.addEventListener('error', () => {
-        isScenePlaying = false;
+        isPlaying = false;
         if (audioPlayBtn) audioPlayBtn.textContent = '▶';
         if (audioTitle) audioTitle.textContent = '音频加载失败';
         console.warn('[Audio] 场景音频加载失败:', meta.file);
@@ -123,7 +181,7 @@ const AudioComponent = (() => {
     }
 
     sceneAudio.play().then(() => {
-      isScenePlaying = true;
+      isPlaying = true;
       if (audioPlayBtn) audioPlayBtn.textContent = '⏸';
       if (audioTitle) audioTitle.textContent = meta.title + ' · ' + meta.subtitle;
       updatePanelButton('playing');
@@ -136,7 +194,7 @@ const AudioComponent = (() => {
   function pauseSceneAudio() {
     if (sceneAudio) {
       sceneAudio.pause();
-      isScenePlaying = false;
+      isPlaying = false;
       if (audioPlayBtn) audioPlayBtn.textContent = '▶';
       updatePanelButton('paused');
     }
@@ -147,7 +205,8 @@ const AudioComponent = (() => {
       sceneAudio.pause();
       sceneAudio.currentTime = 0;
     }
-    isScenePlaying = false;
+    isPlaying = false;
+    activeSongNumber = null;
     if (audioPlayBtn) audioPlayBtn.textContent = '▶';
     updatePanelButton('paused');
   }
@@ -164,12 +223,12 @@ const AudioComponent = (() => {
     stopAudio();
     audioBar?.classList.add('hidden');
     activeSceneId = null;
-    isScenePlaying = false;
+    isPlaying = false;
     updatePanelButton('paused');
   }
 
   function togglePlay() {
-    if (isScenePlaying || activeSceneId) {
+    if (isPlaying || activeSceneId) {
       toggleScenePlay();
       return;
     }
@@ -265,8 +324,9 @@ const AudioComponent = (() => {
     hideAudioBar,
     playThemeHint,
     playScene,
+    playSong,
     toggleScenePlay,
-    get isScenePlaying() { return isScenePlaying; },
+    get isPlaying() { return isPlaying; },
     get activeSceneId() { return activeSceneId; }
   };
 })();

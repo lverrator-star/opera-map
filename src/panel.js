@@ -190,12 +190,19 @@ const PanelComponent = (() => {
       scene.songs.forEach(song => {
         songCount++;
         html += `
-          <div class="song-item" onclick="this.classList.toggle('expanded')">
-            <div class="song-number">${song.number}</div>
-            <div class="song-title">${song.title}</div>
-            <div class="song-performers">${song.performers.join(' · ')} &nbsp;|&nbsp; ${song.type}</div>
+          <div class="song-item">
+            <div style="display:flex;align-items:center;justify-content:space-between">
+              <div style="flex:1;cursor:pointer" onclick="this.closest('.song-item').classList.toggle('expanded')">
+                <div class="song-number">${song.number}</div>
+                <div class="song-title">${song.title}</div>
+                <div class="song-performers">${song.performers.join(' · ')} &nbsp;|&nbsp; ${song.type}</div>
+              </div>
+              <button class="song-play-btn" title="播放${song.number}"
+                onclick="event.stopPropagation();if(typeof AudioComponent!=='undefined')AudioComponent.playSong('${song.number}')">▶</button>
+            </div>
             <div class="song-lyrics">${song.key_lines.map(l => `"${l}"`).join('<br>')}
-              <br><small style="color:var(--text-muted);cursor:pointer;margin-top:4px;display:inline-block" onclick="event.stopPropagation();PanelComponent.playAudioHint('${song.title.replace(/'/g, "\\'")}')">试听提示</small>
+              <br><small style="color:var(--text-muted);cursor:pointer;margin-top:4px;display:inline-block"
+              onclick="event.stopPropagation();if(typeof AudioComponent!=='undefined')AudioComponent.playSong('${song.number}')">点击聆听</small>
             </div>
           </div>`;
       });

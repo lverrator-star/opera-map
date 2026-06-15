@@ -4,6 +4,181 @@
    1920s Chinese Republican Era Print Aesthetic
    ═══════════════════════════════════════════ */
 
+/* ═══════════════════════════════════════════
+   启卷封面 — 国风开屏 · 轻触启卷
+   ═══════════════════════════════════════════ */
+#splash-screen {
+  position: fixed; inset: 0; z-index: 10000;
+  display: flex; align-items: center; justify-content: center;
+  background: #F2EFE9;
+  overflow: hidden;
+  transition: opacity 0.8s cubic-bezier(0.6, 0.04, 0.4, 0.94),
+              transform 0.8s cubic-bezier(0.6, 0.04, 0.4, 0.94);
+}
+#splash-screen.fade-out {
+  opacity: 0; pointer-events: none;
+  transform: scale(1.04);
+}
+#splash-screen.removed { display: none; }
+
+/* 背景墨韵 — 抽象水墨笔触 */
+.splash-bg { position: absolute; inset: 0; pointer-events: none; }
+.splash-ink {
+  position: absolute; border-radius: 50%; filter: blur(40px);
+  opacity: 0.06; background: var(--ink);
+}
+.splash-ink-1 {
+  width: 500px; height: 300px; top: -100px; left: -120px;
+  transform: rotate(-15deg);
+}
+.splash-ink-2 {
+  width: 400px; height: 250px; bottom: -80px; right: -100px;
+  transform: rotate(10deg); background: var(--vermillion);
+}
+.splash-ink-3 {
+  width: 300px; height: 200px; top: 55%; left: 50%;
+  transform: translate(-50%, -50%) rotate(5deg);
+  background: var(--indigo); opacity: 0.04;
+}
+
+/* 背景巨型「她」字水印 */
+.splash-she-bg {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Noto Serif SC', 'STKaiti', 'KaiTi', serif;
+  font-size: 55vw; font-weight: 700;
+  color: rgba(28,26,24,0.015);
+  user-select: none; pointer-events: none;
+  line-height: 1; white-space: nowrap;
+}
+
+/* 主内容区 */
+.splash-content {
+  position: relative; z-index: 1; text-align: center;
+  padding: 40px;
+}
+
+/* 顶部印章标签 */
+.splash-seal {
+  display: inline-block; padding: 3px 16px;
+  border: 1px solid var(--vermillion);
+  font-size: 10px; color: var(--vermillion);
+  font-family: var(--font-serif); letter-spacing: 4px;
+  margin-bottom: 24px;
+  opacity: 0; animation: splash-fade-in 0.8s var(--ease-ink) 0.3s forwards;
+}
+
+/* 标题 */
+.splash-title {
+  font-family: var(--font-serif);
+  line-height: 1.15; margin-bottom: 20px;
+}
+.splash-title-top {
+  display: block; font-size: 28px; font-weight: 400;
+  color: var(--ink-soft); letter-spacing: 6px;
+  opacity: 0; animation: splash-fade-in 0.8s var(--ease-ink) 0.5s forwards;
+}
+.splash-title-mid {
+  display: block; font-size: 56px; font-weight: 700;
+  color: var(--ink); letter-spacing: 10px;
+  opacity: 0; animation: splash-fade-in 0.8s var(--ease-ink) 0.7s forwards;
+}
+
+/* 巨型「她」字 */
+.splash-she-main {
+  font-family: 'Noto Serif SC', 'STKaiti', 'KaiTi', serif;
+  font-size: 100px; font-weight: 700;
+  color: var(--vermillion);
+  line-height: 1;
+  margin: 16px 0 8px;
+  opacity: 0;
+  animation: splash-she-rise 1.2s var(--ease-ink) 0.9s forwards;
+  text-shadow: 0 0 60px rgba(178,34,34,0.15);
+}
+@keyframes splash-she-rise {
+  from { opacity: 0; transform: translateY(20px) scale(0.9); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* 副标题 */
+.splash-subtitle {
+  font-family: var(--font-serif); font-size: 15px;
+  color: var(--ink-light); letter-spacing: 6px;
+  margin-bottom: 6px;
+  opacity: 0; animation: splash-fade-in 0.8s var(--ease-ink) 1.1s forwards;
+}
+.splash-dates {
+  font-family: var(--font-serif); font-size: 12px;
+  color: var(--ink-muted); letter-spacing: 3px;
+  margin-bottom: 28px;
+  opacity: 0; animation: splash-fade-in 0.8s var(--ease-ink) 1.2s forwards;
+}
+
+/* 分隔线 */
+.splash-divider {
+  display: flex; align-items: center; justify-content: center;
+  gap: 8px; margin-bottom: 36px;
+  opacity: 0; animation: splash-fade-in 0.8s var(--ease-ink) 1.3s forwards;
+}
+.splash-divider-line {
+  width: 60px; height: 1px; background: var(--paper-edge);
+}
+.splash-divider-dot {
+  width: 4px; height: 4px; border-radius: 50%; background: var(--ink-faint);
+}
+.splash-divider-diamond {
+  font-size: 10px; color: var(--vermillion);
+}
+
+/* 进入按钮 */
+.splash-enter-btn {
+  display: inline-flex; flex-direction: column; align-items: center;
+  gap: 4px; padding: 14px 40px;
+  border: 1px solid var(--ink);
+  background: transparent; cursor: pointer;
+  position: relative; overflow: hidden;
+  opacity: 0; animation: splash-fade-in 0.8s var(--ease-ink) 1.5s forwards;
+  transition: all 0.4s var(--ease-ink);
+}
+.splash-enter-btn::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: var(--ink);
+  transform: scaleX(0); transform-origin: left;
+  transition: transform 0.4s var(--ease-ink);
+  z-index: 0;
+}
+.splash-enter-btn:hover::before { transform: scaleX(1); }
+.splash-enter-btn:hover .splash-enter-text { color: var(--paper); }
+.splash-enter-btn:hover .splash-enter-hint { color: var(--paper); opacity: 0.6; }
+
+.splash-enter-text {
+  position: relative; z-index: 1;
+  font-family: var(--font-serif); font-size: 14px;
+  color: var(--ink); letter-spacing: 8px;
+  transition: color 0.3s var(--ease);
+}
+.splash-enter-hint {
+  position: relative; z-index: 1;
+  font-family: var(--font-serif); font-size: 9px;
+  color: var(--ink-muted); letter-spacing: 1px;
+  font-style: italic;
+  transition: color 0.3s var(--ease);
+}
+
+/* 按钮悬停脉动 */
+@keyframes splash-btn-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(28,26,24,0.08); }
+  50% { box-shadow: 0 0 0 12px rgba(28,26,24,0); }
+}
+.splash-enter-btn { animation: splash-fade-in 0.8s var(--ease-ink) 1.5s forwards, splash-btn-pulse 2.5s ease-in-out 2s infinite; }
+
+/* 入场动画 */
+@keyframes splash-fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
 /* ── 冷灰墨韵色盘 ── */
 :root {
   --paper: #F7F5F3;
@@ -312,6 +487,19 @@ body::before {
   padding: 12px 16px; background: var(--paper); border-left: 1px solid var(--paper-edge);
 }
 .song-item.expanded .song-lyrics { display: block; }
+
+/* 单曲播放按钮 */
+.song-play-btn {
+  width: 28px; height: 28px; flex-shrink: 0;
+  border: 1px solid var(--paper-edge); border-radius: 50%;
+  background: var(--paper-light); cursor: pointer;
+  font-size: 10px; color: var(--indigo);
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s var(--ease);
+}
+.song-play-btn:hover {
+  background: var(--vermillion); color: #fff; border-color: var(--vermillion);
+}
 
 /* 作品卡 */
 .work-card {
